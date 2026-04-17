@@ -181,17 +181,6 @@ function AppShell({ children }: { children: ReactNode }) {
           {sidebarOpen && <span>Collapse</span>}
         </button>
 
-        {/* Dev toggle */}
-        <div className={`border-t ${borderColor} px-4 py-2`}>
-          <button
-            onClick={() => setOrgType(rbac.is_provider ? 'non_provider' : 'provider')}
-            className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
-          >
-            {rbac.is_provider ? '-> Switch to Payer View' : '-> Switch to Provider View'}
-          </button>
-          <div className="text-[10px] text-gray-500 mt-1 px-3">Dev mode toggle</div>
-        </div>
-
         {/* User */}
         <div className={`border-t ${borderColor} px-4 py-3`}>
           <div className="flex items-center gap-3">
@@ -216,6 +205,39 @@ function AppShell({ children }: { children: ReactNode }) {
 
       {/* Main content */}
       <main className="flex-1 overflow-y-auto">
+        {/* View Toggle Bar */}
+        <div className="bg-white border-b border-gray-200 px-6 py-3">
+          <div className="flex items-center justify-between max-w-7xl mx-auto">
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-gray-400 font-medium uppercase tracking-wide">Portal View:</span>
+              <div className="flex bg-gray-100 rounded-lg p-0.5">
+                <button
+                  onClick={() => setOrgType('provider')}
+                  className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                    rbac.is_provider
+                      ? 'bg-[#0F2044] text-white shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  🏥 Provider
+                </button>
+                <button
+                  onClick={() => setOrgType('non_provider')}
+                  className={`px-4 py-1.5 rounded-md text-xs font-semibold transition-all ${
+                    rbac.is_non_provider
+                      ? 'bg-[#1a1a2e] text-white shadow-sm'
+                      : 'text-gray-500 hover:text-gray-700'
+                  }`}
+                >
+                  ⚖️ Payer / Legal
+                </button>
+              </div>
+            </div>
+            <div className="text-xs text-gray-400">
+              {rbac.is_provider ? 'Prior Authorization & Compliance' : 'Workers\' Comp RFA Filing'}
+            </div>
+          </div>
+        </div>
         {children}
       </main>
     </div>
