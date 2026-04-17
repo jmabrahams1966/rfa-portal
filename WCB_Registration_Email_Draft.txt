@@ -1,0 +1,93 @@
+TO: WCBTechnicalSupport@wcb.ny.gov
+CC: eForms@wcb.ny.gov, OnBoard@wcb.ny.gov
+FROM: jma@nybrainspine.com
+SUBJECT: eForms API Registration Request — RFA-Portal (MSP)
+
+Dear WCB Technical Support Team,
+
+We are writing to request eForms FTP/API Registration as a Managed
+Service Provider (MSP) for the RFA-1LC and RFA-2 electronic filing
+systems.
+
+ORGANIZATION INFORMATION:
+
+Organization Type: Managed Service Provider (MSP)
+Organization Name: NYBASS Healthcare Technology
+Doing Business As: RFA-Portal
+FEIN: [YOUR FEIN HERE]
+
+Submission Method: REST API
+
+System Name: RFA-Portal
+
+CONTACT INFORMATION:
+
+Business Contact:
+  Name: Dr. John M. Abrahams
+  Title: CEO
+  Email: jma@nybrainspine.com
+  Phone: [YOUR PHONE]
+
+Technical Contact:
+  Name: Dr. John M. Abrahams
+  Title: CEO / Technical Lead
+  Email: jma@nybrainspine.com
+  Phone: [YOUR PHONE]
+
+Executive Officer (authorized to execute contracts):
+  Name: Dr. John M. Abrahams
+  Title: CEO
+  Email: jma@nybrainspine.com
+  Phone: [YOUR PHONE]
+
+DESCRIPTION OF SERVICE:
+
+RFA-Portal is an AI-powered electronic filing platform that assists
+insurance carriers, TPAs, self-insured employers, and defense law
+firms in preparing and submitting RFA-1LC and RFA-2 forms to the
+NYS Workers' Compensation Board via the OnBoard API.
+
+Our platform:
+- Extracts relevant data from IME reports and medical records using AI
+- Pre-fills eForm fields based on extracted data
+- Validates submissions against WCB business rules before filing
+- Generates WCB-compliant XML per the eFormsRfa1lc.xsd schema
+- Submits directly via REST API with OAuth2 authentication
+- Processes acknowledgments via SignalR
+
+We are requesting:
+1. API sandbox credentials for testing
+2. The Electronic Partnering Agreement for execution
+3. SignalR endpoint configuration for our origin URL
+4. Confirmation of the Token URL and Access URL for API submission
+
+Our platform origin URL for SignalR configuration:
+  Production: https://rfa-portal.onrender.com
+  (We will provide the final production URL once deployed)
+
+We are prepared to complete the mandatory testing phase as outlined
+in the "Testing Requirements for API Submission" document.
+
+Please let us know if any additional information is required to
+proceed with registration.
+
+Best regards,
+
+Dr. John M. Abrahams, MD
+CEO, NYBASS Healthcare Technology
+jma@nybrainspine.com
+
+---
+
+NOTES FOR DR. ABRAHAMS:
+
+1. Replace [YOUR FEIN] with your business FEIN (Federal Tax ID)
+2. Replace [YOUR PHONE] with your business phone number
+3. Consider whether to register as:
+   - MSP (recommended — you'd file on behalf of multiple carrier clients)
+   - Attorney group (if filing for your own practice's WC cases)
+4. The WCB will send you an Electronic Partnering Agreement to sign
+5. After approval, they'll provide: Client ID, Client Secret, Token URL,
+   Access URL
+6. You must complete their testing phase before production access
+7. Timeline: typically 2-4 weeks for sandbox, 2-4 more for production

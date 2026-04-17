@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<eForms>
+	<Header>
+		<APIHeader>
+			<SubmitterClientId>testid</SubmitterClientId>
+			<SenderPOI>R999999</SenderPOI>
+			<SubmitDate>2024-04-04</SubmitDate>
+		</APIHeader>
+	</Header>
+	<Events>
+		<EventCode code="RFA-1LC">
+			<TransactionSequenceNumber>12923432934</TransactionSequenceNumber>
+			<WCBCaseID>12345678</WCBCaseID>
+			<DateOfInjury>
+				<DoiMonth>03</DoiMonth>
+				<DoiDay>18</DoiDay>
+				<DoiYear>1991</DoiYear>
+			</DateOfInjury>
+			<AttestationConfirmationCode>Y</AttestationConfirmationCode>
+			<AttorneyLicensedRepFirstName>Joe</AttorneyLicensedRepFirstName>
+			<AttorneyLicensedRepLastName>Representative</AttorneyLicensedRepLastName>
+			<AttorneyLicensedRepRnum>R999999</AttorneyLicensedRepRnum>
+			<AttorneyLicensedRepPhone>8005551212</AttorneyLicensedRepPhone>
+			<Reasons>
+				<Reason index="1">
+					<ReasonCode>CNW</ReasonCode>
+					<ReasonCodeCategory>C</ReasonCodeCategory>
+					<PaymentStatus>PS</PaymentStatus>
+					<AwardPeriods>
+						<AwardPeriod index="1">
+							<DisabilityPercentage>33.99</DisabilityPercentage>
+							<DisabilityFromDate>2020-01-01</DisabilityFromDate>
+							<DisabilityToDate>2020-02-29</DisabilityToDate>
+						</AwardPeriod>						
+					</AwardPeriods>
+					<DisabilityContinuingPaymentIndicator>N</DisabilityContinuingPaymentIndicator>
+					<AdditionalInformation>Adding some additional info here.</AdditionalInformation>
+					<ExpeditedHearingRequested>N</ExpeditedHearingRequested>
+				</Reason>
+			</Reasons>
+			<SupportingDocuments>
+				<ReferencedDocuments>
+					<ReferencedDocument index="1">
+						<ReferenceDocumentId>3234000</ReferenceDocumentId>
+						<ReferenceFormId>MED-NARR</ReferenceFormId>
+						<ReferenceDocumentReceivedDate>2022-01-01</ReferenceDocumentReceivedDate>
+					</ReferencedDocument>
+				</ReferencedDocuments>
+			</SupportingDocuments>
+			<AdditionalProposedFinding>
+				<AdditionalProposedFindingNO>Y</AdditionalProposedFindingNO>
+			</AdditionalProposedFinding>
+			<Certification>
+				<CertificationCode>NORS</CertificationCode>
+				<AttemptedCertificationContacts>
+					<AttemptedContact index="1">
+						<PersonContactedFirstName>Farmer</PersonContactedFirstName>
+						<PersonContactedLastName>John</PersonContactedLastName>
+						<PersonContactedOrganizationName>Test LLC</PersonContactedOrganizationName>
+						<PersonContactedDate>2023-06-01</PersonContactedDate>
+					</AttemptedContact>
+				</AttemptedCertificationContacts>
+			</Certification>
+		</EventCode>
+	</Events>
+</eForms>

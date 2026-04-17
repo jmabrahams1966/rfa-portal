@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<eForms>
+	<Header>
+		<APIHeader>
+			<SubmitterClientId>testid</SubmitterClientId>
+			<SenderPOI>R999999</SenderPOI>
+			<SubmitDate>2024-04-04</SubmitDate>
+		</APIHeader>
+	</Header>
+	<Events>
+		<EventCode code="RFA-1LC">
+			<TransactionSequenceNumber>12923432934</TransactionSequenceNumber>
+			<WCBCaseID>12345678</WCBCaseID>
+			<DateOfInjury>
+				<DoiMonth>03</DoiMonth>
+				<DoiDay>18</DoiDay>
+				<DoiYear>1991</DoiYear>
+			</DateOfInjury>
+			<AttestationConfirmationCode>Y</AttestationConfirmationCode>
+			<AttorneyLicensedRepFirstName>Joe</AttorneyLicensedRepFirstName>
+			<AttorneyLicensedRepLastName>Representative</AttorneyLicensedRepLastName>
+			<AttorneyLicensedRepRnum>R999999</AttorneyLicensedRepRnum>
+			<AttorneyLicensedRepPhone>8005551212</AttorneyLicensedRepPhone>
+			<AttorneyLicensedRepPhoneExt>24</AttorneyLicensedRepPhoneExt>
+			<Reasons>
+				<Reason index="1">
+					<ReasonCode>MCI</ReasonCode>
+					<ReasonCodeCategory>M</ReasonCodeCategory>
+					<ClaimantAgreementWithIME>CU</ClaimantAgreementWithIME>
+				</Reason>
+			</Reasons>
+			<SupportingDocuments>
+				<UploadedDocuments>
+					<UploadedDocument index="1">
+						<UploadFormId>C-4.3</UploadFormId>
+						<UploadDocumentFormName>C-4.3 - Doctor's Report of MMI/Permanent Impairment</UploadDocumentFormName>
+						<UploadFileName>C43.pdf</UploadFileName>
+						<UploadFileType>PDF</UploadFileType>
+						<UploadHealthCareProviderName>Anna Wintour PA</UploadHealthCareProviderName>
+						<UploadServiceDate>2000-02-24</UploadServiceDate>
+						<UploadFileSize>1283</UploadFileSize>
+						<UploadDocumentDescription>MMI for patient for case</UploadDocumentDescription>
+						<UploadSupportingDocumentImage>9234ihs90ohhf84ho0whf8h0fh</UploadSupportingDocumentImage>
+					</UploadedDocument>
+				</UploadedDocuments>
+				<ReferencedDocuments>
+					<ReferencedDocument index="1">
+						<ReferenceDocumentId>234879438934</ReferenceDocumentId>
+						<ReferenceFormId>CORR</ReferenceFormId>
+					</ReferencedDocument>
+				</ReferencedDocuments>
+			</SupportingDocuments>
+			<AdditionalProposedFinding>
+				<AdditionalProposedFindingANCR>Y</AdditionalProposedFindingANCR>
+				<AdditionalProposedFindingBodyParts>
+					<AdditionalProposedFindingBodyPart index="1">
+						<AdditionalProposedFindingBodyPartCode>20</AdditionalProposedFindingBodyPartCode>
+					</AdditionalProposedFindingBodyPart>
+					<AdditionalProposedFindingBodyPart index="2">
+						<AdditionalProposedFindingBodyPartCode>36</AdditionalProposedFindingBodyPartCode>
+						<AdditionalProposedFindingBodyPartLocationCode>R</AdditionalProposedFindingBodyPartLocationCode>
+						<AdditionalProposedFindingBodyPartFingersToesCode>F1</AdditionalProposedFindingBodyPartFingersToesCode>
+					</AdditionalProposedFindingBodyPart>
+				</AdditionalProposedFindingBodyParts>
+				<AdditionalProposedFindingBodyPartAdditionalText>Carpal tunnel syndrome</AdditionalProposedFindingBodyPartAdditionalText>
+				<AdditionalProposedFindingAWW>Y</AdditionalProposedFindingAWW>
+				<EstablishAWWResultInAdjustmentIndicator>N</EstablishAWWResultInAdjustmentIndicator>
+				<EstablishAWWPrimaryEmployerDollarAmount>24.23</EstablishAWWPrimaryEmployerDollarAmount>
+				<EstablishAWWCalculationMethod>FRSR</EstablishAWWCalculationMethod>
+				<EstablishAWWCalculationMethodOther>Other description goes here</EstablishAWWCalculationMethodOther>
+				<EstablishAWWConcurrentEmployment>N</EstablishAWWConcurrentEmployment>
+
+				<AdditionalProposedFindingAwardLostWageBen>Y</AdditionalProposedFindingAwardLostWageBen>
+				<ALWBContinuingPaymentIndicator>N</ALWBContinuingPaymentIndicator>
+				<AdditionalProposedFindingAwardPeriods>
+					<ALWBAwardPeriod index="1">
+						<AwardPeriodFromDate>2022-12-12</AwardPeriodFromDate>
+						<AwardPeriodToDate>2022-12-24</AwardPeriodToDate>
+						<AwardPeriodFreeText>Extra free text</AwardPeriodFreeText>
+						<AwardPeriodDesignations>
+							<AwardPeriodDesignation index="1">
+								<AwardPeriodDesignationCode>TTD</AwardPeriodDesignationCode>
+								<AwardPeriodDisabilityPercentage>22</AwardPeriodDisabilityPercentage>
+								<AwardPeriodReimburseEmployerIndicator>Y</AwardPeriodReimburseEmployerIndicator>
+								<AwardPeriodAwardIndicator>N</AwardPeriodAwardIndicator>								
+							</AwardPeriodDesignation>
+						</AwardPeriodDesignations>
+					</ALWBAwardPeriod>
+					<ALWBAwardPeriod index="2">
+						<AwardPeriodFromDate>2022-12-30</AwardPeriodFromDate>
+						<AwardPeriodToDate>2023-01-15</AwardPeriodToDate>
+						<AwardPeriodFreeText>Details can go here</AwardPeriodFreeText>
+						<AwardPeriodDesignations>
+							<AwardPeriodDesignation index="1">
+								<AwardPeriodDesignationCode>RE</AwardPeriodDesignationCode>
+								<AwardPeriodRequiredRate>1200</AwardPeriodRequiredRate>
+								<AwardPeriodAwardIndicator>Y</AwardPeriodAwardIndicator>
+							</AwardPeriodDesignation>
+							<AwardPeriodDesignation index="2">
+								<AwardPeriodDesignationCode>HIA</AwardPeriodDesignationCode>
+								<AwardPeriodAwardIndicator>Y</AwardPeriodAwardIndicator>								
+							</AwardPeriodDesignation>
+						</AwardPeriodDesignations>
+					</ALWBAwardPeriod>
+				</AdditionalProposedFindingAwardPeriods>
+
+				<AdditionalProposedFindingAttorneyFeeReq>Y</AdditionalProposedFindingAttorneyFeeReq>
+
+			</AdditionalProposedFinding>
+		</EventCode>
+	</Events>
+</eForms>

@@ -1,0 +1,1869 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="eForms">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Header" type="HeaderType"/>
+				<xs:element name="Events">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="EventCode" maxOccurs="100">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="TransactionSequenceNumber" type="xs:positiveInteger" />
+										<xs:element name="WCBCaseID" type="CaseNum"/>
+										<xs:element name="DateOfInjury" type="DoiType"/>
+										<xs:element name="AttestationConfirmationCode" type="YesOnly"/>
+										<xs:element name="AttorneyLicensedRepFirstName" type="NameType"/>
+										<xs:element name="AttorneyLicensedRepLastName" type="NameType"/>
+										<xs:element name="AttorneyLicensedRepRnum" type="nonEmptyString"/>
+										<xs:element name="AttorneyLicensedRepPhone" type="TenDigitType"/>
+										<xs:element name="AttorneyLicensedRepPhoneExt" type="PhoneExtType" minOccurs="0"/>
+										<xs:element name="AttorneyLicensedRepEmail" type="EmailType" minOccurs="0" />
+										<xs:element name="Reasons" type="ReasonType" />
+										<xs:element name="SupportingDocuments" type="SupportingDocumentsType" minOccurs="0"/>
+										<xs:element name="AdditionalProposedFinding" type="ProposedFindingType"/>
+										<xs:element name="Certification" type="CertificationType" minOccurs="0"/>
+									</xs:sequence>
+									<xs:attribute name="code" type="EventCd" use="required" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+
+	<xs:simpleType name="YesNo">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Y"/>
+			<xs:enumeration value="N"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="YesOnly">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Y"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="YesNoBlank">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[ynYN]?"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AgreeCancel">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[AC]"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="nonEmptyString">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1"/>
+			<xs:pattern value="(.|\s)*\S(.|\s)*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DateType">
+		<xs:restriction base="xs:date">
+			<!--  <xs:minInclusive value="1874-01-01"/>
+			<xs:maxInclusive value="2073-01-01"/>  -->
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EventCd">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RFA-1LC"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CaseNum">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{2}[0-9]{6}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TwoDigitType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{2}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="FourDigitType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NineDigitType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{9}"/>
+			<xs:length value="9" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="TenDigitType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-9]{10}"/>
+			<xs:length value="10" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PhoneType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(1(\s|\-)?)?(\d{3}|\(\d{3}\))[\s\-]?\d{3}[\s\-]?\d{4}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PhoneExtType">
+		<xs:restriction base="xs:integer">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="9999999999"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DisPercentType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0" />
+			<xs:maxInclusive value="100.00"/>
+			<xs:pattern value="(100([.]0{1,2})?)$|(^\d{1,2}([.]\d{1,2})?)" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DollarAmtType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="0" />
+			<xs:pattern value="^\d+(\.\d\d)?$" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PositiveDollarAmtType">
+		<xs:restriction base="xs:decimal">
+			<xs:minInclusive value="1" />
+			<xs:pattern value="^\d+(\.\d\d)?$" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DocIdType">
+		<xs:restriction base="xs:positiveInteger">
+			<xs:minInclusive value="100000"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DaysType">
+		<xs:restriction base="xs:int">
+			<xs:minInclusive value="0"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="EmailType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="^\S+@\S+\.\S+$"/>
+			<xs:maxLength value="250" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PymtStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="PN"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ReducedEarnStatus">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="REPC"/>
+			<xs:enumeration value="REPA"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="RsnCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CNW"/>
+			<xs:enumeration value="CVW"/>
+			<xs:enumeration value="CNP"/>
+			<xs:enumeration value="CAN"/>
+			<xs:enumeration value="CAW"/>
+			<xs:enumeration value="CCE"/>
+			<xs:enumeration value="CRE"/>
+			<xs:enumeration value="CRI"/>
+			<xs:enumeration value="MBC"/>
+			<xs:enumeration value="MPI"/>
+			<xs:enumeration value="MPM"/>
+			<xs:enumeration value="MCI"/>
+			<xs:enumeration value="MTR"/>
+			<xs:enumeration value="MCC"/>
+			<xs:enumeration value="MAN"/>
+			<xs:enumeration value="OCC"/>
+			<xs:enumeration value="OCD"/>
+			<xs:enumeration value="ORP"/>
+			<xs:enumeration value="OEI"/>
+			<xs:enumeration value="OUI"/>
+			<xs:enumeration value="OCW"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="RsnCodeCat">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="C"/>
+			<xs:enumeration value="M"/>
+			<xs:enumeration value="O"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AFF-1"/>
+			<xs:enumeration value="BIRTH-CERT"/>
+			<xs:enumeration value="C-4.3"/>
+			<xs:enumeration value="C-62"/>
+			<xs:enumeration value="C-64"/>
+			<xs:enumeration value="C-65"/>
+			<xs:enumeration value="C-257"/>
+			<xs:enumeration value="C-258"/>
+			<xs:enumeration value="C-258.1"/>
+			<xs:enumeration value="FCE-4"/>
+			<xs:enumeration value="MV-104"/>
+			<xs:enumeration value="MVA"/>
+			<xs:enumeration value="DEATH-CERT"/>
+			<xs:enumeration value="DEPOSITION"/>
+			<xs:enumeration value="EXHIBIT"/>
+			<xs:enumeration value="MARR-CERT"/>
+			<xs:enumeration value="MED-NARR"/>
+			<xs:enumeration value="MEMO-OF-LAW"/>
+			<xs:enumeration value="OC-400.1"/>
+			<xs:enumeration value="CORR-EMB"/>
+			<xs:enumeration value="DISC-LAW-EMB"/>
+			<xs:enumeration value="FULL-SCHOOL-ENR-EMB"/>
+			<xs:enumeration value="PAYSTUB-EMB"/>
+			<xs:enumeration value="PAYROLL-EMB"/>
+			<xs:enumeration value="REL-FROM-CUST-EMB"/>
+			<xs:enumeration value="TAX-EMB"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadFormNames">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AFF-1 - Affidavit for Death Benefits"/>
+			<xs:enumeration value="BIRTH-CERT - Birth Certificate"/>
+			<xs:enumeration value="C-4.3 - Doctor's Report of MMI/Permanent Impairment"/>
+			<xs:enumeration value="C-62 - Claim for Compensation in Death Case"/>
+			<xs:enumeration value="C-64 - Proof of Death by Physician Last in Attendance on Deceased"/>
+			<xs:enumeration value="C-65 - Proof of Burial and Funeral Expenses by Undertaker"/>
+			<xs:enumeration value="C-257 - Claimant's Record of Medical-Travel Expenses "/>
+			<xs:enumeration value="C-258 - Claimant's Record of Job Search"/>
+			<xs:enumeration value="C-258.1 - Injured Worker's Record of Independent Job Search"/>
+			<xs:enumeration value="FCE-4 - Practitioner's Report of Functional Capacity Examination"/>
+			<xs:enumeration value="MV-104 - Motor Vehicle Accident Report (NY)"/>
+			<xs:enumeration value="MVA - Police Accident Report (for Motor Vehicle Accidents)"/>
+			<xs:enumeration value="DEATH-CERT - Death Certificate"/>
+			<xs:enumeration value="DEPOSITION - Deposition"/>
+			<xs:enumeration value="EXHIBIT - Exhibit (Medical or Other)"/>
+			<xs:enumeration value="MARR-CERT - Marriage Certificate"/>
+			<xs:enumeration value="MED-NARR - Medical Narrative"/>
+			<xs:enumeration value="MEMO-OF-LAW - Memorandum of Law"/>
+			<xs:enumeration value="OC-400.1 - Application for Fee"/>
+			<xs:enumeration value="Correspondence"/>
+			<xs:enumeration value="Discontinued Lawsuit"/>
+			<xs:enumeration value="Full Time School Enrollment in Accredited Education Institution"/>
+			<xs:enumeration value="Paystub(s)"/>
+			<xs:enumeration value="Payroll Documents"/>
+			<xs:enumeration value="Released From Custody"/>
+			<xs:enumeration value="Tax Document"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CaseDecisionFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EC-23"/>
+			<xs:enumeration value="EC-18"/>
+			<xs:enumeration value="EC-23R"/>
+			<xs:enumeration value="EC-23.5"/>
+			<xs:enumeration value="EC-67"/>
+			<xs:enumeration value="EC-68A"/>
+			<xs:enumeration value="EC-32.3"/>
+			<xs:enumeration value="PD-32"/>
+			<xs:enumeration value="EC-22"/>
+			<xs:enumeration value="EBRB-1"/>
+			<xs:enumeration value="EBRB-2"/>
+			<xs:enumeration value="NOSD-NSL"/>
+			<xs:enumeration value="NOSD-SL"/>
+			<xs:enumeration value="EC-200X"/>
+			<xs:enumeration value="PD-NSL"/>
+			<xs:enumeration value="PD-SL"/>
+			<xs:enumeration value="C-23"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BpnrFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EC-200X"/>
+			<xs:enumeration value="EC-23"/>
+			<xs:enumeration value="EC-18"/>
+			<xs:enumeration value="EC-23R"/>
+			<xs:enumeration value="EC-23.5"/>
+			<xs:enumeration value="NOSD-NSL"/>
+			<xs:enumeration value="NOSD-SL"/>
+			<xs:enumeration value="EBRB-1"/>
+			<xs:enumeration value="EBRB-2"/>
+			<xs:enumeration value="PD-NSL"/>
+			<xs:enumeration value="PD-SL"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BpdiFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="C-8.1B"/>
+			<xs:enumeration value="IME-4"/>
+			<xs:enumeration value="CORR"/>
+			<xs:enumeration value="FROI-04"/>
+			<xs:enumeration value="SROI-04"/>
+			<xs:enumeration value="MG1-CD"/>
+			<xs:enumeration value="MG2-CD"/>
+			<xs:enumeration value="SS-CD"/>
+			<xs:enumeration value="O1K-CD"/>
+			<xs:enumeration value="U1K-CD"/>
+			<xs:enumeration value="DME-CD"/>
+			<xs:enumeration value="MG1-CGP"/>
+			<xs:enumeration value="MG2-CGP"/>
+			<xs:enumeration value="SS-CGP"/>
+			<xs:enumeration value="O1K-CGP"/>
+			<xs:enumeration value="U1K-CGP"/>
+			<xs:enumeration value="DME-CGP"/>
+			<xs:enumeration value="RX-L1D"/>
+			<xs:enumeration value="RX-L1GP"/>
+			<xs:enumeration value="RX-L2D"/>
+			<xs:enumeration value="RX-L2GP"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AddPropFindAwdDesc">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="HIA"/>
+			<xs:enumeration value="NCLT"/>
+			<xs:enumeration value="NLT"/>
+			<xs:enumeration value="NME"/>
+			<xs:enumeration value="ILT"/>
+			<xs:enumeration value="PPD"/>
+			<xs:enumeration value="TPD"/>
+			<xs:enumeration value="TTD"/>
+			<xs:enumeration value="RE"/>
+			<xs:enumeration value="TRE"/>
+			<xs:enumeration value="TR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AwwCalMethodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="FRSR"/>
+			<xs:enumeration value="P260"/>
+			<xs:enumeration value="P300"/>
+			<xs:enumeration value="P200"/>
+			<xs:enumeration value="S260"/>
+			<xs:enumeration value="S300"/>
+			<xs:enumeration value="S200"/>
+			<xs:enumeration value="OTHR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="CertificationCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NOST"/>
+			<xs:enumeration value="NORS"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SupDocType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="R"/>
+			<xs:enumeration value="U"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DisExplanationsCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CSRG"/>
+			<xs:enumeration value="CRTE"/>
+			<xs:enumeration value="PNPA"/>
+			<xs:enumeration value="PATR"/>
+			<xs:enumeration value="PHAB"/>
+			<xs:enumeration value="OTHR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AdditionalInfoType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AwardTextType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="200"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="OtherInfoType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="300"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="NameType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="(.|\s)*\S(.|\s)*"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadFilenameType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="150"/>
+			<xs:pattern value="^[\w._ -]*$"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadProviderNameType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="460"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadDescType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="500"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="UploadFileExtensionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="JPEG"/>
+			<xs:enumeration value="JPG"/>
+			<xs:enumeration value="PDF"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ClaimAgreeImeCode">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CU"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="DoiType">
+		<xs:sequence>
+			<xs:element name="DoiMonth" type="DoiMonthType"/>
+			<xs:element name="DoiDay" type="DoiDayType"/>
+			<xs:element name="DoiYear" type="DoiYearType"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="DoiMonthType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value ="00|01|02|03|04|05|06|07|08|09|10|11|12" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DoiDayType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[0-3][0-9]"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DoiYearType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="0000|(19|20)([0-9]{2}$)"/>
+			<xs:length value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DoiUpdateType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="(191[4-9]{1}|19[2-9]{1}[0-9]{1}|2[0-9]{3})-(01|02|03|04|05|06|07|08|09|10|11|12)-([0-3][0-9]$)" />
+			<xs:length value="10"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ParIdType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="PA-[0-9]{2}-[0-9]{4}-[0-9]{3}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BodyPartLocationType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="R"/>
+			<xs:enumeration value="L"/>
+			<xs:enumeration value="B"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BodyPartFTType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="F1"/>
+			<xs:enumeration value="F2"/>
+			<xs:enumeration value="F3"/>
+			<xs:enumeration value="F4"/>
+			<xs:enumeration value="T1"/>
+			<xs:enumeration value="T2"/>
+			<xs:enumeration value="T3"/>
+			<xs:enumeration value="T4"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BodyPartType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="41"/>
+			<xs:enumeration value="42"/>
+			<xs:enumeration value="20"/>
+			<xs:enumeration value="21"/>
+			<xs:enumeration value="22"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="24"/>
+			<xs:enumeration value="25"/>
+			<xs:enumeration value="26"/>
+			<xs:enumeration value="65"/>
+			<xs:enumeration value="66"/>
+			<xs:enumeration value="99"/>
+			<xs:enumeration value="38"/>
+			<xs:enumeration value="34"/>
+			<xs:enumeration value="35"/>
+			<xs:enumeration value="32"/>
+			<xs:enumeration value="36"/>
+			<xs:enumeration value="37"/>
+			<xs:enumeration value="31"/>
+			<xs:enumeration value="33"/>
+			<xs:enumeration value="53"/>
+			<xs:enumeration value="51"/>
+			<xs:enumeration value="55"/>
+			<xs:enumeration value="56"/>
+			<xs:enumeration value="57"/>
+			<xs:enumeration value="58"/>
+			<xs:enumeration value="52"/>
+			<xs:enumeration value="54"/>
+			<xs:enumeration value="10"/>
+			<xs:enumeration value="11"/>
+			<xs:enumeration value="12"/>
+			<xs:enumeration value="13"/>
+			<xs:enumeration value="14"/>
+			<xs:enumeration value="15"/>
+			<xs:enumeration value="16"/>
+			<xs:enumeration value="17"/>
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="19"/>
+			<xs:enumeration value="43"/>
+			<xs:enumeration value="44"/>
+			<xs:enumeration value="45"/>
+			<xs:enumeration value="46"/>
+			<xs:enumeration value="47"/>
+			<xs:enumeration value="48"/>
+			<xs:enumeration value="49"/>
+			<xs:enumeration value="60"/>
+			<xs:enumeration value="61"/>
+			<xs:enumeration value="62"/>
+			<xs:enumeration value="00"/>
+			<xs:enumeration value="01"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="DescisionCatPymtType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AWCP"/>
+			<xs:enumeration value="PNYT"/>
+			<xs:enumeration value="ALRF"/>
+			<xs:enumeration value="MDTR"/>
+			<xs:enumeration value="OTHR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ClaimantClassifiedCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="TT"/>
+			<xs:enumeration value="RE"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ClassifiedFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="EC-23"/>
+			<xs:enumeration value="EC-23R"/>
+			<xs:enumeration value="EC-23.5"/>
+			<xs:enumeration value="EBRB-1"/>
+			<xs:enumeration value="EBRB-2"/>
+			<xs:enumeration value="NOSD-NSL"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="MpmFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MG2-L3GP"/>
+			<xs:enumeration value="RX-L3GP"/>
+			<xs:enumeration value="DME-L3GP"/>
+			<xs:enumeration value="SS-L3GP"/>
+			<xs:enumeration value="MG2-L3D"/>
+			<xs:enumeration value="RX-L3D"/>
+			<xs:enumeration value="DME-L3D"/>
+			<xs:enumeration value="SS-L3D"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InsurerResponseType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="GR"/>
+			<xs:enumeration value="NR"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="SettledDiscCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CSCL"/>
+			<xs:enumeration value="SDCL"/>
+			<xs:enumeration value="CSNP"/>
+			<xs:enumeration value="SDNP"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BeneficiaryNameType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="100"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="BeneficiaryAgeType">
+		<xs:restriction base="xs:integer">
+			<xs:enumeration value="18"/>
+			<xs:enumeration value="23"/>
+			<xs:enumeration value="25"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ReleasedClaimantClassifiedPersDisType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="CCD"/>
+			<xs:enumeration value="CMD"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ChangeActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="U"/>
+			<xs:enumeration value="D"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ChangeTpaActionType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="A"/>
+			<xs:enumeration value="D"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="ImeLateFilingPeriodType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NY"/>
+			<xs:enumeration value="XX"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+
+	<xs:simpleType name="NineStringNoSpecialType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{1,9}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AddressStreetType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="40"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AddressCityType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AddressStateTextType">
+		<xs:restriction base="xs:string">
+			<xs:maxLength value="60"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="PostalCodeType">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-Z0-9]{1,20}"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="InsWithdrawsFormIds">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="RB-89"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="AwardPeriodsType">
+		<xs:sequence>
+			<xs:element name="AwardPeriod" minOccurs="1" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DisabilityPercentage" type="DisPercentType" minOccurs="0"/>
+						<xs:element name="DisabilityFromDate" type="DateType" />
+						<xs:element name="DisabilityToDate" type="DateType" />
+						<xs:element name="IntermittentLostTimeIndicator" type="YesNo" minOccurs="0"/>
+						<xs:element name="IntermittentLostTimeDays" type="DaysType" minOccurs="0"/>
+						<xs:element name ="AwardPeriodExplanations" minOccurs="0" >
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardPeriodExplanation" minOccurs="1" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+
+												<xs:element name="Explanation" type="DisExplanationsCode"/>
+												<xs:element name="ExplanationsSurgeryDt" type="DateType" minOccurs="0"/>
+												<xs:element name="ExplanationsOther" type="OtherInfoType" minOccurs="0"/>
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReducedEarningsType">
+		<xs:sequence>
+			<xs:element name="ReducedEarning" minOccurs="1" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReducedEarningsFromDate" type="DateType"/>
+						<xs:element name="ReducedEarningsToDate" type="DateType"/>
+						<xs:element name="ReducedEarningsCurrentEarnings" type="PositiveDollarAmtType"/>
+						<xs:element name="ReducedEarningsRateAmount" type="PositiveDollarAmtType"/>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="SupportingDocumentsType">
+		<xs:sequence>
+			<xs:element name="UploadedDocuments" type="UploadDocumentsType" minOccurs="0"/>
+			<xs:element name="ReferencedDocuments" type="ReferenceDocumentsType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="UploadDocumentsType">
+		<xs:sequence>
+			<xs:element name="UploadedDocument" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="UploadFormId" type="UploadFormIds" minOccurs="1"/>
+						<xs:element name="UploadDocumentFormName" type="UploadFormNames" minOccurs="1"/>
+						<xs:element name="UploadFileName" type="UploadFilenameType" minOccurs="1" />
+						<xs:element name="UploadFileType" type="UploadFileExtensionType" minOccurs="1" />
+						<xs:element name="UploadHealthCareProviderName" type="UploadProviderNameType" minOccurs="0"/>
+						<xs:element name="UploadServiceDate" type="DateType" minOccurs="0" />
+						<xs:element name="UploadFileSize" type="xs:unsignedLong" minOccurs="0"/>
+						<xs:element name="UploadDocumentDescription" type="UploadDescType" minOccurs="0"/>
+						<xs:element name="UploadSupportingDocumentImage" type="xs:string" minOccurs="1"/>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReferenceDocumentsType">
+		<xs:sequence>
+			<xs:element name="ReferencedDocument" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReferenceDocumentId" type="DocIdType" minOccurs="1"/>
+						<xs:element name="ReferenceFormId" type="xs:string" minOccurs="1"/>
+						<xs:element name="ReferenceServiceDate" type="DateType" minOccurs="0" />
+						<xs:element name="ReferenceDocumentReceivedDate" type="DateType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CaseDecisionsType">
+		<xs:sequence>
+			<xs:element name="CISCaseDecision" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="CaseDecisionDocID" type="DocIdType" />
+						<xs:element name="CaseDecisionFormID" type="CaseDecisionFormIds" />
+						<xs:element name="CaseDecisionReceivedDate" type="DateType" minOccurs="0" />
+						<xs:element name="DecisionPaymentCategories" >
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="DecisionPaymentCategory" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="PaymentCategory" type="DescisionCatPymtType" />
+												<xs:element name="PaymentCategoryOtherText" minOccurs="0" type="OtherInfoType"/>
+												<xs:element name="UnpaidAmount" minOccurs="0" type="PositiveDollarAmtType"/>
+												<xs:element name="UntimelyPaymentAmount" minOccurs="0" type="PositiveDollarAmtType"/>
+												<xs:element name="UntimelyPaymentAmountDate" type="DateType" minOccurs="0" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+
+	<xs:complexType name="AdditionalProposedFindingAwardPeriodType">
+		<xs:sequence>
+			<xs:element name="ALWBAwardPeriod" minOccurs="1" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AwardPeriodFromDate"  type="DateType"/>
+						<xs:element name="AwardPeriodToDate" type="DateType"/>
+						<xs:element name="AwardPeriodFreeText" minOccurs="0" type="AwardTextType"/>
+						<xs:element name="AwardPeriodDesignations" >
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="AwardPeriodDesignation" minOccurs="1" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="AwardPeriodDesignationCode" type="AddPropFindAwdDesc"/>
+												<xs:element name="AwardPeriodDisabilityPercentage" minOccurs="0" type="DisPercentType"/>
+												<xs:element name="AwardPeriodRequiredRate" minOccurs="0" type="PositiveDollarAmtType"/>
+												<xs:element name="AwardPeriodReimburseEmployerIndicator" minOccurs="0" type="YesNo"/>
+												<xs:element name="AwardPeriodAwardIndicator" minOccurs="0" type="YesNo"/>
+												<xs:element name="AwardPeriodRequiredNumberofDays" minOccurs="0" type="DaysType"/>
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="CertificationType">
+		<xs:sequence>
+			<xs:element name="CertificationCode" type="CertificationCode"/>
+			<xs:choice>
+				<xs:group ref="DiscussPersonType"></xs:group>
+				<xs:element name="AttemptedCertificationContacts" type="AttemptedContactType"></xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="DiscussPersonType">
+		<xs:sequence>
+			<xs:element name="DiscussPersonContactedFirstName" type="NameType" minOccurs="0"/>
+			<xs:element name="DiscussPersonContactedLastName" type="NameType" minOccurs="0"/>
+			<xs:element name="DiscussPersonContactedOrganizationName" type="NameType" />
+			<xs:element name="DiscussPersonContactedDate" type="DateType" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="AttemptedContactType">
+		<xs:sequence>
+			<xs:element name="AttemptedContact" minOccurs="1" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PersonContactedFirstName" type="NameType" minOccurs="0" />
+						<xs:element name="PersonContactedLastName" type="NameType" minOccurs="0" />
+						<xs:element name="PersonContactedNameUnknown" type="YesNo" minOccurs="0" />
+						<xs:element name="PersonContactedOrganizationName" type="NameType" />
+						<xs:element name="PersonContactedDate" type="DateType" />
+						<xs:element name="PersonContactedPhoneNumber" minOccurs="0" type="TenDigitType" />
+						<xs:element name="PersonContactedEmail" type="EmailType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="AwwConcurrentEmpType">
+		<xs:sequence>
+			<xs:element name="AWWConcurrentEmployer" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AWWForConcurrentEmployer" type="PositiveDollarAmtType" />
+						<xs:element name="AWWConcurrentCalculationMethod" type="AwwCalMethodType" />
+						<xs:element name="AWWConcurrentCalculationOther" type="OtherInfoType" minOccurs="0" />
+						<xs:element name="AWWConcurrentEmployerName" type="OtherInfoType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="NonMedDeviceType">
+		<xs:sequence>
+			<xs:element name="NonMedicalDeviceorService" minOccurs="1" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ItemIdentificationInformation" type="OtherInfoType" />
+						<xs:element name="InsurerResponseCode" type="InsurerResponseType" />
+						<xs:element name="MedicalNecessityInDispute" type="YesNo" />
+						<xs:element name="CostEstimate" type="PositiveDollarAmtType" minOccurs="0"/>
+						<xs:element name="ItemAdditionalInformation" type="AdditionalInfoType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ReasonType">
+		<xs:sequence>
+			<xs:element name="Reason" minOccurs="1" maxOccurs="21">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ReasonCode" type="RsnCode" />
+						<xs:element name="ReasonCodeCategory" type="RsnCodeCat" />
+						<xs:element name="ClaimantReducedEarningStatus" type="ReducedEarnStatus" minOccurs="0"/>
+						<xs:element name="PaymentStatus" type="PymtStatus" minOccurs="0"/>
+						<xs:element name="AwardPeriods" type="AwardPeriodsType" minOccurs="0"/>
+						<xs:element name="DisabilityContinuingPaymentIndicator" type="YesNo" minOccurs="0"/>
+						<xs:element name="ReducedEarnings" type="ReducedEarningsType" minOccurs="0"/>
+						<xs:element name="ReducedContinuingPaymentIndicator" type="YesNo" minOccurs="0"/>
+
+						<xs:element name="RaisedBodyPartNotResolved" type="BpnrDataType" minOccurs="0"/>
+						<xs:element name="RaisedBodyPartDisputed" type="BpdiDataType" minOccurs="0"/>
+						<xs:element name="RaisedBodyPartDeadlineElapsed" type="BpdeDataType" minOccurs="0"/>
+						<xs:element name="RaisedBodyPartNotAccepted" type="BpnaDataType" minOccurs="0"/>
+						<xs:element name="RaisedBodyPartEstablishedAmended" type="BpeaDataType" minOccurs="0"/>
+
+						<xs:element name="ParInsurerDocuments" type="ParInsDocumentsType" minOccurs="0"/>
+						<xs:element name="ParMdoDocuments" type="ParMdoDocumentsType" minOccurs="0"/>
+
+						<xs:element name="CISCaseDecisions" type="CaseDecisionsType" minOccurs="0" />
+						<xs:element name="ClaimantClassifiedWithPermanentDisability" type="YesNo" minOccurs="0"/>
+						<xs:element name="ReleasedClaimantClassifiedWithPermanentDisability" type="ReleasedClaimantClassifiedPersDisType" minOccurs="0"/>
+						<xs:element name="DateReleasedFromIncarceration" type="DateType" minOccurs="0"/>
+						<xs:element name="ClaimantAgreementWithIME" type="ClaimAgreeImeCode" minOccurs="0"/>
+						<xs:element name="AWWForPrimaryEmployer" type="PositiveDollarAmtType" minOccurs="0"/>
+						<xs:element name="AWWCalculationMethod" type="AwwCalMethodType" minOccurs="0"/>
+						<xs:element name="AWWCalculationOther" type="OtherInfoType" minOccurs="0"/>
+						<xs:element name="AWWConcurrentEmployers" type="AwwConcurrentEmpType" minOccurs="0" />
+						<xs:element name="AdjustPaymentsOnAWW" type="YesNo" minOccurs="0"/>
+						<xs:element name="SupportingDocumentForConcurrentEmployment" type="YesNo" minOccurs="0"/>
+						<xs:element name="SupportingDocumentForConcurrentEmploymentInformation" type="OtherInfoType" minOccurs="0" />
+
+						<xs:element name="TTDDateOfSurgery" minOccurs="0" type="DateType"/>
+						<xs:element name="ClaimantClassifiedDecisionDate" minOccurs="0" type="DateType" />
+						<xs:element name="ClaimantClassifiedCondition" minOccurs="0" type="ClaimantClassifiedCodeType"/>
+						<xs:element name="ClaimantClassifiedDecisions" type ="ClassifiedDocumentsType"  minOccurs="0" />
+						<xs:element name="MedicalTransportationReimbursementRequestDenied" minOccurs="0" type="YesNo"/>
+						<xs:element name="MedicalTransportationReimbursementRequestDeniedUnpaidAmount" minOccurs="0" type="PositiveDollarAmtType" />
+						<xs:element name="MedicalTransportationReimbursementRequestSixtyDaysElapsed" minOccurs="0" type="YesNo"/>
+						<xs:element name="MedicalTransportationReimbursementRequestSixtyDaysElapsedUnpaidAmount" minOccurs="0" type="PositiveDollarAmtType" />
+
+						<xs:element name="NonMedicalDevicesorServices" type="NonMedDeviceType" minOccurs="0" />
+
+						<xs:element name="ClaimantAffirmation" minOccurs="0" type="YesOnly"/>
+						<xs:element name="DateOfHearingMissedOrNotPrepared" minOccurs="0" type="xs:dateTime" />
+						<xs:element name="ClaimantDirectedDocumentation" minOccurs="0" type="YesNo"/>
+
+						<xs:element name="SettledOrDiscontinuedLawsuitDocumentCode" type="SettledDiscCodeType" minOccurs="0"/>
+
+						<xs:element name="PrecludedViolations" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ImeViolationNotScheduledIndicator" type="YesNo" minOccurs="0"/>
+									<xs:element name="ImeNotScheduledBoardDirectionDate" type="DateType" minOccurs="0"/>
+									<xs:element name="ImeNotScheduledReason" type="OtherInfoType" minOccurs="0"/>
+									<xs:element name="ImeViolationTimelyNoticeIndicator" type="YesNo" minOccurs="0"/>
+									<xs:element name="ImeViolationLateFilingIndicator" type="YesNo" minOccurs="0"/>
+									<xs:element name="ImeLateFilingNotServedPeriod" type="ImeLateFilingPeriodType" minOccurs="0"/>
+									<xs:element name="ImeLateFilingImeExamDate" type="DateType" minOccurs="0"/>
+									<xs:element name="ImeViolationNotServedIndicator" type="YesNo" minOccurs="0"/>
+									<xs:element name="ImeNotServedImeExamDate" type="DateType" minOccurs="0"/>
+									<xs:element name="ImeNotServedRecipients" minOccurs="0">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="ImeNotServedRecipient" maxOccurs="100">
+													<xs:complexType>
+														<xs:sequence>
+															<xs:element name="ImeNotServedFirstName" type="NameType" minOccurs="0"/>
+															<xs:element name="ImeNotServedLastName" type="NameType" minOccurs="0"/>
+															<xs:element name="ImeNotServedLawFirmName" type="NameType" minOccurs="0"/>
+														</xs:sequence>
+														<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+													</xs:complexType>
+												</xs:element>
+											</xs:sequence>
+										</xs:complexType>
+									</xs:element>
+									<xs:element name="ImeViolationOtherIndicator" type="YesNo" minOccurs="0"/>
+									<xs:element name="ImeViolationOtherText" type ="OtherInfoType" minOccurs="0"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+
+						<xs:element name="ChangeRequests" minOccurs="0" maxOccurs="100">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ChangeEmployerIndicator" type="YesNo" minOccurs="0" />
+									<xs:element name="ChangeEmployerRequests" type="ChangeEmployerRequestType" minOccurs="0" />
+									<xs:element name="ChangeInsurerIndicator" type="YesNo" minOccurs="0" />
+									<xs:element name="ChangeInsurerRequests" type="ChangeInsurerRequestType" minOccurs="0" />
+									<xs:element name="ChangeTpaIndicator" type="YesNo" minOccurs="0" />
+									<xs:element name="ChangeTpaRequests" type="ChangeTpaRequestType" minOccurs="0" />
+									<xs:element name="ChangeDateOfInjuryIndicator" type="YesNo" minOccurs="0" />
+									<xs:element name="DateOfInjuryUpdate" minOccurs="0" type="DoiUpdateType"/>
+									<xs:element name="ChangeReasonExplanation" type="AdditionalInfoType" />
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+
+						<xs:element name="BeneficiaryChangeSpouseRemarried" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryRemarriedDate" minOccurs="0" type="DateType"/>
+						<xs:element name="BeneficiaryChangeReachedAge" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangedAges" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BeneficiaryChangedAge" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BeneficiaryChangedAgeName" type="BeneficiaryNameType" />
+												<xs:element name="BeneficiaryChangedAgeValue" type="BeneficiaryAgeType" />
+												<xs:element name="BeneficiaryChangedAgeDateReached" type="DateType" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BeneficiaryChangeNotStudent" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangedNotStudents" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BeneficiaryChangedNotStudent" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BeneficiaryChangedNotStudentName" type="BeneficiaryNameType" />
+												<xs:element name="BeneficiaryChangedNotStudentDate" type="DateType" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BeneficiaryChangeIsStudent" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangedIsStudents" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BeneficiaryChangedIsStudent" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BeneficiaryChangedIsStudentName" type="BeneficiaryNameType" />
+												<xs:element name="BeneficiaryChangedIsStudentDate" type="DateType" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BeneficiaryChangeNotLocated" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangedNotLocateds" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BeneficiaryChangedNotLocated" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BeneficiaryChangedNotLocatedName" type="BeneficiaryNameType" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BeneficiaryChangePassedAway" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangedPassedAways" minOccurs="0">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="BeneficiaryChangedPassedAway" maxOccurs="100">
+										<xs:complexType>
+											<xs:sequence>
+												<xs:element name="BeneficiaryChangedPassedAwayName" type="BeneficiaryNameType" />
+												<xs:element name="BeneficiaryChangedPassedAwayDate" type="DateType" />
+											</xs:sequence>
+											<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+										</xs:complexType>
+									</xs:element>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="BeneficiaryChangeOther" minOccurs="0" type="YesNo"/>
+						<xs:element name="BeneficiaryChangeOtherInformation" minOccurs="0" type="OtherInfoType" />
+
+						<xs:element name="OCW" type="OcwType" minOccurs="0" />
+						
+						<xs:element name="AdditionalInformation" type="AdditionalInfoType" minOccurs="0" />
+						<xs:element name="ExpeditedHearingRequested"  type="YesNo" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ProposedFindingType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="AdditionalProposedFindingNO" type="YesNo"/>
+				<xs:group ref="ProposedFindingsDataGroup" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:group name="ProposedFindingsDataGroup">
+		<xs:sequence>
+			<xs:group ref="ApfAncrGroup" minOccurs="0" />
+			<xs:group ref="ApfAwwGroup" minOccurs="0" />
+			<xs:group ref="ApfAlwbGroup" minOccurs="0" />
+			<xs:element name="AdditionalProposedFindingAttorneyFeeReq" type="YesNo" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="ApfAncrGroup">
+		<xs:sequence>
+			<xs:element name="AdditionalProposedFindingANCR" type="YesNo" />
+			<xs:element name="AdditionalProposedFindingBodyParts" >
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AdditionalProposedFindingBodyPart" type="ProposedFindingBodyPartType" maxOccurs="100"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="AdditionalProposedFindingBodyPartAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name ="ApfAwwGroup">
+		<xs:sequence>
+			<xs:element name="AdditionalProposedFindingAWW" type="YesNo" />
+			<xs:element name="EstablishAWWResultInAdjustmentIndicator" type="YesNo" />
+			<xs:element name="EstablishAWWPrimaryEmployerDollarAmount" type="PositiveDollarAmtType"/>
+			<xs:element name="EstablishAWWCalculationMethod" type ="AwwCalMethodType" />
+			<xs:element name="EstablishAWWCalculationMethodOther" minOccurs="0" type="OtherInfoType"/>
+			<xs:element name="EstablishAWWConcurrentEmployment" type="YesNo" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:group name="ApfAlwbGroup">
+		<xs:sequence>
+			<xs:element name="AdditionalProposedFindingAwardLostWageBen"  type="YesNo" />
+			<xs:element name="ALWBContinuingPaymentIndicator" type="YesNo" />
+			<xs:element name="AdditionalProposedFindingAwardPeriods" type="AdditionalProposedFindingAwardPeriodType" />
+		</xs:sequence>
+	</xs:group>
+
+	<xs:complexType name="ProposedFindingBodyPartType">
+		<xs:all>
+			<xs:element name="AdditionalProposedFindingBodyPartCode" type="BodyPartType" />
+			<xs:element name="AdditionalProposedFindingBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="AdditionalProposedFindingBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpnrDataType">
+		<xs:sequence>
+			<xs:element name="RaisedBodyPartReasonNotResolvedIndicator" type="YesNo"  />
+			<xs:element name="BodyPartNotResolvedDecisions" type="BodyPartNotResolvedDecisionType"  />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpnrBodyPartType">
+		<xs:all>
+			<xs:element name="BodyPartNotResolvedDecisionBodyPartCode" type="BodyPartType" />
+			<xs:element name="BodyPartNotResolvedDecisionBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="BodyPartNotResolvedDecisionBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+			<xs:element name="BodyPartNotResolvedConsequentialIndicator" type="YesNo"/>
+			<xs:element name="BodyPartNotResolvedDecisionAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpnrType">
+		<xs:sequence>
+			<xs:element name="BodyPartNotResolvedDecisionBodyPart" type="BpnrBodyPartType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BodyPartNotResolvedDecisionType">
+		<xs:sequence>
+			<xs:element name="BodyPartNotResolvedDecision" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BodyPartNotResolvedDocID" type="DocIdType" />
+						<xs:element name="BodyPartNotResolvedFormID" type="BpnrFormIds" />
+						<xs:element name="BodyPartNotResolvedReceivedDate" type="DateType" minOccurs="0" />
+						<xs:element name="BodyPartNotResolvedDecisionBodyParts" type="BpnrType" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpdiDataType">
+		<xs:sequence>
+			<xs:element name="RaisedBodyPartDisputedIndicator" type="YesNo"/>
+			<xs:element name="BodyPartDisputedDecisions" type="BodyPartDisputedDecisionType" minOccurs="0" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpdiBodyPartType">
+		<xs:all>
+			<xs:element name="BodyPartDisputedDecisionBodyPartCode" type="BodyPartType" />
+			<xs:element name="BodyPartDisputedDecisionBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="BodyPartDisputedDecisionBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+			<xs:element name="BodyPartDisputedConsequentialIndicator" type="YesNo" />
+			<xs:element name="BodyPartDisputedDecisionAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpdiType">
+		<xs:sequence>
+			<xs:element name="BodyPartDisputedDecisionBodyPart" type="BpdiBodyPartType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BodyPartDisputedDecisionType">
+		<xs:sequence>
+			<xs:element name="BodyPartDisputedDecision" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BodyPartDisputedDocID" type="DocIdType" />
+						<xs:element name="BodyPartDisputedFormID" type="BpdiFormIds" />
+						<xs:element name="BodyPartDisputedHealthCareProviderName" type="xs:string" minOccurs="0" />
+						<xs:element name="BodyPartDisputedReceivedDate" type="DateType" minOccurs="0" />
+						<xs:element name="BodyPartDisputedDecisionBodyParts" type="BpdiType" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte"  use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpdeDataType">
+		<xs:sequence>
+			<xs:element name="RaisedBodyPartDeadlineElapsedIndicator" type="YesNo"/>
+			<xs:element name="BodyPartDeadlineElapsedBodyParts" type="BpdeType" />
+			<xs:element name="BodyPartDeadlineElapsedAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpdeBodyPartType">
+		<xs:all>
+			<xs:element name="BodyPartDeadlineElapsedBodyPartCode" type="BodyPartType" />
+			<xs:element name="BodyPartDeadlineElapsedBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="BodyPartDeadlineElapsedBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+			<xs:element name="BodyPartDeadlineElapsedConsequentialIndicator" type="YesNo" />
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpdeType">
+		<xs:sequence>
+			<xs:element name="BodyPartDeadlineElapsedBodyPart" type="BpdeBodyPartType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpnaDataType">
+		<xs:sequence>
+			<xs:element name="RaisedBodyPartNotAcceptedIndicator" type="YesNo"/>
+			<xs:element name="LetterSentToCADate" type="DateType" />
+			<xs:element name="BodyPartNotAcceptedBodyParts" type="BpnaType" />
+			<xs:element name="BodyPartNotAcceptedAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpnaBodyPartType">
+		<xs:all>
+			<xs:element name="BodyPartNotAcceptedBodyPartCode" type="BodyPartType" />
+			<xs:element name="BodyPartNotAcceptedBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="BodyPartNotAcceptedBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+			<xs:element name="BodyPartNotAcceptedConsequentialIndicator" type="YesNo" />
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpnaType">
+		<xs:sequence>
+			<xs:element name="BodyPartNotAcceptedBodyPart" type="BpnaBodyPartType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpeaDataType">
+		<xs:sequence>
+			<xs:element name="RaisedBodyPartEstablishedAmendedIndicator" type="YesNo"/>
+			<xs:element name="HasBodyPartAcceptedByCA" type="YesNo" />
+			<xs:element name="CaNotAcceptedLetterSentToCADate" type="DateType" minOccurs="0"/>
+			<xs:element name="BodyPartEstablishedAmendedBodyParts" type="BpeaType" />
+			<xs:element name="BodyPartEstablishedAmendedAdditionalText" type="AdditionalInfoType" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BpeaBodyPartType">
+		<xs:all>
+			<xs:element name="BodyPartEstablishedAmendedBodyPartCode" type="BodyPartType" />
+			<xs:element name="BodyPartEstablishedAmendedBodyPartLocationCode" type="BodyPartLocationType" minOccurs="0"/>
+			<xs:element name="BodyPartEstablishedAmendedBodyPartFingersToesCode" type="BodyPartFTType" minOccurs="0"/>
+			<xs:element name="BodyPartEstablishedAmendedConsequentialIndicator" type="YesNo" />
+		</xs:all>
+		<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+	</xs:complexType>
+
+	<xs:complexType name="BpeaType">
+		<xs:sequence>
+			<xs:element name="BodyPartEstablishedAmendedBodyPart" type="BpeaBodyPartType" maxOccurs="100"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ParInsDocumentsType">
+		<xs:sequence>
+			<xs:element name="ParInsurerDocument" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ParInsParID" type="ParIdType"  minOccurs="0"/>
+						<xs:element name="ParInsDocID" type="xs:string" />
+						<xs:element name="ParInsFormID" type="xs:string"  />
+						<xs:element name="ParInsHealthCareProviderName" type="UploadProviderNameType" minOccurs="0"/>
+						<xs:element name="ParInsReceivedDate" type="DateType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ParMdoDocumentsType">
+		<xs:sequence>
+			<xs:element name="ParMdoDocument" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ParMdoParID" type="ParIdType"  minOccurs="0"/>
+						<xs:element name="ParMdoDocID" type="xs:string" />
+						<xs:element name="ParMdoFormID" type="MpmFormIds"  />
+						<xs:element name="ParMdoHealthCareProviderName" type="UploadProviderNameType" minOccurs="0"/>
+						<xs:element name="ParMdoReceivedDate" type="DateType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ClassifiedDocumentsType">
+		<xs:sequence>
+			<xs:element name="ClaimantClassifiedDecision" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ClassifiedDecisionDocID" type="DocIdType"/>
+						<xs:element name="ClassifiedDecisionFormID" type="ClassifiedFormIds" />
+						<xs:element name="ClassifiedDecisionReceivedDate" minOccurs="0" type="DateType"/>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ChangeEmployerRequestType">
+		<xs:sequence>
+			<xs:element name="ChangeEmployerRequest" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="EmployerActionType" type ="ChangeActionType"/>
+						<xs:element name="EmployerName" type="OtherInfoType"/>
+						<xs:element name="EmployerAddressStreet1" type="AddressStreetType" minOccurs="0"/>
+						<xs:element name="EmployerAddressStreet2" type="AddressStreetType" minOccurs="0"/>
+						<xs:element name="EmployerAddressCity" type="AddressCityType" minOccurs="0"/>
+						<xs:element name="EmployerAddressStateCode" minOccurs="0">
+							<xs:simpleType>
+								<xs:union memberTypes="AddressStateTextType AddressStateCodeType"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="EmployerAddressPostalCode" type="PostalCodeType" minOccurs="0"/>
+						<xs:element name="EmployerAddressCountry" type="AddressCountryCodeType" minOccurs="0"/>
+						<xs:element name="EmployerFEIN" type="NineDigitType" minOccurs="0" />
+						<xs:element name="EmployerWCBNumber" type="NineStringNoSpecialType" minOccurs="0"/>
+						<xs:element name="EmployerDBAName" type="OtherInfoType" minOccurs="0"/>
+						<xs:element name="EmployerPhoneNumber" type="TenDigitType" minOccurs="0"/>
+						<xs:element name="EmployerSupervisorName" type="OtherInfoType" minOccurs="0"/>
+						<xs:element name="EmployerInsurerTpaName" type="OtherInfoType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ChangeInsurerRequestType">
+		<xs:sequence>
+			<xs:element name="ChangeInsurerRequest" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="InsurerActionType" type="ChangeActionType" />
+						<xs:element name="InsurerName" type="OtherInfoType" />
+						<xs:element name="InsurerNoFaultIndicator" type="YesNo"  minOccurs="0"/>
+						<xs:element name="InsurerAddressStreet1" type="AddressStreetType" minOccurs="0"/>
+						<xs:element name="InsurerAddressStreet2" type="AddressStreetType" minOccurs="0"/>
+						<xs:element name="InsurerAddressCity" type="AddressCityType" minOccurs="0"/>
+						<xs:element name="InsurerAddressStateCode" minOccurs="0">
+							<xs:simpleType>
+								<xs:union memberTypes="AddressStateTextType AddressStateCodeType"/>
+							</xs:simpleType>
+						</xs:element>
+						<xs:element name="InsurerAddressPostalCode" type="PostalCodeType" minOccurs="0"/>
+						<xs:element name="InsurerAddressCountry" type="AddressCountryCodeType" minOccurs="0"/>
+						<xs:element name="InsurerPolicyNumber" type="OtherInfoType" minOccurs="0"/>
+						<xs:element name="InsurerEmployerName" type="OtherInfoType" minOccurs="0"/>
+						<xs:element name="InsurerClaimAdminClaimId" type="OtherInfoType" minOccurs="0"/>
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="ChangeTpaRequestType">
+		<xs:sequence>
+			<xs:element name="ChangeTpaRequest" maxOccurs="100">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="TPAActionType" type="ChangeTpaActionType"/>
+						<xs:element name="TPAName" type="OtherInfoType" />
+						<xs:element name="TPAInsurerName" type="OtherInfoType" minOccurs="0" />
+					</xs:sequence>
+					<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- OCW type -->
+	<xs:complexType name="OcwType">
+		<xs:sequence>
+			<xs:element name="AppealWithdrawalDocuments">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AppealWithdrawalDocument" maxOccurs="100">
+							<xs:complexType>
+								<xs:all>
+									<xs:element name="AppealWithdrawalDocumentId" type="DocIdType"/>
+									<xs:element name="AppealWithdrawalDocumentFormId" type="InsWithdrawsFormIds"/>
+									<xs:element name="AppealWithdrawalDocumentReceivedDate" type="DateType" minOccurs="0"/>
+								</xs:all>
+								<xs:attribute name="index" type="xs:unsignedByte" use="required" />
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="WebHeaderType">
+		<xs:sequence>
+			<xs:element name="AddNewReason" />
+			<xs:element name="CurrentReason" />
+			<xs:element name="StepCount" />
+			<xs:element name="StepNum" />
+			<xs:element name="LastPrompt" />
+			<xs:element name="Histories" />
+			<xs:element name="FormName" />
+			<xs:element name="ReceivedDate" />
+			<xs:element name="SectionName" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="APIHeaderType">
+		<xs:sequence>
+			<xs:element name="SubmitterClientId" type="xs:string"/>
+			<xs:element name="SenderPOI" type="xs:string"/>
+			<xs:element name="SubmitDate" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="BatchHeaderType">
+		<xs:sequence>
+			<xs:element name="SenderPOI" type="xs:string"/>
+			<xs:element name="SubmitDate" type="xs:date" />
+			<xs:element name="FileName" type="xs:string"/>
+			<xs:element name="EventCount" type="xs:int"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="HeaderType">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="WebHeader" type ="WebHeaderType" />
+				<xs:element name="APIHeader" type ="APIHeaderType" />
+				<xs:element name="BatchHeader" type ="BatchHeaderType" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:simpleType name="AddressCountryCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AF"/>
+			<xs:enumeration value="AX"/>
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="DZ"/>
+			<xs:enumeration value="AS"/>
+			<xs:enumeration value="AD"/>
+			<xs:enumeration value="AO"/>
+			<xs:enumeration value="AI"/>
+			<xs:enumeration value="AQ"/>
+			<xs:enumeration value="AG"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="AM"/>
+			<xs:enumeration value="AW"/>
+			<xs:enumeration value="AU"/>
+			<xs:enumeration value="AT"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="BS"/>
+			<xs:enumeration value="BH"/>
+			<xs:enumeration value="BD"/>
+			<xs:enumeration value="BB"/>
+			<xs:enumeration value="BY"/>
+			<xs:enumeration value="BE"/>
+			<xs:enumeration value="BZ"/>
+			<xs:enumeration value="BJ"/>
+			<xs:enumeration value="BM"/>
+			<xs:enumeration value="BT"/>
+			<xs:enumeration value="BO"/>
+			<xs:enumeration value="BQ"/>
+			<xs:enumeration value="BA"/>
+			<xs:enumeration value="BW"/>
+			<xs:enumeration value="BV"/>
+			<xs:enumeration value="BR"/>
+			<xs:enumeration value="IO"/>
+			<xs:enumeration value="BN"/>
+			<xs:enumeration value="BG"/>
+			<xs:enumeration value="BF"/>
+			<xs:enumeration value="BI"/>
+			<xs:enumeration value="CI"/>
+			<xs:enumeration value="KH"/>
+			<xs:enumeration value="CM"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CV"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="CF"/>
+			<xs:enumeration value="TD"/>
+			<xs:enumeration value="CL"/>
+			<xs:enumeration value="CN"/>
+			<xs:enumeration value="CX"/>
+			<xs:enumeration value="CC"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="KM"/>
+			<xs:enumeration value="CG"/>
+			<xs:enumeration value="CK"/>
+			<xs:enumeration value="CR"/>
+			<xs:enumeration value="HR"/>
+			<xs:enumeration value="CU"/>
+			<xs:enumeration value="CW"/>
+			<xs:enumeration value="CY"/>
+			<xs:enumeration value="CZ"/>
+			<xs:enumeration value="CD"/>
+			<xs:enumeration value="DK"/>
+			<xs:enumeration value="DJ"/>
+			<xs:enumeration value="DM"/>
+			<xs:enumeration value="DO"/>
+			<xs:enumeration value="TL"/>
+			<xs:enumeration value="EC"/>
+			<xs:enumeration value="EG"/>
+			<xs:enumeration value="SV"/>
+			<xs:enumeration value="GQ"/>
+			<xs:enumeration value="ER"/>
+			<xs:enumeration value="EE"/>
+			<xs:enumeration value="ET"/>
+			<xs:enumeration value="FK"/>
+			<xs:enumeration value="FO"/>
+			<xs:enumeration value="FJ"/>
+			<xs:enumeration value="FI"/>
+			<xs:enumeration value="FR"/>
+			<xs:enumeration value="GF"/>
+			<xs:enumeration value="PF"/>
+			<xs:enumeration value="TF"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GM"/>
+			<xs:enumeration value="GE"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="GH"/>
+			<xs:enumeration value="GI"/>
+			<xs:enumeration value="GR"/>
+			<xs:enumeration value="GL"/>
+			<xs:enumeration value="GD"/>
+			<xs:enumeration value="GP"/>
+			<xs:enumeration value="GU"/>
+			<xs:enumeration value="GT"/>
+			<xs:enumeration value="GG"/>
+			<xs:enumeration value="GN"/>
+			<xs:enumeration value="GW"/>
+			<xs:enumeration value="GY"/>
+			<xs:enumeration value="HT"/>
+			<xs:enumeration value="HM"/>
+			<xs:enumeration value="HN"/>
+			<xs:enumeration value="HK"/>
+			<xs:enumeration value="HU"/>
+			<xs:enumeration value="IS"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IR"/>
+			<xs:enumeration value="IQ"/>
+			<xs:enumeration value="IE"/>
+			<xs:enumeration value="IM"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IT"/>
+			<xs:enumeration value="JM"/>
+			<xs:enumeration value="JP"/>
+			<xs:enumeration value="JE"/>
+			<xs:enumeration value="JO"/>
+			<xs:enumeration value="KZ"/>
+			<xs:enumeration value="KE"/>
+			<xs:enumeration value="KI"/>
+			<xs:enumeration value="KP"/>
+			<xs:enumeration value="KR"/>
+			<xs:enumeration value="KW"/>
+			<xs:enumeration value="KG"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="LV"/>
+			<xs:enumeration value="LB"/>
+			<xs:enumeration value="LS"/>
+			<xs:enumeration value="LR"/>
+			<xs:enumeration value="LY"/>
+			<xs:enumeration value="LI"/>
+			<xs:enumeration value="LT"/>
+			<xs:enumeration value="LU"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MG"/>
+			<xs:enumeration value="MW"/>
+			<xs:enumeration value="MY"/>
+			<xs:enumeration value="MV"/>
+			<xs:enumeration value="ML"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="MH"/>
+			<xs:enumeration value="MQ"/>
+			<xs:enumeration value="MR"/>
+			<xs:enumeration value="MU"/>
+			<xs:enumeration value="YT"/>
+			<xs:enumeration value="MX"/>
+			<xs:enumeration value="FM"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="MC"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MZ"/>
+			<xs:enumeration value="MM"/>
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="NR"/>
+			<xs:enumeration value="NP"/>
+			<xs:enumeration value="NL"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="NZ"/>
+			<xs:enumeration value="NI"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NG"/>
+			<xs:enumeration value="NU"/>
+			<xs:enumeration value="NF"/>
+			<xs:enumeration value="MP"/>
+			<xs:enumeration value="NO"/>
+			<xs:enumeration value="PS"/>
+			<xs:enumeration value="OM"/>
+			<xs:enumeration value="PK"/>
+			<xs:enumeration value="PW"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="PG"/>
+			<xs:enumeration value="PY"/>
+			<xs:enumeration value="PE"/>
+			<xs:enumeration value="PH"/>
+			<xs:enumeration value="PN"/>
+			<xs:enumeration value="PL"/>
+			<xs:enumeration value="PT"/>
+			<xs:enumeration value="PR"/>
+			<xs:enumeration value="QA"/>
+			<xs:enumeration value="RO"/>
+			<xs:enumeration value="RE"/>
+			<xs:enumeration value="RU"/>
+			<xs:enumeration value="RW"/>
+			<xs:enumeration value="BL"/>
+			<xs:enumeration value="SH"/>
+			<xs:enumeration value="KN"/>
+			<xs:enumeration value="LC"/>
+			<xs:enumeration value="MF"/>
+			<xs:enumeration value="PM"/>
+			<xs:enumeration value="VC"/>
+			<xs:enumeration value="WS"/>
+			<xs:enumeration value="SM"/>
+			<xs:enumeration value="ST"/>
+			<xs:enumeration value="SA"/>
+			<xs:enumeration value="SN"/>
+			<xs:enumeration value="RS"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SL"/>
+			<xs:enumeration value="SG"/>
+			<xs:enumeration value="SX"/>
+			<xs:enumeration value="SK"/>
+			<xs:enumeration value="SI"/>
+			<xs:enumeration value="SB"/>
+			<xs:enumeration value="SO"/>
+			<xs:enumeration value="ZA"/>
+			<xs:enumeration value="GS"/>
+			<xs:enumeration value="SS"/>
+			<xs:enumeration value="ES"/>
+			<xs:enumeration value="LK"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="SR"/>
+			<xs:enumeration value="SJ"/>
+			<xs:enumeration value="SZ"/>
+			<xs:enumeration value="SE"/>
+			<xs:enumeration value="CH"/>
+			<xs:enumeration value="SY"/>
+			<xs:enumeration value="TW"/>
+			<xs:enumeration value="TJ"/>
+			<xs:enumeration value="TZ"/>
+			<xs:enumeration value="TH"/>
+			<xs:enumeration value="TG"/>
+			<xs:enumeration value="TK"/>
+			<xs:enumeration value="TO"/>
+			<xs:enumeration value="TT"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TR"/>
+			<xs:enumeration value="TM"/>
+			<xs:enumeration value="TC"/>
+			<xs:enumeration value="TV"/>
+			<xs:enumeration value="UG"/>
+			<xs:enumeration value="UA"/>
+			<xs:enumeration value="AE"/>
+			<xs:enumeration value="GB"/>
+			<xs:enumeration value="US"/>
+			<xs:enumeration value="UM"/>
+			<xs:enumeration value="UY"/>
+			<xs:enumeration value="UZ"/>
+			<xs:enumeration value="VU"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="VE"/>
+			<xs:enumeration value="VN"/>
+			<xs:enumeration value="VG"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="WF"/>
+			<xs:enumeration value="EH"/>
+			<xs:enumeration value="YE"/>
+			<xs:enumeration value="MK"/>
+			<xs:enumeration value="ZM"/>
+			<xs:enumeration value="ZW"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="AddressStateCodeType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="AA"/>
+			<xs:enumeration value="AE"/>
+			<xs:enumeration value="AK"/>
+			<xs:enumeration value="AL"/>
+			<xs:enumeration value="AP"/>
+			<xs:enumeration value="AR"/>
+			<xs:enumeration value="AS"/>
+			<xs:enumeration value="AZ"/>
+			<xs:enumeration value="CA"/>
+			<xs:enumeration value="CO"/>
+			<xs:enumeration value="CT"/>
+			<xs:enumeration value="CZ"/>
+			<xs:enumeration value="DC"/>
+			<xs:enumeration value="DE"/>
+			<xs:enumeration value="FL"/>
+			<xs:enumeration value="FM"/>
+			<xs:enumeration value="GA"/>
+			<xs:enumeration value="GU"/>
+			<xs:enumeration value="HI"/>
+			<xs:enumeration value="IA"/>
+			<xs:enumeration value="ID"/>
+			<xs:enumeration value="IL"/>
+			<xs:enumeration value="IN"/>
+			<xs:enumeration value="KS"/>
+			<xs:enumeration value="KY"/>
+			<xs:enumeration value="LA"/>
+			<xs:enumeration value="LB"/>
+			<xs:enumeration value="MA"/>
+			<xs:enumeration value="MD"/>
+			<xs:enumeration value="ME"/>
+			<xs:enumeration value="MH"/>
+			<xs:enumeration value="MI"/>
+			<xs:enumeration value="MN"/>
+			<xs:enumeration value="MO"/>
+			<xs:enumeration value="MP"/>
+			<xs:enumeration value="MS"/>
+			<xs:enumeration value="MT"/>
+			<xs:enumeration value="NC"/>
+			<xs:enumeration value="ND"/>
+			<xs:enumeration value="NE"/>
+			<xs:enumeration value="NF"/>
+			<xs:enumeration value="NH"/>
+			<xs:enumeration value="NJ"/>
+			<xs:enumeration value="NM"/>
+			<xs:enumeration value="NV"/>
+			<xs:enumeration value="NY"/>
+			<xs:enumeration value="OH"/>
+			<xs:enumeration value="OK"/>
+			<xs:enumeration value="OR"/>
+			<xs:enumeration value="PA"/>
+			<xs:enumeration value="PQ"/>
+			<xs:enumeration value="PR"/>
+			<xs:enumeration value="PW"/>
+			<xs:enumeration value="RI"/>
+			<xs:enumeration value="SC"/>
+			<xs:enumeration value="SD"/>
+			<xs:enumeration value="TN"/>
+			<xs:enumeration value="TT"/>
+			<xs:enumeration value="TX"/>
+			<xs:enumeration value="UT"/>
+			<xs:enumeration value="VA"/>
+			<xs:enumeration value="VI"/>
+			<xs:enumeration value="VT"/>
+			<xs:enumeration value="WA"/>
+			<xs:enumeration value="WI"/>
+			<xs:enumeration value="WV"/>
+			<xs:enumeration value="WY"/>
+		</xs:restriction>
+	</xs:simpleType>
+
+</xs:schema>

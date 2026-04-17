@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<eFormsAck>
+	<Header>
+		<APIHeader>
+			<SubmitterClientId />
+			<SenderPOI />
+			<SubmitDate />
+		</APIHeader>
+		<BatchHeader>
+			<SenderPOI />
+			<ReceiptDate />
+			<ProcessStartDate />
+			<ProcessEndDate />
+			<FileId />
+			<FileName />
+			<EventCount />
+		</BatchHeader>
+	</Header>
+	<FileStatus></FileStatus>
+	<FileStatusMessage></FileStatusMessage>
+	<Events>
+		<EventCode code="RFA-1LC">
+			<WCBCaseID />
+			<TransactionSequenceNumber/>
+			<SubmissionId/>
+			<SubmissionStatus/>
+			<FormImage/>
+			<Errors>
+				<Error>
+					<FileErrorIndicator/>
+					<ReasonCode/>
+					<DataElementName/>
+					<ErrorCode/>
+					<ErrorText/>
+					<ErrorDescription/>
+					<ErrorSegmentIndex/>
+					<ErrorSegmentChildIndex/>
+				</Error>
+			</Errors>
+		</EventCode>
+	</Events>
+</eFormsAck>
