@@ -46,32 +46,224 @@ from xml.dom import minidom
 from typing import Optional
 
 
-# ── Reason Code Categories ───────────────────────────────────────────────────
+# ── Reason Code Categories (all 20 WCB codes) ──────────────────────────────
 REASON_CATEGORIES = {
+    # Compensation (C) — RFA-1LC
     "CNW": "C",  # Compensation - not working / not receiving payments
     "CAW": "C",  # Compensation - AWW adjustments
-    "CVW": "C",  # Compensation - volunteer
+    "CVW": "C",  # Compensation - volunteer workers
+    # Compensation (C) — RFA-2
+    "CPD": "C",  # Compensation - permanent disability
+    "CPR": "C",  # Compensation - prior findings
+    "CPI": "C",  # Compensation - penalty/interest
+    "CPS": "C",  # Compensation - PPD schedule award
+    "CRE": "C",  # Compensation - reduced earnings
+    # Medical (M)
     "MBC": "M",  # Medical - body parts/conditions
     "MCI": "M",  # Medical - maximum medical improvement
-    # RFA-2 codes (for future expansion)
-    "CPD": "C", "CPR": "C", "CPI": "C", "CPS": "C",
-    "MOW": "M", "MIA": "M",
-    "OER": "O", "OIL": "O", "ORD": "O", "OID": "O",
-    "OCD": "O", "OUI": "O", "OIW": "O",
+    "MOW": "M",  # Medical - ongoing/withdrawal of treatment
+    "MIA": "M",  # Medical - independent medical assessment
+    # Other (O)
+    "OER": "O",  # Other - employer request for hearing
+    "OIL": "O",  # Other - insurance lapse
+    "ORD": "O",  # Other - request to discontinue/modify
+    "OID": "O",  # Other - insurance dispute
+    "OCD": "O",  # Other - carrier dispute
+    "OUI": "O",  # Other - uninsured employer
+    "OIW": "O",  # Other - injured worker request
+    "OOT": "O",  # Other - other
 }
 
-# ── WCB Body Part Codes ──────────────────────────────────────────────────────
-BODY_PART_CODES = {
-    "head": "01", "skull": "02", "brain": "03", "ear": "04", "eye": "05",
-    "nose": "06", "mouth": "07", "neck": "10", "cervical spine": "11",
-    "upper back": "15", "thoracic spine": "16",
-    "lower back": "20", "lumbar spine": "21", "sacrum": "22",
-    "shoulder": "25", "upper arm": "26", "elbow": "27",
-    "forearm": "28", "wrist": "30", "hand": "31", "finger": "36",
-    "hip": "40", "thigh": "41", "knee": "42",
-    "lower leg": "43", "ankle": "45", "foot": "46", "toe": "47",
-    "chest": "50", "abdomen": "55", "pelvis": "60",
+
+# ── WCB Body Part Codes (official 50 codes) ─────────────────────────────────
+WCB_BODY_PARTS = {
+    # Head & Trunk - Head
+    "10": {"text": "Head", "group": "Head & Trunk", "has_side": False},
+    "11": {"text": "Skull", "group": "Head & Trunk", "has_side": False},
+    "12": {"text": "Brain", "group": "Head & Trunk", "has_side": False},
+    "13": {"text": "Ear", "group": "Head & Trunk", "has_side": True},
+    "14": {"text": "Eye", "group": "Head & Trunk", "has_side": True},
+    "15": {"text": "Nose", "group": "Head & Trunk", "has_side": False},
+    "16": {"text": "Teeth", "group": "Head & Trunk", "has_side": False},
+    "17": {"text": "Mouth", "group": "Head & Trunk", "has_side": False},
+    "18": {"text": "Soft tissue of the Head", "group": "Head & Trunk", "has_side": False},
+    "19": {"text": "Facial bones", "group": "Head & Trunk", "has_side": False},
+    # Back & Neck
+    "20": {"text": "Neck", "group": "Back & Neck", "has_side": False},
+    "21": {"text": "Vertebrae (neck)", "group": "Back & Neck", "has_side": False},
+    "22": {"text": "Disc in the neck", "group": "Back & Neck", "has_side": False},
+    "23": {"text": "Spinal cord in the neck", "group": "Back & Neck", "has_side": False},
+    "24": {"text": "Larynx", "group": "Back & Neck", "has_side": False},
+    "25": {"text": "Soft tissue neck", "group": "Back & Neck", "has_side": False},
+    "26": {"text": "Trachea", "group": "Back & Neck", "has_side": False},
+    # Upper Extremities
+    "31": {"text": "Upper arm", "group": "Extremities", "has_side": True},
+    "32": {"text": "Elbow", "group": "Extremities", "has_side": True},
+    "33": {"text": "Lower arm", "group": "Extremities", "has_side": True},
+    "34": {"text": "Wrist", "group": "Extremities", "has_side": True},
+    "35": {"text": "Hand", "group": "Extremities", "has_side": True},
+    "36": {"text": "Fingers other than thumb", "group": "Extremities", "has_side": True, "fingers": True},
+    "37": {"text": "Thumb", "group": "Extremities", "has_side": True},
+    "38": {"text": "Shoulder", "group": "Extremities", "has_side": True},
+    # Back
+    "41": {"text": "Upper back area", "group": "Back & Neck", "has_side": False},
+    "42": {"text": "Lower back area", "group": "Back & Neck", "has_side": False},
+    "43": {"text": "Disc in the trunk", "group": "Head & Trunk", "has_side": False},
+    "44": {"text": "Chest", "group": "Head & Trunk", "has_side": False},
+    "45": {"text": "Sacrum and coccyx", "group": "Head & Trunk", "has_side": False},
+    "46": {"text": "Pelvis", "group": "Head & Trunk", "has_side": False},
+    "47": {"text": "Spinal cord in the trunk", "group": "Head & Trunk", "has_side": False},
+    "48": {"text": "Internal organs other than heart & lungs", "group": "Head & Trunk", "has_side": False},
+    "49": {"text": "Heart", "group": "Head & Trunk", "has_side": False},
+    # Lower Extremities
+    "51": {"text": "Hip", "group": "Extremities", "has_side": True},
+    "52": {"text": "Upper leg", "group": "Extremities", "has_side": True},
+    "53": {"text": "Knee", "group": "Extremities", "has_side": True},
+    "54": {"text": "Lower leg", "group": "Extremities", "has_side": True},
+    "55": {"text": "Ankle", "group": "Extremities", "has_side": True},
+    "56": {"text": "Foot", "group": "Extremities", "has_side": True},
+    "57": {"text": "Toes", "group": "Extremities", "has_side": True, "toes": True},
+    "58": {"text": "Great toe", "group": "Extremities", "has_side": True},
+    # Trunk
+    "60": {"text": "Lung", "group": "Head & Trunk", "has_side": True},
+    "61": {"text": "Abdomen including groin", "group": "Head & Trunk", "has_side": False},
+    "62": {"text": "Buttock", "group": "Head & Trunk", "has_side": True},
+    # Special
+    "65": {"text": "Psychological injury", "group": "Back & Neck", "has_side": False},
+    "66": {"text": "Exposure", "group": "Back & Neck", "has_side": False},
+    "99": {"text": "Death", "group": "Back & Neck", "has_side": False},
+    "00": {"text": "Body Part(s)/Condition(s) not listed", "group": "Back & Neck", "has_side": False},
+    "01": {"text": "Consequential Indicator", "group": "Back & Neck", "has_side": False},
 }
+
+
+# ── WCB Error Codes ─────────────────────────────────────────────────────────
+WCB_ERROR_CODES = {
+    "1001": "Mandatory data not present",
+    "1002": "Invalid format",
+    "1003": "Corresponding data not found",
+    "1004": "Must be unique",
+    "1005": "Must be a valid date",
+    "1006": "Must be <= current date",
+    "1007": "Must be >= Date of Injury",
+    "1008": "Invalid code",
+    "1009": "Date ranges must not overlap",
+    "1010": "Date ranges must be in chronological order",
+    "1011": "Invalid data relationship",
+    "1014": "Invalid record count",
+    "1015": "Must be valid content",
+    "1016": "Conditionally mandatory data not present",
+    "1017": "Only one transaction per API call is allowed",
+    "1018": "Only one EventCode type is allowed in an XML transaction file",
+    "1019": "Sender is not authorized to submit an XML transaction file",
+    "1020": "Sender is not authorized to submit an API XML transaction",
+    "1021": "ReasonCode is not allowed",
+    "1022": "R# is not valid for this sender",
+    "1023": "Sender is not authorized for this Case_ID",
+    "1024": "Must be < current date",
+    "1025": "Invalid File Upload",
+    "1026": "XML Error",
+    "1027": "Internal processor error invoked by FTP",
+    "1028": "Missing data element or node",
+    "1029": "Duplicate Submission",
+    "1030": "Value exceeds maximum",
+    "1031": "Value less than minimum",
+    "1032": "Not Authorized",
+}
+
+
+# ── WCB Document Form Types ─────────────────────────────────────────────────
+WCB_DOCUMENT_FORMS = {
+    "AFF-1": "Affidavit for Death Benefits",
+    "BIRTH-CERT": "Birth Certificate",
+    "C-4.3": "Doctor's Report of MMI/Permanent Impairment",
+    "C-62": "Claim for Compensation in Death Case",
+    "C-64": "Proof of Death by Physician",
+    "C-65": "Proof of Burial and Funeral Expenses",
+    "C-257": "Claimant's Record of Medical-Travel Expenses",
+    "C-258": "Claimant's Record of Job Search",
+    "C-258.1": "Injured Worker's Record of Independent Job Search",
+    "DEATH-CERT": "Death Certificate",
+    "DEPOSITION": "Deposition",
+    "EXHIBIT": "Exhibit",
+    "MARR-CERT": "Marriage Certificate",
+    "MED-NARR": "Medical Narrative",
+    "OC-400.1": "Application for Fee",
+    "CORR": "Correspondence",
+    "CORR-EMB": "Correspondence (Embedded)",
+    "DISC-LAW-EMB": "Discontinued Lawsuit",
+    "FULL-SCHOOL-ENR-EMB": "Full Time School Enrollment",
+    "PAYSTUB-EMB": "Paystub(s)",
+    "PAYROLL-EMB": "Payroll Documents",
+    "REL-FROM-CUST-EMB": "Released From Custody",
+    "TAX-EMB": "Tax Document",
+    "IME-4": "Report of Independent Medical Examination",
+    "FROI-04": "First Report of Injury - Denial",
+    "SROI-04": "Subsequent Report of Injury - Denial",
+}
+
+
+# ── Finger / Toe / Side Location Codes ──────────────────────────────────────
+FINGER_CODES = {"F1": "Index", "F2": "Middle", "F3": "Ring", "F4": "Little"}
+TOE_CODES = {"T1": "1st", "T2": "2nd", "T3": "3rd", "T4": "4th (Little)"}
+SIDE_CODES = {"R": "Right", "L": "Left", "B": "Bilateral"}
+
+
+# ── Disability Designation Codes ─────────────────────────────────────────────
+DISABILITY_DESIGNATIONS = {
+    "HIA": "Held In Abeyance",
+    "NCLT": "No Compensable Lost Time",
+    "NLT": "No Lost Time",
+    "NME": "No Medical Evidence",
+    "ILT": "Intermittent Lost Time",
+    "PPD": "Permanent Partial Disability",
+    "TPD": "Temporary Partial Disability",
+    "TTD": "Temporary Total Disability",
+    "RE": "Reduced Earnings",
+    "TRE": "Tentative Reduced Earnings",
+    "TR": "Tentative Rate",
+}
+
+
+# ── AWW Calculation Methods ─────────────────────────────────────────────────
+AWW_METHODS = {
+    "FRSR": "Per First Report of Injury/Subsequent Report",
+    "P260": "Per payroll using 260 multiple",
+    "P300": "Per payroll using 300 multiple",
+    "P200": "Per payroll using 200 multiple",
+    "S260": "Per similar worker payroll using 260 multiple",
+    "S300": "Per similar worker payroll using 300 multiple",
+    "S200": "Per similar worker payroll using 200 multiple",
+    "OTHR": "Other",
+}
+
+
+# ── Legacy body-part-name-to-code lookup (maps names to WCB_BODY_PARTS keys)
+_BODY_PART_NAME_TO_CODE = {v["text"].lower(): k for k, v in WCB_BODY_PARTS.items()}
+# Add common aliases
+_BODY_PART_NAME_TO_CODE.update({
+    "cervical spine": "21",
+    "thoracic spine": "41",
+    "lumbar spine": "42",
+    "forearm": "33",
+    "finger": "36",
+    "fingers": "36",
+    "toe": "57",
+    "toes": "57",
+    "thigh": "52",
+    "groin": "61",
+})
+
+
+def _resolve_body_part_code(bp: dict) -> str:
+    """Resolve a body part dict to a WCB body part code string.
+
+    Accepts either a direct 'code' key or a 'name' key that gets looked up.
+    """
+    if bp.get("code") and bp["code"] in WCB_BODY_PARTS:
+        return bp["code"]
+    name = bp.get("name", "").lower().strip()
+    return _BODY_PART_NAME_TO_CODE.get(name, bp.get("code", "00"))
 
 
 def build_wcb_xml(data: dict) -> str:
@@ -203,7 +395,7 @@ def build_wcb_xml(data: dict) -> str:
             bp_container = ET.SubElement(apf, "AdditionalProposedFindingBodyParts")
             for idx, bp in enumerate(findings["body_parts"], 1):
                 bp_elem = ET.SubElement(bp_container, "AdditionalProposedFindingBodyPart", index=str(idx))
-                bp_code = BODY_PART_CODES.get(bp.get("name", "").lower(), bp.get("code", ""))
+                bp_code = _resolve_body_part_code(bp)
                 ET.SubElement(bp_elem, "AdditionalProposedFindingBodyPartCode").text = str(bp_code)
                 if bp.get("location"):
                     ET.SubElement(bp_elem, "AdditionalProposedFindingBodyPartLocationCode").text = bp["location"]  # L, R, B

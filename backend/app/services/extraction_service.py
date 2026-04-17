@@ -17,140 +17,33 @@ from app.config import get_settings
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Full RFA-2 Reason Codes reference
+# Full RFA-2 Reason Codes reference (all 20 WCB reason codes)
 # ---------------------------------------------------------------------------
 
 REASON_CODES: dict[str, dict[str, Any]] = {
-    "CPD": {
-        "description": "Controvert - Payor Denies Claim",
-        "sub_reasons": {
-            "CPD-1": "No causal relationship between injury and employment",
-            "CPD-2": "Pre-existing condition, not aggravated by employment",
-            "CPD-3": "Claimant was not an employee at time of injury",
-            "CPD-4": "Injury did not arise out of and in the course of employment",
-            "CPD-5": "No notice of injury given within 30 days",
-            "CPD-6": "Claim not filed within 2 years of accident",
-            "CPD-7": "Claimant was intoxicated or under influence of controlled substance",
-            "CPD-8": "Injury was willfully self-inflicted",
-            "CPD-9": "Other grounds for denial (specify in narrative)",
-        },
-        "required_documents": ["C-7_NOTICE", "IME_REPORT"],
-    },
-    "CPR": {
-        "description": "Controvert - Payor Requests Further Action",
-        "sub_reasons": {
-            "CPR-1": "Request for Independent Medical Examination (IME)",
-            "CPR-2": "Request for additional medical documentation",
-            "CPR-3": "Request for deposition of claimant",
-            "CPR-4": "Request for surveillance authorization",
-        },
-        "required_documents": ["C-7_NOTICE"],
-    },
-    "CPI": {
-        "description": "Controvert - Payor Issues Interim Payments",
-        "sub_reasons": {
-            "CPI-1": "Liability controverted but payments made without prejudice",
-            "CPI-2": "Partial controversion - specific body parts disputed",
-        },
-        "required_documents": ["C-7_NOTICE", "PAYMENT_RECORDS"],
-    },
-    "CPS": {
-        "description": "Controvert - Prior Section 32 Settlement",
-        "sub_reasons": {
-            "CPS-1": "Full Section 32 settlement previously approved",
-            "CPS-2": "Partial Section 32 settlement covers claimed body parts",
-        },
-        "required_documents": ["SECTION_32_AGREEMENT"],
-    },
-    "MCI": {
-        "description": "Maximum Certification of Improvement",
-        "sub_reasons": {
-            "MCI-SL": "Schedule Loss of Use determination",
-            "MCI-NS": "Non-schedule permanent disability classification",
-            "MCI-PTD": "Permanent total disability",
-            "MCI-PPD": "Permanent partial disability",
-            "MCI-TT": "Temporary total disability continuing",
-            "MCI-TP": "Temporary partial disability continuing",
-        },
-        "required_documents": ["IME_REPORT", "MMI_CERTIFICATION"],
-    },
-    "MOW": {
-        "description": "Modification of Award - Change in Degree of Disability",
-        "sub_reasons": {
-            "MOW-1": "Disability degree has decreased based on medical evidence",
-            "MOW-2": "Disability degree has increased based on medical evidence",
-            "MOW-3": "Disability classification has changed",
-        },
-        "required_documents": ["IME_REPORT", "C-4_AUTH"],
-    },
-    "MIA": {
-        "description": "Modification of Award - Inactive Case",
-        "sub_reasons": {
-            "MIA-1": "Claimant has not treated in over 12 months",
-            "MIA-2": "Claimant failed to appear for scheduled IME",
-            "MIA-3": "Claimant is not complying with prescribed treatment",
-        },
-        "required_documents": ["MEDICAL_RECORDS"],
-    },
-    "OER": {
-        "description": "Other - Employer Request for Hearing",
-        "sub_reasons": {
-            "OER-1": "Employer disputes lost time claimed",
-            "OER-2": "Employer has light duty work available",
-            "OER-3": "Employer disputes medical treatment necessity",
-        },
-        "required_documents": ["EMPLOYER_STATEMENT"],
-    },
-    "OIL": {
-        "description": "Other - Insurance Carrier Requests Limitation",
-        "sub_reasons": {
-            "OIL-1": "Request to limit duration of benefits",
-            "OIL-2": "Request to limit scope of covered treatment",
-        },
-        "required_documents": ["IME_REPORT", "MEDICAL_RECORDS"],
-    },
-    "ORD": {
-        "description": "Other - Request for Direction from Board",
-        "sub_reasons": {
-            "ORD-1": "Dispute between treating physician and IME physician",
-            "ORD-2": "Request for Board-directed IME",
-            "ORD-3": "Request for resolution of procedural dispute",
-        },
-        "required_documents": ["MEDICAL_RECORDS"],
-    },
-    "OID": {
-        "description": "Other - Insurance Carrier Dispute",
-        "sub_reasons": {
-            "OID-1": "Dispute regarding apportionment of liability",
-            "OID-2": "Dispute regarding coverage or policy applicability",
-        },
-        "required_documents": ["POLICY_DOCUMENTS"],
-    },
-    "OCD": {
-        "description": "Other - Claimant Dispute",
-        "sub_reasons": {
-            "OCD-1": "Claimant disputes disability classification",
-            "OCD-2": "Claimant disputes degree of disability",
-            "OCD-3": "Claimant disputes apportionment",
-        },
-        "required_documents": ["MEDICAL_RECORDS", "C-4_AUTH"],
-    },
-    "OUI": {
-        "description": "Other - Uninsured Employer",
-        "sub_reasons": {
-            "OUI-1": "Employer failed to secure workers' compensation coverage",
-        },
-        "required_documents": ["EMPLOYER_RECORDS", "UEF_REFERRAL"],
-    },
-    "OIW": {
-        "description": "Other - Injured Worker Request",
-        "sub_reasons": {
-            "OIW-1": "Injured worker requests hearing",
-            "OIW-2": "Injured worker requests change of physician",
-            "OIW-3": "Injured worker disputes employer offer of light duty",
-        },
-        "required_documents": ["CLAIMANT_STATEMENT"],
-    },
+    # Compensation
+    "CNW": {"name": "Claimant Not Working", "category": "C", "description": "Claimant is not working and not receiving payments", "required_docs": ["Medical Documentation"]},
+    "CVW": {"name": "Volunteer Firefighter/Ambulance Worker", "category": "C", "description": "Volunteer firefighter/ambulance worker compensation", "required_docs": ["Medical Documentation"]},
+    "CNP": {"name": "Claimant Not Paid Properly", "category": "C", "description": "Claimant has not been paid properly", "required_docs": ["Medical Documentation"]},
+    "CAN": {"name": "Conciliation Request", "category": "C", "description": "Claimant, Attorney, or Licensed Rep requests conciliation", "required_docs": []},
+    "CAW": {"name": "Payment Adjustment (AWW)", "category": "C", "description": "Payments need to be adjusted based on Average Weekly Wage", "required_docs": ["Medical Documentation", "Wage/Payroll Documentation"]},
+    "CCE": {"name": "Concurrent Employment", "category": "C", "description": "Claimant has concurrent employment", "required_docs": ["Medical Documentation", "Wage/Payroll Documentation"]},
+    "CRE": {"name": "Reduced Earnings", "category": "C", "description": "Claimant is entitled to reduced earnings benefits", "required_docs": ["Medical Documentation", "Wage/Payroll Documentation"]},
+    "CRI": {"name": "Convicted/Released", "category": "C", "description": "Claimant was convicted and has been released from custody", "required_docs": ["Medical Documentation", "Release from Custody Documentation"]},
+    # Medical
+    "MBC": {"name": "Body Parts/Conditions", "category": "M", "description": "Claimant has raised body part(s)/condition(s)", "required_docs": ["Medical Documentation"]},
+    "MPI": {"name": "PAR Denied (Insurer)", "category": "M", "description": "Prior Authorization Request was denied by insurer", "required_docs": []},
+    "MPM": {"name": "PAR Denied (Medical Director)", "category": "M", "description": "Prior Authorization Request was denied by medical director", "required_docs": []},
+    "MCI": {"name": "Maximum Medical Improvement", "category": "M", "description": "Claimant is at maximum medical improvement", "required_docs": ["Medical Documentation", "C-4.3 Doctor's Report of MMI"]},
+    "MTR": {"name": "Medical & Transportation", "category": "M", "description": "Medical and transportation reimbursement request", "required_docs": ["Medical Documentation"]},
+    "MCC": {"name": "Change in Condition", "category": "M", "description": "Claimant is classified and has a change in condition", "required_docs": ["Medical Documentation"]},
+    "MAN": {"name": "Insurer PAR Response", "category": "M", "description": "The insurer has denied, granted in part, or not responded to PAR", "required_docs": ["Medical Documentation"]},
+    # Other
+    "OCC": {"name": "Controverted Claim", "category": "O", "description": "Claim is controverted and claimant did not file", "required_docs": ["Legal Documentation"]},
+    "OCD": {"name": "Discontinued/Settled Lawsuit", "category": "O", "description": "Claimant has discontinued or settled a lawsuit", "required_docs": ["Legal Documentation"]},
+    "ORP": {"name": "Report Preclusion", "category": "O", "description": "Request preclusion of medical report(s)", "required_docs": ["Medical Documentation"]},
+    "OEI": {"name": "Update Employer/Insurer/TPA", "category": "O", "description": "Request to update employer, insurer, or TPA information", "required_docs": []},
+    "OUI": {"name": "Death Case Issues", "category": "O", "description": "New or unresolved issues related to a death case", "required_docs": ["Legal Documentation"]},
 }
 
 
@@ -180,20 +73,32 @@ Your task is to extract structured data needed for an RFA-2 (Request for Further
 to the NYS Workers' Compensation Board.
 
 REASON CODES (select all that apply):
-- CPD: Controvert - Payor Denies Claim (9 sub-reasons: denial grounds)
-- CPR: Controvert - Payor Requests Further Action
-- CPI: Controvert - Payor Issues Interim Payments
-- CPS: Controvert - Prior Section 32 Settlement
-- MCI: Maximum Certification of Improvement (disability classification)
-- MOW: Modification of Award - Change in Degree
-- MIA: Modification of Award - Inactive Case
-- OER: Other - Employer Request for Hearing
-- OIL: Other - Insurance Carrier Requests Limitation
-- ORD: Other - Request for Direction from Board
-- OID: Other - Insurance Carrier Dispute
-- OCD: Other - Claimant Dispute
-- OUI: Other - Uninsured Employer
-- OIW: Other - Injured Worker Request
+
+Compensation:
+- CNW: Claimant Not Working — Claimant is not working and not receiving payments
+- CVW: Volunteer Firefighter/Ambulance Worker — Volunteer firefighter/ambulance worker compensation
+- CNP: Claimant Not Paid Properly — Claimant has not been paid properly
+- CAN: Conciliation Request — Claimant, Attorney, or Licensed Rep requests conciliation
+- CAW: Payment Adjustment (AWW) — Payments need to be adjusted based on Average Weekly Wage
+- CCE: Concurrent Employment — Claimant has concurrent employment
+- CRE: Reduced Earnings — Claimant is entitled to reduced earnings benefits
+- CRI: Convicted/Released — Claimant was convicted and has been released from custody
+
+Medical:
+- MBC: Body Parts/Conditions — Claimant has raised body part(s)/condition(s)
+- MPI: PAR Denied (Insurer) — Prior Authorization Request was denied by insurer
+- MPM: PAR Denied (Medical Director) — Prior Authorization Request was denied by medical director
+- MCI: Maximum Medical Improvement — Claimant is at maximum medical improvement
+- MTR: Medical & Transportation — Medical and transportation reimbursement request
+- MCC: Change in Condition — Claimant is classified and has a change in condition
+- MAN: Insurer PAR Response — The insurer has denied, granted in part, or not responded to PAR
+
+Other:
+- OCC: Controverted Claim — Claim is controverted and claimant did not file
+- OCD: Discontinued/Settled Lawsuit — Claimant has discontinued or settled a lawsuit
+- ORP: Report Preclusion — Request preclusion of medical report(s)
+- OEI: Update Employer/Insurer/TPA — Request to update employer, insurer, or TPA information
+- OUI: Death Case Issues — New or unresolved issues related to a death case
 
 For MCI cases, extract:
 - MMI (Maximum Medical Improvement) date
@@ -216,7 +121,7 @@ Return a JSON object with these exact keys:
   "reason_codes": [
     {{
       "code": "MCI",
-      "sub_reason": "MCI-SL",
+      "sub_reason": null,
       "justification": "Brief explanation of why this code applies"
     }}
   ],
@@ -379,7 +284,7 @@ def _normalize(extracted: dict) -> dict:
     for rc in extracted["reason_codes"]:
         code = rc.get("code", "")
         if code in REASON_CODES:
-            for doc in REASON_CODES[code].get("required_documents", []):
+            for doc in REASON_CODES[code].get("required_docs", []):
                 all_required.add(doc)
 
     existing_missing = set(extracted["missing_documents"])
