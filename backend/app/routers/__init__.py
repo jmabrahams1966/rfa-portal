@@ -5,6 +5,7 @@ from .submissions import router as submissions_router
 from .documents import router as documents_router
 from .dashboard import router as dashboard_router
 from .onboarding import router as onboarding_router
+from .enterprise import router as enterprise_router
 
 all_routers = [
     auth_router,
@@ -13,4 +14,5 @@ all_routers = [
     documents_router,
     dashboard_router,
     onboarding_router,
+    enterprise_router,
 ]

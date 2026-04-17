@@ -209,3 +209,150 @@ class RFAAuditLog(Base):
         Index("ix_rfa_audit_logs_user_id", "user_id"),
         Index("ix_rfa_audit_logs_action", "action"),
     )
+
+
+# ---------------------------------------------------------------------------
+# RFA Case Assignment (Team Workflow)
+# ---------------------------------------------------------------------------
+class RFACaseAssignment(Base):
+    __tablename__ = "rfa_case_assignments"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    case_id = Column(UUID(as_uuid=True), ForeignKey("rfa_cases.id"), nullable=False)
+    org_id = Column(UUID(as_uuid=True), ForeignKey("rfa_organizations.id"), nullable=False)
+    assigned_to = Column(UUID(as_uuid=True), ForeignKey("rfa_users.id"), nullable=False)
+    assigned_by = Column(UUID(as_uuid=True), ForeignKey("rfa_users.id"), nullable=False)
+    assigned_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+    status = Column(String(50), nullable=False, default="active")  # active / completed / reassigned
+
+    __table_args__ = (
+        Index("ix_rfa_case_assignments_case_id", "case_id"),
+        Index("ix_rfa_case_assignments_org_id", "org_id"),
+        Index("ix_rfa_case_assignments_assigned_to", "assigned_to"),
+    )
+
+
+# ---------------------------------------------------------------------------
+# RFA Hearing (WCB Status Tracking)
+# ---------------------------------------------------------------------------
+class RFAHearing(Base):
+    __tablename__ = "rfa_hearings"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    case_id = Column(UUID(as_uuid=True), ForeignKey("rfa_cases.id"), nullable=False)
+    org_id = Column(UUID(as_uuid=True), ForeignKey("rfa_organizations.id"), nullable=False)
+    submission_id = Column(UUID(as_uuid=True), ForeignKey("rfa_submissions.id"), nullable=True)
+    hearing_date = Column(DateTime(timezone=True), nullable=True)
+    hearing_type = Column(String(100), nullable=True)
+    location = Column(String(255), nullable=True)
+    judge_name = Column(String(255), nullable=True)
+    status = Column(String(50), nullable=False, default="scheduled")  # scheduled / completed / adjourned / cancelled
+    notes = Column(Text, nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    __table_args__ = (
+        Index("ix_rfa_hearings_case_id", "case_id"),
+        Index("ix_rfa_hearings_org_id", "org_id"),
+        Index("ix_rfa_hearings_hearing_date", "hearing_date"),
+    )
+
+
+# ---------------------------------------------------------------------------
+# RFA Task (Follow-up Tasks)
+# ---------------------------------------------------------------------------
+class RFATask(Base):
+    __tablename__ = "rfa_tasks"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    case_id = Column(UUID(as_uuid=True), ForeignKey("rfa_cases.id"), nullable=False)
+    org_id = Column(UUID(as_uuid=True), ForeignKey("rfa_organizations.id"), nullable=False)
+    assigned_to = Column(UUID(as_uuid=True), ForeignKey("rfa_users.id"), nullable=True)
+    task_type = Column(String(100), nullable=False)  # prepare_hearing / respond_objection / file_followup / deadline_approaching
+    title = Column(String(500), nullable=False)
+    description = Column(Text, nullable=True)
+    due_date = Column(Date, nullable=True)
+    priority = Column(String(50), nullable=False, default="medium")  # low / medium / high / urgent
+    status = Column(String(50), nullable=False, default="pending")  # pending / in_progress / completed
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    __table_args__ = (
+        Index("ix_rfa_tasks_case_id", "case_id"),
+        Index("ix_rfa_tasks_org_id", "org_id"),
+        Index("ix_rfa_tasks_assigned_to", "assigned_to"),
+        Index("ix_rfa_tasks_due_date", "due_date"),
+        Index("ix_rfa_tasks_status", "status"),
+    )
+
+
+# ---------------------------------------------------------------------------
+# RFA Deadline (Deadline Engine)
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# RFA Narrative Pattern (Narrative AI Optimization)
+# ---------------------------------------------------------------------------
+class RFANarrativePattern(Base):
+    __tablename__ = "rfa_narrative_patterns"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    org_id = Column(UUID(as_uuid=True), nullable=True)
+    reason_code = Column(String(50), nullable=False)
+    district = Column(String(100), nullable=False)
+    pattern_text = Column(Text, nullable=False)
+    success_count = Column(Integer, nullable=False, default=0)
+    failure_count = Column(Integer, nullable=False, default=0)
+    effectiveness_rate = Column(String(20), nullable=True)
+    last_used = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    __table_args__ = (
+        Index("ix_rfa_narrative_patterns_reason_district", "reason_code", "district"),
+        Index("ix_rfa_narrative_patterns_org_id", "org_id"),
+    )
+
+
+# ---------------------------------------------------------------------------
+# RFA Attorney Profile (Attorney Intelligence)
+# ---------------------------------------------------------------------------
+class RFAAttorneyProfile(Base):
+    __tablename__ = "rfa_attorney_profiles"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    attorney_name = Column(String(255), unique=True, nullable=False)
+    total_cases = Column(Integer, nullable=False, default=0)
+    objection_rate = Column(String(20), nullable=True)
+    settlement_rate = Column(String(20), nullable=True)
+    avg_days_to_resolution = Column(String(20), nullable=True)
+    common_objections = Column(JSON, nullable=True)
+    districts_active = Column(JSON, nullable=True)
+    last_updated = Column(DateTime(timezone=True), nullable=True)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    __table_args__ = (
+        Index("ix_rfa_attorney_profiles_name", "attorney_name"),
+    )
+
+
+# ---------------------------------------------------------------------------
+# RFA Deadline (Deadline Engine)
+# ---------------------------------------------------------------------------
+class RFADeadline(Base):
+    __tablename__ = "rfa_deadlines"
+
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    case_id = Column(UUID(as_uuid=True), ForeignKey("rfa_cases.id"), nullable=False)
+    org_id = Column(UUID(as_uuid=True), ForeignKey("rfa_organizations.id"), nullable=False)
+    submission_id = Column(UUID(as_uuid=True), ForeignKey("rfa_submissions.id"), nullable=True)
+    deadline_type = Column(String(100), nullable=False)
+    trigger_event = Column(String(255), nullable=False)
+    trigger_date = Column(Date, nullable=False)
+    due_date = Column(Date, nullable=False)
+    status = Column(String(50), nullable=False, default="upcoming")  # upcoming / due_soon / overdue / met / missed
+    alert_sent = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    __table_args__ = (
+        Index("ix_rfa_deadlines_case_id", "case_id"),
+        Index("ix_rfa_deadlines_org_id", "org_id"),
+        Index("ix_rfa_deadlines_due_date", "due_date"),
+        Index("ix_rfa_deadlines_status", "status"),
+    )
