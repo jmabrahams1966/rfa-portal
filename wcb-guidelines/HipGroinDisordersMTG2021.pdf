@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: http://ogp.me/ns#">
+    <head>
+        
+        <title>New York State Workers' Compensation Board - Page Not Found</title>
+        
+        <meta name="Description" content="New York State Workers' Compensation Board - Page Not Found" />
+        <meta name="Keywords" content="Page Not Found, 404, error page" />
+        
+        
+
+
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-WKHNWQL');</script>
+<!-- End Google Tag Manager -->
+
+
+<!-- Siteimprove Analytics Code -->
+<script async src="https://siteimproveanalytics.com/js/siteanalyze_6072343.js"></script>
+<!-- End Siteimprove Analytics Code -->
+	
+	
+	
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width" />
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<link rel="icon" href="/new-site/images/icons/icon-196x196.png">
+
+
+<!-- SMARTLING -->
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="/smartling/switcher/css/language.css" rel="stylesheet" type="text/css"/>
+<link href="/smartling/switcher/fonts/fontawesome/css/all.css" rel="stylesheet" type="text/css"/>
+<link href="/smartling/switcher/fonts/icomoon/style.css" rel="stylesheet" type="text/css"/>
+
+<!-- /SMARTLING -->
+
+
+<!-- NEW DESIGN, SHARED CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha384-t1nt8BQoYMLFN5p42tRAtuAAFQaCQODekUVeKKZrEnEyp4H2R0RHFz0KWpmj7i8g" crossorigin="anonymous">   
+<link type="text/css" rel="stylesheet" href="/new-design/css/fonts.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/base.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/landing-page-fixes.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/dovetail.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/u-navigation-updates.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/g-navigation-updates_2.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/g-footer-updates.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/module_alert.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/module_language.css" media="all" />
+<link type="text/css" rel="stylesheet" href="/new-design/css/new-design-print.css" media="print" />
+<!-- /NEW DESIGN, SHARED CSS -->
+
+
+<!-- js -->
+<style type="text/css" id="antiClickjack">body{display:none !important;}</style>
+
+<script type="text/javascript">
+    if (self === top) {
+        var antiClickjack = document.getElementById("antiClickjack");
+        antiClickjack.parentNode.removeChild(antiClickjack);
+    } else {
+        top.location = self.location;
+    }
+</script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-J2HWDX066S"></script>
+
+<script type="text/javascript">
+    var url = window.location.href;
+    var split1 = url.split('//')[1]; // Get the string except the protocol.
+    var split2 = split1.split('/')[0]; // Get the domain url.
+    var domain = split2;
+    
+    if (split2.substring(0, 4) == 'www.') {
+        domain = split2.slice(4);
+    }
+    
+    if (domain == 'wcb.ny.gov') {
+        //console.log('tracking ON');
+        
+        <!-- Google Analytics code -->
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-27954169-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function() {
+            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+        <!-- END Google Analytics code -->
+        
+        <!-- GA4 code -->
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'G-J2HWDX066S');
+        <!-- END GA4 code -->
+    } else {
+        //console.log('tracking OFF');
+    }
+</script>
+        
+        <link href="/new-site/css/basic-page.css" rel="stylesheet" type="text/css" />
+<!-- custom css -->
+
+<link type="text/css" rel="stylesheet" href="/CSS/new-table.css" media="all" />
+
+<!-- END custom css -->
+    </head>
+    <body>
+        
+<!--googleoff: all-->
+
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WKHNWQL"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<div class="skiptoContent"><a href="#mainContent" tabindex="1">Skip to main content</a></div>
+
+<!-- NYS UNAV HEADER -->
+<!-- PROD -->
+<div id="nygov-universal-navigation" class="nygov-universal-container" data-iframe="true" data-updated="2024-08-26 12:00">
+  <script type="text/javascript">
+    var _NY = {
+      HOST: "static-assets.ny.gov",
+      BASE_HOST: "www.ny.gov", // Deprecated
+      hideSettings: true, // Deprecated
+      hideSearch: true,
+      showLanguageHeader: false,
+      showLanguageFooter: false,
+    };
+    (function (document, bundle, head) {
+        head = document.getElementsByTagName('head')[0];
+        bundle = document.createElement('script');
+        bundle.type = 'text/javascript';
+        bundle.async = true;
+        bundle.src = "//static-assets.ny.gov/sites/all/widgets/universal-navigation/js/dist/global-nav-bundle.js";
+        head.appendChild(bundle);
+    }(document)); 
+  </script>
+</div>
+
+<header role="banner">
+	<nav class="module_global-navigation" aria-label="primary-site">
+		<div class="agency-name">
+			<h1><a href="/">Workers&rsquo; Compensation Board</a></h1>
+		</div>
+		<div id="onlineServiceLogin" class="login-menu">
+			<form name="logIn" action="/">
+				<select id="AccessLogIn" name="AccessLogIn" aria-label="online services">
+					<option value="#skip" selected="selected">Select an Online Service</option>
+					<option value="https://edi.wcb.ny.gov/">Download Claim Notices</option>
+					<option value="/eCase/">eCase</option>
+					<option value="/OnlineAdmin/bridge.jsp">eCase Administrators</option>
+					<option value="/OnlineAdmin/eclaimsBridge.jsp">eClaims Administrators</option>
+					<option value="/eclaimsweb/faces/search.xhtml">eClaims Data Entry</option>
+					<option value="/eclaimsinquiry/search.xhtml">eClaims Inquiry</option>
+					<option value="/icinquiry/index.jsp">IC Inquiry</option>
+					<option value="/MedPortal/">Medical Portal</option>
+					<option value="/OnlineAdmin/medauthBridge.jsp">Medical Portal Administrators</option>
+					<option value="/eclaimsinquiry/payor/">Payer Compliance</option>
+					<option value="/icpocdb/userinterface/index.htm">Proof of Coverage-DB/PFL</option>
+					<option value="/icpoc/userinterface/index.jsp">Proof of Coverage-WC</option>
+					<option value="/authforms/jsp/webformsearch.jsp">Submit Claim Forms</option>
+					<option value="https://vhc.wcb.ny.gov/">Virtual Hearings</option>
+				</select>
+				<i class="fas fa-angle-down"></i>
+				<input id="onlineServiceLoginButton" type="button" name="Button1" value="Log In" onclick="MM_jumpMenuGo('AccessLogIn','parent',0)" onkeypress="MM_jumpMenuGo('AccessLogIn','parent',0)" />
+			</form>
+		</div>
+		<div class="nav-toggle">
+			<a href="#" role="button" id="nys-menu-control"><span class="iconText">Navigation menu</span></a>
+		</div>
+		<div class="search-toggle">
+			<a href="#" role="button" id="search-menu-control"><span class="iconText">Search menu</span></a>
+		</div>
+		<div class="nav-items-menu">
+			<ul id="nys-global-nav">
+				<li aria-expanded="false"><a class="hasSubMenu" href="/content/main/Workers/Workers.jsp">Workers</a>
+					<ul aria-hidden="true">
+						<li class="top-level"><a href="/content/main/Workers/Workers.jsp">Workers</a></li>
+						<li><a href="/content/main/Workers/lp_workers-comp.jsp">Workers&rsquo; Compensation</a></li>
+						<li><a href="/content/main/DisabilityBenefits/employee-disability-benefits.jsp">Disability Benefits</a></li>
+						<li><a href="/content/main/vf-vaw/lp_volunteers-responders.jsp">Volunteers and Responders</a></li>
+						<li><a href="https://paidfamilyleave.ny.gov/" title="NYS Paid Family Leave - opens in new browser tab" target="_blank">Paid Family Leave<i class="fas fa-external-link-alt"></i></a></li>
+					</ul>
+				</li>
+				<li aria-expanded="false"><a class="hasSubMenu" href="/content/main/Employers/Employers.jsp">Employers</a>
+					<ul aria-hidden="true">
+						<li class="top-level"><a href="/content/main/Employers/Employers.jsp">Employers</a></li>
+						<li><a href="/content/main/Employers/lp_workers-compensation.jsp">Workers&rsquo; Compensation</a></li>
+						<li><a href="/content/main/DisabilityBenefits/lp_disability-benefits.jsp">Disability Benefits</a></li>
+						<li><a href="/content/main/Employers/lp_permits-licenses-contracts.jsp">Permits/Licenses/Contracts</a></li>
+						<li><a href="/content/main/Employers/lp_out-of-state-employers.jsp">Out-of-State Employers</a></li>
+						<li><a href="/content/ebiz/icempcovsearch/icempcovsearch_overview.jsp">Does Employer Have Coverage?</a></li>
+						<li><a href="/content/main/SelfInsureds/Self_Ins_Employers.jsp">Self-Insured Employers</a></li>
+					</ul>
+				</li>
+				<li aria-expanded="false"><a class="hasSubMenu" href="/content/main/hcpp/hcpp.jsp">Providers</a>
+					<ul aria-hidden="true">
+						<li class="top-level"><a href="/content/main/hcpp/hcpp.jsp">Providers</a></li>
+						<li><a href="/content/main/hcpp/AuthAppWebLinkInfo.jsp">Become a Board-Authorized Provider</a></li>
+						<li><a href="/content/main/hcpp/what-providers-need-to-know.jsp">Provider Updates</a></li>
+						<li><a href="/content/main/hcpp/who-can-treat.jsp">Who Can Treat</a></li>
+						<li><a href="/health-care-provider-search/">Find a Provider</a></li>
+					</ul>
+				</li>				
+				<li aria-expanded="false"><a class="hasSubMenu" href="/content/main/insurers/lp_payers.jsp">Payers</a>
+					<ul aria-hidden="true">
+						<li class="top-level"><a href="/content/main/insurers/lp_payers.jsp">Payers</a></li>
+						<li><a href="/content/main/insurers/insurers.jsp">Insurers</a></li>
+						<li><a href="/content/main/SelfInsureds/Self_Ins_Employers.jsp">Self-Insured Employers</a></li>
+						<li><a href="/content/main/TPA/ThirdPartyAdministrators.jsp">Third-Party Administrators</a></li>
+						<li><a href="/content/main/insurers/workers-compensation-claim-resources.jsp">Workers&rsquo; Compensation Resources for Claims Administrators</a></li>
+						<li><a href="/content/ebiz/eclaims/eclaims_overview.jsp">eClaims</a></li>
+						<li><a href="/content/main/Monitoring/Overview.jsp">Monitoring and Compliance</a></li>
+						<li><a href="/content/main/insurers/insurer-id.jsp">Insurer ID (W Number)</a></li>
+					</ul>
+				</li>
+				<li><a href="/content/main/Reps/Representatives.jsp">Representatives</a></li>
+				<li aria-expanded="false"><a class="hasSubMenu" href="/content/main/TheBoard/InfoAbout.jsp">About the Board</a>
+					<ul aria-hidden="true">
+						<li class="top-level"><a href="/content/main/TheBoard/InfoAbout.jsp">About the Board</a></li>
+						<li><a href="/content/main/DistrictOffices/MainPage.jsp">Locations</a></li>
+						<li><a href="/content/main/TheBoard/Translations/language-access-policy.jsp">Language Access</a></li>
+						<li><a href="/careers/">Careers</a></li>
+						<li><a href="/content/main/TheBoard/BrdAnnouncements.jsp">Board Announcements</a></li>
+						<li><a href="/content/main/SubjectNos/subjectNos.jsp">Subject Numbers &amp; Bulletins</a></li>
+						<li><a href="/content/main/regulations/">Regulations</a></li>
+						<li><a href="/content/main/TheBoard/CommissionersBios.jsp">Board Members</a></li>
+						<li><a href="/content/main/TheBoard/BoardMeetings.jsp">Board Meetings</a></li>
+						<li><a href="/content/accessibility.jsp">Accessibility</a></li>
+						<li><a href="/content/accessibility.jsp#reasonable-accommodations">Reasonable Accommodation</a></li>
+						<li><a href="/content/main/Contact.jsp">Contact the Board</a></li>
+					</ul>
+				</li>
+				<li><a href="/content/main/Forms.jsp">Forms</a></li>
+				<li><a href="/onboard/eforms/">eForms</a></li>
+				<li><a href="https://paidfamilyleave.ny.gov/" title="NYS Paid Family Leave - opens in new browser tab"  target="_blank">Paid Family Leave<i class="fas fa-external-link-alt"></i></a></li>
+			</ul>
+		</div>
+		<div id="searchForm" class="close">
+			<form name="search" method="get" action="https://search.ny.gov/search/" target="_top" >
+				<!--<label for="q" class="hidden">Search this site for:</label>-->
+				<div class="large-12 medium-12 small-12 columns search-field-padding">
+					<input class="search-field" type="text" aria-label="Search" name="q" id="q" maxlength="255" placeholder="Search WCB" value="" /><span class="fi-magnifying-glass search-icon"></span>
+				</div>
+				<input class="button search-button hidden" type="submit" name="Submit" value="Search WCB" />
+				<input type="hidden" name="client" value="wcb_frontend" />
+				<input type="hidden" name="output" value="xml_no_dtd" />
+				<input type="hidden" name="proxystylesheet" value="wcb_frontend" />
+				<input type="hidden" name="sort" value="date:D:L:d1" />
+				<input type="hidden" name="wc" value="200" />
+				<input type="hidden" name="wc_mc" value="1" />
+				<input type="hidden" name="oe" value="UTF-8" />
+				<input type="hidden" name="ie" value="UTF-8" />
+				<input type="hidden" name="ud" value="1" />
+				<input type="hidden" name="exclude_apps" value="1" />
+				<input type="hidden" name="site" value="wcb_collection" />
+			</form>
+		</div>
+	</nav>
+</header>
+<!--
+<div id="alert" class="module_alert">
+	<div class="icon">
+		<i class="fas fa-exclamation-triangle"></i>
+	</div>
+	<div class="message">
+		<p></p>
+	</div>
+</div>
+-->
+
+<div class="module_alert alt">
+    <!--<div class="icon">
+        <div class="icon-image"></div>
+    </div>-->
+    <div class="icon"></div>
+    <div class="message">
+        <!--<p>Reminder: <a href="/CMS-1500/"><em>CMS-1500</em> electronic submission is mandatory</a></p>-->
+        <p>Learn about <a href="/sots-universalauthorization/">Governor Hochul's proposal to increase injured workers' access to medical care</a></a></p>
+    </div>
+</div>
+
+
+<!-- There must be a space or newline before the googleon tag. See: https://support.google.com/gsa/answer/6329153?hl=en -->
+
+<!--googleon: all-->
+
+        <div class="basic-page" id="mainContent">
+            <div class="hero">
+                <h1>Page Not Found</h1>
+            </div>
+            <div name="mainContent"></div>
+            <div id="content">
+<!-- //////////////////////////////////////// -->
+
+
+<div class="no-content-heading"></div>
+
+<p><strong>Our apologies, the page you requested is not available.</strong></p>
+<ul>
+    <li>The link or bookmark that you used may have changed.</li>
+    <li>If you typed the address (URL) yourself, please make sure the spelling is correct.</li>
+    <li>You can try <a href="https://search.ny.gov/search/search.html?q=%20&site=wcb_collection">searching the site</a> for the content you're looking for.</li>
+    <li>You may be trying to access this page during a <a href="/availability/availability.jsp" title="Scheduled Down Times for Online Services">scheduled maintenance period</a>, please try again later.</li>
+    <li>To return to the previous page, use your browser's &quot;back&quot; button.</li>
+</ul>
+
+<hr>
+
+<p>If this problem should persist, please contact the WCB Webmaster:</p>
+<table class="new-table" summary="How to Contact the Board's Help Desk">	 
+    <tbody>
+        <tr> 
+            <td scope="row" valign="top">E-mail:</td>
+            <td valign="top"><a href="mailto:wcbwebmaster@wcb.ny.gov">wcbwebmaster@wcb.ny.gov</a></td>
+        </tr>
+    </tbody>
+</table>
+
+
+<!-- //////////////////////////////////////// -->
+            </div><!-- END #content -->
+        </div><!-- END .basic-page -->
+        
+<!--googleoff: all-->
+
+<nav class="nys-global-footer">
+    <div class="footer-container">
+        <h1><a href="/">Workers&rsquo; Compensation Board</a></h1>
+        <div class="footer-cols">
+            <div class="footer-col first">
+                <h2>About WCB</h2>
+                <ul>
+                    <li><a href="/content/main/TheBoard/InfoAbout.jsp">About the Board</a></li>
+                    <li><a href="/careers/">Careers</a></li>
+                    <li><a href="/content/main/Contact.jsp">Contact the Board</a></li>
+                    <li><a href="/content/main/DistrictOffices/MainPage.jsp">Locations</a></li>
+                    <li><a href="/content/main/regulations/">Regulations</a></li>
+                    <li><a href="/foil/">FOIL Requests</a></li>
+                    <li><a href="/content/main/TheBoard/frequently-requested-data.jsp">Frequently Requested Data</a></li>
+                    <li><a href="/content/main/TheBoard/BoardMeetings.jsp">Board Meeting Dates</a></li>
+                    <li><a href="/content/main/TheBoard/glossary.jsp">Glossary of Terms</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>Forms &amp; Services</h2>
+                <ul>
+                    <li><a href="https://ig.ny.gov/offices/workerscompensationfraudinspectorgeneral">Report Fraud<i class="fas fa-external-link-alt"></i></a></li>
+                    <li><a href="/content/main/Forms.jsp">Forms</a></li>
+                    <li><a href="/content/ebiz/OnlineServices.jsp">Online Services</a></li>
+                    <li><a href="/availability/availability.jsp">Online Services Availability</a></li>
+                    <li><a href="/content/ebiz/information/contact_wcb.jsp">Technical Support</a></li>
+                    <li><a href="https://get.adobe.com/reader/">Download Acrobat Reader<i class="fas fa-external-link-alt"></i></a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>Communications</h2>
+                <ul>
+                    <li><a href="/content/main/TheBoard/BrdAnnouncements.jsp">Board Announcements</a></li>
+                    <li><a href="/content/main/TheBoard/efficiency-enhancements.jsp">Efficiency Enhancements</a></li>
+                    <li><a href="/content/main/SubjectNos/subjectNos.jsp">Bulletins &amp; Subject Numbers</a></li>
+                    <li><a href="/content/main/communication-guidelines.jsp">Communication Guidelines</a></li>
+                    <li><a href="/content/main/PressRe/PressReleases.jsp">Press Releases</a></li>
+                    <li><a href="/content/main/TheBoard/publications.jsp">Publications</a></li>
+                    <!--<li><a href="/content/WCB_Calendar.jsp">Upcoming Events</a></li>-->
+                    <li><a href="/webinars/">Upcoming Webinars</a></li>
+                    <li><a href="/webinars/recorded-webinars.jsp">Recorded Webinars</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>Initiatives</h2>
+                <ul>
+                    <li><a href="/onboard/">OnBoard</a></li>
+                    <li><a href="/procurements.jsp">Procurements</a></li>
+                    <li><a href="/content/main/TheBoard/ProjectSunlight.jsp">Project Sunlight</a></li>
+                    <li><a href="https://www.governor.ny.gov/sites/default/files/2021-10/WorkersCompensation_TransparencyPlan.pdf" target="_blank">Government Transparency 2021: WCB Plan<i class="fas fa-external-link-alt"></i></a></li>
+					<li><a href="/sots-universalauthorization/">2026 SOTS Proposal: Universal Authorization</a></li>
+                    <li><a href="/sots-fightfraud/">2026 SOTS Proposal: Fighting Fraud</a></li>
+					
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h2>Policies &amp; Website</h2>
+                <ul>
+                    <li><a href="/privacy-policies.jsp">Privacy Policies</a></li>
+                    <li><a href="/content/accessibility.jsp">Accessibility</a></li>
+                    <li><a href="/content/accessibility.jsp#reasonable-accommodations">Reasonable Accommodation</a></li>
+                    <li><a href="/content/main/TheBoard/Translations/language-access-policy.jsp">Language Access</a></li>
+                    <li><a href="mailto:wcbwebmaster@wcb.ny.gov?subject=Website%20Feedback">Contact Webmaster</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="social-media">
+            <div class="social-media-title">
+                <h2>CONNECT WITH US</h2>
+            </div>
+            <div class="social-media-links">
+                <ul>
+                    <li>
+                        <a href="https://www.facebook.com/NYSWCB/" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>FACEBOOK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://twitter.com/NYSWorkersComp" target="_blank">
+                            <i class="fab fa-x-twitter"></i>
+                            <span>X</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/company/new-york-state-workers-compensation-board/" target="_blank">
+                            <i class="fab fa-linkedin-in"></i>
+                            <span>LINKEDIN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.instagram.com/nysworkerscompboard/" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>INSTAGRAM</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.youtube.com/c/newyorkstateworkerscompensationboard" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <span>YOUTUBE</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://public.govdelivery.com/accounts/NYWCB/subscriber/new" target="_blank">
+                            <i class="fas fa-envelope"></i>
+                            <span>GET WCB NOTIFICATIONS</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- uNav interactive footer -->
+<div id="nygov-universal-footer" class="nygov-universal-container"></div>
+<!-- end uNav interactive footer -->
+
+<!-- js for agency global navigation "v3" -->
+<script src="/agency_global_navigation_v3/js/nys-global-nav-header.js"></script>
+<!--[if lte IE 8]><script src="/agency_global_navigation_v3/js/respond.min.js"></script><![endif]-->
+
+<!-- SMARTLING -->
+<script
+  src="https://code.jquery.com/jquery-3.6.0.min.js"
+  integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+  crossorigin="anonymous"></script>
+
+<script src="/smartling/switcher/js/language.js"></script>
+<!-- /SMARTLING -->
+
+<script>
+    function MM_jumpMenu(targ,selObj,restore){ //v3.0
+        eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+        if (restore) selObj.selectedIndex=0;
+    }
+    function MM_findObj(n, d) { //v4.01
+        var p,i,x;  if(!d) d=document; if((p=n.indexOf("?"))>0&&parent.frames.length) {
+        d=parent.frames[n.substring(p+1)].document; n=n.substring(0,p);}
+        if(!(x=d[n])&&d.all) x=d.all[n]; for (i=0;!x&&i<d.forms.length;i++) x=d.forms[i][n];
+        for(i=0;!x&&d.layers&&i<d.layers.length;i++) x=MM_findObj(n,d.layers[i].document);
+        if(!x && d.getElementById) x=d.getElementById(n); return x;
+    }
+    function MM_jumpMenuGo(selName,targ,restore){ //v3.0
+        var selObj = MM_findObj(selName); if (selObj) MM_jumpMenu(targ,selObj,restore);
+    }
+</script>
+<!-- custom js -->
+<!-- END custom js -->
+
+<!--googleon: all-->
+
+    </body>
+</html>

@@ -8,6 +8,7 @@ from .onboarding import router as onboarding_router
 from .enterprise import router as enterprise_router
 from .provider_auth import router as provider_auth_router
 from .compliance import router as compliance_router
+from .rbac import router as rbac_router
 
 all_routers = [
     auth_router,
@@ -19,4 +20,5 @@ all_routers = [
     enterprise_router,
     provider_auth_router,
     compliance_router,
+    rbac_router,
 ]
