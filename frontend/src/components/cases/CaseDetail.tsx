@@ -64,21 +64,20 @@ export default function CaseDetail() {
             </div>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-3 mt-4 text-sm">
               <div>
-                <div className="text-gray-400 text-xs uppercase tracking-wide mb-0.5">Date of Birth</div>
-                <div className="font-medium text-gray-700">{format(new Date(wcCase.claimant_dob), 'MM/dd/yyyy')}</div>
-              </div>
-              <div>
                 <div className="text-gray-400 text-xs uppercase tracking-wide mb-0.5">Date of Injury</div>
-                <div className="font-medium text-gray-700">{format(new Date(wcCase.date_of_injury), 'MM/dd/yyyy')}</div>
+                <div className="font-medium text-gray-700">{wcCase.date_of_injury ? format(new Date(wcCase.date_of_injury + 'T00:00:00'), 'MM/dd/yyyy') : '—'}</div>
               </div>
               <div>
                 <div className="text-gray-400 text-xs uppercase tracking-wide mb-0.5">Employer</div>
-                <div className="font-medium text-gray-700">{wcCase.employer_name}</div>
+                <div className="font-medium text-gray-700">{wcCase.employer_name || '—'}</div>
               </div>
               <div>
                 <div className="text-gray-400 text-xs uppercase tracking-wide mb-0.5">Carrier</div>
-                <div className="font-medium text-gray-700">{wcCase.carrier_name}</div>
-                <div className="text-xs text-gray-400">{wcCase.carrier_code}</div>
+                <div className="font-medium text-gray-700">{wcCase.carrier_name || '—'}</div>
+              </div>
+              <div>
+                <div className="text-gray-400 text-xs uppercase tracking-wide mb-0.5">District</div>
+                <div className="font-medium text-gray-700">{wcCase.district || '—'}</div>
               </div>
             </div>
           </div>
@@ -138,10 +137,10 @@ export default function CaseDetail() {
                     {sub.wcb_submission_id || '--'}
                   </td>
                   <td className="px-5 py-3.5 text-gray-500 text-xs">
-                    {format(new Date(sub.created_at), 'MMM d, yyyy')}
+                    {sub.created_at?.slice(0,10) || '—'}
                   </td>
                   <td className="px-5 py-3.5 text-gray-500 text-xs">
-                    {sub.submitted_at ? format(new Date(sub.submitted_at), 'MMM d, yyyy h:mm a') : '--'}
+                    {sub.submitted_at ? sub.submitted_at?.slice(0,19) || '—' : '--'}
                   </td>
                 </tr>
               ))}

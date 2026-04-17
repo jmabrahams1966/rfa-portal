@@ -17,7 +17,7 @@ router = APIRouter(prefix="/cases", tags=["cases"])
 # ── Schemas ─────────────────────────────────────────────────────────────────
 class CaseCreate(BaseModel):
     wcb_case_number: str
-    claimant_name_encrypted: str | None = None
+    claimant_name: str | None = None
     date_of_injury: date | None = None
     employer_name: str | None = None
     employer_fein: str | None = None
@@ -30,7 +30,7 @@ class CaseCreate(BaseModel):
 
 
 class CaseUpdate(BaseModel):
-    claimant_name_encrypted: str | None = None
+    claimant_name: str | None = None
     date_of_injury: date | None = None
     employer_name: str | None = None
     employer_fein: str | None = None
@@ -55,7 +55,7 @@ class CaseResponse(BaseModel):
     id: str
     org_id: str
     wcb_case_number: str
-    claimant_name_encrypted: str | None = None
+    claimant_name: str | None = None
     date_of_injury: date | None = None
     employer_name: str | None = None
     employer_fein: str | None = None
@@ -92,10 +92,12 @@ async def create_case(
             detail="Case number already exists for this organization",
         )
 
+    data = body.model_dump()
+    data["claimant_name_encrypted"] = data.pop("claimant_name", None)
     case = RFACase(
         id=uuid.uuid4(),
         org_id=current_user.org_id,
-        **body.model_dump(),
+        **data,
     )
     db.add(case)
 
@@ -176,6 +178,8 @@ async def update_case(
     """Update an existing case."""
     case = await _get_case_or_404(db, case_id, current_user.org_id)
     updates = body.model_dump(exclude_unset=True)
+    if "claimant_name" in updates:
+        updates["claimant_name_encrypted"] = updates.pop("claimant_name")
     for key, value in updates.items():
         setattr(case, key, value)
 
@@ -212,7 +216,7 @@ def _case_to_response(case: RFACase) -> CaseResponse:
         id=str(case.id),
         org_id=str(case.org_id),
         wcb_case_number=case.wcb_case_number,
-        claimant_name_encrypted=case.claimant_name_encrypted,
+        claimant_name=case.claimant_name_encrypted,
         date_of_injury=case.date_of_injury,
         employer_name=case.employer_name,
         employer_fein=case.employer_fein,

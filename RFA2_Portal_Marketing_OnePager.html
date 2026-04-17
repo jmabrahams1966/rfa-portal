@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @page { size: letter; margin: 0; }
+  body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; color: #1a1a1a; font-size: 11px; line-height: 1.5; }
+
+  .header { background: linear-gradient(135deg, #0F2044 0%, #1D4ED8 100%); color: white; padding: 35px 45px 30px; }
+  .header h1 { font-size: 32px; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
+  .header .tagline { font-size: 14px; margin-top: 6px; color: #93c5fd; font-weight: 400; }
+  .header .urgent { margin-top: 14px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 8px; padding: 10px 16px; font-size: 11px; }
+  .header .urgent strong { color: #fbbf24; }
+
+  .content { padding: 25px 45px 20px; }
+
+  .section-title { font-size: 14px; font-weight: 700; color: #0F2044; border-bottom: 2px solid #1D4ED8; padding-bottom: 4px; margin-bottom: 12px; margin-top: 20px; }
+
+  .problem-box { background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 14px 18px; margin-bottom: 15px; }
+  .problem-box h3 { color: #991b1b; font-size: 12px; margin: 0 0 6px; }
+  .problem-box p { margin: 0; font-size: 11px; color: #7f1d1d; }
+
+  .features { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+  .feature { background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 8px; padding: 12px 14px; }
+  .feature .icon { font-size: 18px; margin-bottom: 4px; }
+  .feature h4 { font-size: 11px; font-weight: 700; color: #0F2044; margin: 0 0 3px; }
+  .feature p { font-size: 10px; color: #475569; margin: 0; }
+
+  .stats { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 10px; margin: 15px 0; }
+  .stat { text-align: center; background: #0F2044; color: white; border-radius: 8px; padding: 12px 8px; }
+  .stat .num { font-size: 22px; font-weight: 800; color: #60a5fa; }
+  .stat .label { font-size: 9px; color: #93c5fd; margin-top: 2px; }
+
+  .workflow { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin: 10px 0; }
+  .step { text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 8px 4px; }
+  .step .num { display: inline-block; width: 20px; height: 20px; background: #1D4ED8; color: white; border-radius: 50%; font-size: 10px; line-height: 20px; font-weight: 700; }
+  .step .text { font-size: 9px; color: #334155; margin-top: 4px; }
+
+  .enterprise { background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 14px 18px; margin: 15px 0; }
+  .enterprise h3 { color: #166534; font-size: 12px; margin: 0 0 8px; }
+  .enterprise ul { margin: 0; padding-left: 16px; font-size: 10px; color: #15803d; columns: 2; column-gap: 20px; }
+  .enterprise li { margin-bottom: 3px; }
+
+  .pricing { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 12px 0; }
+  .price-card { border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; text-align: center; }
+  .price-card.featured { border-color: #1D4ED8; background: #eff6ff; }
+  .price-card h4 { font-size: 12px; color: #0F2044; margin: 0; }
+  .price-card .amount { font-size: 20px; font-weight: 800; color: #1D4ED8; margin: 4px 0; }
+  .price-card .per { font-size: 9px; color: #64748b; }
+  .price-card .includes { font-size: 9px; color: #475569; margin-top: 6px; text-align: left; }
+
+  .cta { background: linear-gradient(135deg, #0F2044 0%, #1D4ED8 100%); color: white; border-radius: 8px; padding: 18px 24px; margin-top: 15px; display: flex; justify-content: space-between; align-items: center; }
+  .cta .left h3 { margin: 0; font-size: 14px; }
+  .cta .left p { margin: 4px 0 0; font-size: 10px; color: #93c5fd; }
+  .cta .right { text-align: right; }
+  .cta .right .btn { display: inline-block; background: #fbbf24; color: #0F2044; font-weight: 700; font-size: 12px; padding: 8px 20px; border-radius: 6px; text-decoration: none; }
+  .cta .right .contact { font-size: 9px; color: #93c5fd; margin-top: 6px; }
+
+  .footer { text-align: center; padding: 10px; font-size: 8px; color: #94a3b8; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>RFA-2 Portal</h1>
+  <div class="tagline">AI-Powered Workers' Compensation Filing for Insurance Carriers, TPAs & Defense Firms</div>
+  <div class="urgent">
+    <strong>As of March 20, 2026, the NYS WCB no longer accepts paper RFA-2 forms.</strong>
+    Every filing must be electronic. The WCB's eCase portal is manual, single-user, and has no AI. RFA-2 Portal transforms your filing workflow from hours to minutes.
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="problem-box">
+    <h3>The Problem</h3>
+    <p>Your adjusters spend 30-45 minutes per RFA-2 filing — manually reading IME reports, selecting reason codes, typing narratives, cross-referencing WCB rules, and entering data field-by-field in eCase. At 200+ filings per month, that's <strong>100+ hours of adjuster time wasted on data entry</strong>. Missed deadlines mean lost claim control.</p>
+  </div>
+
+  <h3 class="section-title">How It Works</h3>
+  <div class="workflow">
+    <div class="step"><div class="num">1</div><div class="text"><strong>Upload</strong><br>Drop IME report or medical records</div></div>
+    <div class="step"><div class="num">2</div><div class="text"><strong>AI Extracts</strong><br>Claude AI reads docs, identifies reason codes & fields</div></div>
+    <div class="step"><div class="num">3</div><div class="text"><strong>Review</strong><br>Adjuster reviews pre-filled form, edits if needed</div></div>
+    <div class="step"><div class="num">4</div><div class="text"><strong>Submit</strong><br>XML validated & filed directly to WCB OnBoard API</div></div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="num">5 min</div><div class="label">Average Filing Time<br>(vs. 30-45 min manual)</div></div>
+    <div class="stat"><div class="num">85%</div><div class="label">Fields Auto-Filled<br>by AI Extraction</div></div>
+    <div class="stat"><div class="num">13</div><div class="label">Reason Codes<br>Fully Supported</div></div>
+    <div class="stat"><div class="num">0</div><div class="label">Missed Deadlines<br>with Alert Engine</div></div>
+  </div>
+
+  <h3 class="section-title">Core Capabilities</h3>
+  <div class="features">
+    <div class="feature">
+      <div class="icon">🤖</div>
+      <h4>AI Document Intelligence</h4>
+      <p>Upload IME reports, board decisions, or medical records. Claude AI extracts reason codes, form fields, and drafts the 500-character narrative — with confidence scoring.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📋</div>
+      <h4>Guided 8-Step Wizard</h4>
+      <p>From case selection through WCB submission. Pre-filled forms, required document checklist, real-time validation against all WCB business rules.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">⏰</div>
+      <h4>Deadline Engine</h4>
+      <p>Auto-calculates filing deadlines from trigger events (IME date, board decision). Daily alerts at 7, 3, and 1 day. Escalation on overdue. Never miss a deadline.</p>
+    </div>
+    <div class="feature">
+      <div class="icon">📊</div>
+      <h4>Outcome Analytics</h4>
+      <p>Track acceptance rates by reason code, district, judge, and claimant attorney. Know your win rate before you file. Narrative AI learns what language gets accepted.</p>
+    </div>
+  </div>
+
+  <div class="enterprise">
+    <h3>Enterprise Features for High-Volume Carriers</h3>
+    <ul>
+      <li>Batch filing — import 500+ cases from CSV/Guidewire/Duck Creek</li>
+      <li>Team workflow — adjuster drafts → supervisor approves → submit</li>
+      <li>CMS integration — webhooks + API for Guidewire, Origami Risk</li>
+      <li>Attorney intelligence — objection rates, counter-arguments</li>
+      <li>Multi-state — NY, NJ, CT, PA (more coming)</li>
+      <li>OCR — scanned IME reports via AWS Textract</li>
+      <li>SOC 2 audit trail — full compliance logging</li>
+      <li>Carrier billing — auto-invoicing for TPAs & defense firms</li>
+      <li>Two-way WCB sync — hearing schedules, board decisions</li>
+      <li>HIPAA compliant — PHI stripped before AI, encrypted at rest</li>
+    </ul>
+  </div>
+
+  <h3 class="section-title">Pricing</h3>
+  <div class="pricing">
+    <div class="price-card">
+      <h4>Starter</h4>
+      <div class="amount">$500</div>
+      <div class="per">/month</div>
+      <div class="includes">50 filings/month<br>3 users<br>AI extraction<br>Deadline alerts</div>
+    </div>
+    <div class="price-card featured">
+      <h4>Growth</h4>
+      <div class="amount">$2,000</div>
+      <div class="per">/month</div>
+      <div class="includes">250 filings/month<br>15 users<br>Batch import<br>Outcome analytics<br>Attorney intelligence</div>
+    </div>
+    <div class="price-card">
+      <h4>Enterprise</h4>
+      <div class="amount">Custom</div>
+      <div class="per">contact us</div>
+      <div class="includes">Unlimited filings<br>Unlimited users<br>CMS integration<br>Multi-state<br>Dedicated support</div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="left">
+      <h3>Ready to Transform Your RFA-2 Workflow?</h3>
+      <p>Schedule a 15-minute demo. See your first AI-powered filing in action.</p>
+    </div>
+    <div class="right">
+      <div class="btn">Schedule Demo</div>
+      <div class="contact">jma@nybrainspine.com | (914) 555-0100</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  RFA-2 Portal is a product of NYBASS Healthcare Technology. HIPAA compliant. SOC 2 ready. All data encrypted at rest and in transit.
+  <br>© 2026 NYBASS. Workers' Compensation Board, eCase, and OnBoard are trademarks of the NYS WCB.
+</div>
+
+</body>
+</html>

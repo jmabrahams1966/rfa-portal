@@ -278,8 +278,8 @@ export default function SubmissionWizard() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             <Field label="WCB Case Number" value={wcCase.wcb_case_number} mono />
             <Field label="Claimant Name" value={wcCase.claimant_name} />
-            <Field label="Date of Birth" value={format(new Date(wcCase.claimant_dob), 'MM/dd/yyyy')} />
-            <Field label="Date of Injury" value={format(new Date(wcCase.date_of_injury), 'MM/dd/yyyy')} />
+            <Field label="Date of Birth" value={wcCase.claimant_dob || '—'} />
+            <Field label="Date of Injury" value={wcCase.date_of_injury || '—'} />
             <Field label="Employer" value={wcCase.employer_name} />
             <Field label="Carrier" value={`${wcCase.carrier_name} (${wcCase.carrier_code})`} />
           </div>
@@ -785,7 +785,7 @@ export default function SubmissionWizard() {
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             <Field label="WCB Case Number" value={wcCase?.wcb_case_number || ''} mono />
             <Field label="Claimant" value={wcCase?.claimant_name || ''} />
-            <Field label="Date of Injury" value={wcCase ? format(new Date(wcCase.date_of_injury), 'MM/dd/yyyy') : ''} />
+            <Field label="Date of Injury" value={wcCase ? wcCase.date_of_injury || '—' : ''} />
             <Field label="Reason Codes" value={selectedCodes.join(', ')} mono />
             <Field label="Certification Date" value={formData.certification_date} />
             <Field label="Degree of Disability" value={formData.degree_of_disability ? `${formData.degree_of_disability}%` : '--'} />
@@ -864,6 +864,35 @@ export default function SubmissionWizard() {
               'Submit to WCB'
             )}
           </button>
+          <button
+            onClick={() => {
+              const xml = submission?.xml_payload || xmlPreview || '';
+              const blob = new Blob([xml], { type: 'application/xml' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `RFA2_${wcCase?.wcb_case_number || 'submission'}.xml`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="px-6 py-3 border border-navy-300 text-navy-700 hover:bg-navy-50 font-medium rounded-lg transition-colors text-sm flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download XML
+          </button>
+          <a
+            href="https://onboard.wcb.ny.gov"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-6 py-3 border border-blue-300 text-blue-700 hover:bg-blue-50 font-medium rounded-lg transition-colors text-sm flex items-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Open WCB eCase
+          </a>
           {!attested && (
             <span className="text-xs text-gray-400">You must accept the attestation to submit.</span>
           )}
@@ -889,11 +918,40 @@ export default function SubmissionWizard() {
             {completedSubmission?.wcb_submission_id || '--'}
           </div>
           <div className="text-xs text-gray-400 mt-1">
-            {completedSubmission?.submitted_at && format(new Date(completedSubmission.submitted_at), 'MMMM d, yyyy h:mm a')}
+            {completedSubmission?.submitted_at && completedSubmission?.submitted_at?.slice(0,19) || '—'}
           </div>
         </div>
 
         <div className="flex flex-col gap-3">
+          <button
+            onClick={() => {
+              const xml = submission?.xml_payload || '';
+              const blob = new Blob([xml], { type: 'application/xml' });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `RFA2_${wcCase?.wcb_case_number || 'submission'}.xml`;
+              a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="w-full px-6 py-2.5 border border-navy-300 text-navy-700 hover:bg-navy-50 font-medium rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Download XML for eCase
+          </button>
+          <a
+            href="https://onboard.wcb.ny.gov"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full px-6 py-2.5 border border-blue-300 text-blue-700 hover:bg-blue-50 font-medium rounded-lg transition-colors text-sm flex items-center justify-center gap-2"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+            Open WCB eCase Portal
+          </a>
           <button
             onClick={handleDownloadPdf}
             className="w-full px-6 py-2.5 border border-accent-500 text-accent-500 hover:bg-accent-50 font-medium rounded-lg transition-colors text-sm flex items-center justify-center gap-2"

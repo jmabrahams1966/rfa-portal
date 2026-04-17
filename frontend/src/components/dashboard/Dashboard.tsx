@@ -41,9 +41,25 @@ export default function Dashboard() {
   return (
     <div className="p-6 lg:p-8 max-w-7xl mx-auto">
       {/* Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-navy-700">Dashboard</h1>
-        <p className="text-sm text-gray-500 mt-1">Overview of your RFA-2 submissions and case activity</p>
+      <div className="flex items-center justify-between mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-navy-700">Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-1">Overview of your RFA-2 submissions and case activity</p>
+        </div>
+        <div className="flex gap-3">
+          <button
+            onClick={() => navigate('/cases?new=true')}
+            className="px-4 py-2.5 bg-white border border-gray-300 text-navy-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors"
+          >
+            + New Case
+          </button>
+          <button
+            onClick={() => navigate('/cases')}
+            className="px-4 py-2.5 bg-accent-500 text-white text-sm font-medium rounded-lg hover:bg-accent-600 transition-colors"
+          >
+            + New Submission
+          </button>
+        </div>
       </div>
 
       {/* Stats cards */}
@@ -109,8 +125,8 @@ export default function Dashboard() {
                     </td>
                     <td className="px-5 py-3 text-gray-500 text-xs">
                       {sub.submitted_at
-                        ? format(new Date(sub.submitted_at), 'MMM d, yyyy')
-                        : format(new Date(sub.created_at), 'MMM d, yyyy')}
+                        ? sub.submitted_at?.slice(0,10) || '—'
+                        : sub.created_at?.slice(0,10) || '—'}
                     </td>
                   </tr>
                 ))}

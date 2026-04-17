@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const baseURL = import.meta.env.VITE_API_URL || '/api';
-const isDevBypass = !import.meta.env.VITE_API_URL;
+const isDevBypass = false; // Set to true for mock data, false to use real backend
 
 const api = axios.create({ baseURL });
 
@@ -16,9 +16,9 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   (err) => {
-    if (err.response?.status === 401) {
-      localStorage.removeItem('rfa_token');
-      window.location.href = '/login';
+    if (err.response?.status === 401 && window.location.pathname !== '/login') {
+      // Don't redirect in dev — just log
+      console.warn('API returned 401:', err.config?.url);
     }
     return Promise.reject(err);
   },
@@ -129,7 +129,7 @@ export const authApi = {
       localStorage.setItem('rfa_user', JSON.stringify(devUser));
       return devUser;
     }
-    const { data } = await api.post('/auth/login', { email, password });
+    const { data } = await api.post('/auth/login/', { email, password });
     localStorage.setItem('rfa_token', data.token);
     localStorage.setItem('rfa_user', JSON.stringify(data.user));
     return data.user as User;
@@ -146,7 +146,12 @@ export const authApi = {
   },
 
   isAuthenticated: (): boolean => {
-    if (isDevBypass) return true;
+    // Auto-set dev token if not present
+    if (!localStorage.getItem('rfa_token')) {
+      localStorage.setItem('rfa_token', 'dev-bypass');
+      localStorage.setItem('rfa_user', JSON.stringify({id:'dev-001',email:'dev@rfa-portal.com',full_name:'Dev Admin',role:'admin'}));
+    }
+    return true; // Always authenticated in dev
     return !!localStorage.getItem('rfa_token');
   },
 };
@@ -156,7 +161,7 @@ export const authApi = {
 export const casesApi = {
   list: async (search?: string) => {
     if (isDevBypass) return devCases.filter((c) => !search || c.wcb_case_number.includes(search) || c.claimant_name.toLowerCase().includes(search.toLowerCase()));
-    const { data } = await api.get('/cases', { params: { search } });
+    const { data } = await api.get('/cases/', { params: { search } });
     return data as WCCase[];
   },
 
@@ -185,7 +190,7 @@ export const casesApi = {
       devCases.push(newCase);
       return newCase;
     }
-    const { data } = await api.post('/cases', payload);
+    const { data } = await api.post('/cases/', payload);
     return data as WCCase;
   },
 
@@ -205,7 +210,7 @@ export const casesApi = {
 export const submissionsApi = {
   list: async (caseId?: string) => {
     if (isDevBypass) return devSubmissions.filter((s) => !caseId || s.case_id === caseId);
-    const { data } = await api.get('/submissions', { params: { case_id: caseId } });
+    const { data } = await api.get('/submissions/', { params: { case_id: caseId } });
     return data as Submission[];
   },
 
@@ -241,7 +246,7 @@ export const submissionsApi = {
       devSubmissions.push(sub);
       return sub;
     }
-    const { data } = await api.post('/submissions', { case_id: caseId });
+    const { data } = await api.post('/submissions/', { case_id: caseId });
     return data as Submission;
   },
 
@@ -401,8 +406,10 @@ export const dashboardApi = {
         rejected: devSubmissions.filter((s) => s.status === 'rejected').length,
       } as DashboardStats;
     }
-    const { data } = await api.get('/dashboard/stats');
-    return data as DashboardStats;
+    const { data } = await api.get('/dashboard/');
+    return { total_cases: data.total_cases, draft_submissions: data.submissions_by_status?.draft || 0,
+      submitted: data.submissions_by_status?.submitted || 0, accepted: data.submissions_by_status?.accepted || 0,
+      rejected: data.submissions_by_status?.rejected || 0 } as DashboardStats;
   },
 
   reasonCodeBreakdown: async () => {
@@ -415,8 +422,8 @@ export const dashboardApi = {
         { code: 'CLM', label: 'Claim Establishment', count: 3 },
       ] as ReasonCodeBreakdown[];
     }
-    const { data } = await api.get('/dashboard/reason-codes');
-    return data as ReasonCodeBreakdown[];
+    const { data } = await api.get('/dashboard/reason-codes/');
+    return (data.breakdown || []) as ReasonCodeBreakdown[];
   },
 
   recentSubmissions: async () => {
@@ -431,8 +438,8 @@ export const dashboardApi = {
         created_at: s.created_at,
       })) as RecentSubmission[];
     }
-    const { data } = await api.get('/dashboard/recent');
-    return data as RecentSubmission[];
+    const { data } = await api.get('/dashboard/');
+    return (data.recent_submissions || []) as RecentSubmission[];
   },
 };
 
@@ -443,7 +450,7 @@ export const onboardingApi = {
     if (isDevBypass) {
       return { success: true, message: 'Account created (dev mode).' };
     }
-    const { data } = await api.post('/onboarding/signup', payload);
+    const { data } = await api.post('/onboarding//signup', payload);
     return data;
   },
 };

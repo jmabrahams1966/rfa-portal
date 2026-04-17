@@ -15,7 +15,7 @@ security = HTTPBearer(auto_error=False)
 class DevBypassUser:
     """Synthetic admin user for development."""
     id = uuid.UUID("00000000-0000-0000-0000-000000000001")
-    org_id = uuid.UUID("00000000-0000-0000-0000-000000000010")
+    org_id = uuid.UUID("00000000-0000-0000-0000-000000000001")
     email = "dev@rfa-portal.local"
     full_name = "Dev Admin"
     role = "admin"

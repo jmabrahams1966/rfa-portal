@@ -257,7 +257,7 @@ function TimelineItem({ label, date, active, success, error }: { label: string; 
       <div className={`w-2.5 h-2.5 rounded-full ${dotColor} mt-1.5 flex-shrink-0`} />
       <div>
         <div className="text-sm font-medium text-gray-700">{label}</div>
-        <div className="text-xs text-gray-400">{format(new Date(date), 'MMM d, yyyy h:mm a')}</div>
+        <div className="text-xs text-gray-400">{date?.slice(0,19) || '—'}</div>
       </div>
     </div>
   );

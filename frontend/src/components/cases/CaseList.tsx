@@ -1,16 +1,35 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { casesApi, type WCCase } from '../../services/api';
 import { format } from 'date-fns';
 
 export default function CaseList() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const [searchParams] = useSearchParams();
   const [search, setSearch] = useState('');
+  const [showNewCase, setShowNewCase] = useState(searchParams.get('new') === 'true');
+  const [newCase, setNewCase] = useState({
+    wcb_case_number: '', claimant_name: '', date_of_injury: '',
+    employer_name: '', carrier_name: '', district: '',
+  });
+  const [error, setError] = useState('');
 
   const { data: cases, isLoading } = useQuery<WCCase[]>({
     queryKey: ['cases', search],
     queryFn: () => casesApi.list(search || undefined),
+  });
+
+  const createMutation = useMutation({
+    mutationFn: (data: typeof newCase) => casesApi.create(data),
+    onSuccess: (result: any) => {
+      queryClient.invalidateQueries({ queryKey: ['cases'] });
+      setShowNewCase(false);
+      setNewCase({ wcb_case_number: '', claimant_name: '', date_of_injury: '', employer_name: '', carrier_name: '', district: '' });
+      navigate(`/cases/${result.id}`);
+    },
+    onError: (err: any) => setError(err?.response?.data?.detail || 'Failed to create case'),
   });
 
   return (
@@ -21,7 +40,78 @@ export default function CaseList() {
           <h1 className="text-2xl font-bold text-navy-700">Cases</h1>
           <p className="text-sm text-gray-500 mt-1">Manage workers' compensation cases and file RFA-2 submissions</p>
         </div>
+        <button
+          onClick={() => setShowNewCase(!showNewCase)}
+          className="px-4 py-2.5 bg-accent-500 text-white text-sm font-medium rounded-lg hover:bg-accent-600 transition-colors"
+        >
+          {showNewCase ? 'Cancel' : '+ New Case'}
+        </button>
       </div>
+
+      {/* New Case Form */}
+      {showNewCase && (
+        <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-6">
+          <h3 className="text-sm font-semibold text-navy-700 mb-4">Create New WCB Case</h3>
+          {error && <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700">{error}</div>}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">WCB Case Number *</label>
+              <input type="text" placeholder="G-1234567" value={newCase.wcb_case_number}
+                onChange={(e) => setNewCase(p => ({ ...p, wcb_case_number: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Claimant Name *</label>
+              <input type="text" placeholder="Last, First" value={newCase.claimant_name}
+                onChange={(e) => setNewCase(p => ({ ...p, claimant_name: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Date of Injury *</label>
+              <input type="date" value={newCase.date_of_injury}
+                onChange={(e) => setNewCase(p => ({ ...p, date_of_injury: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Employer Name</label>
+              <input type="text" value={newCase.employer_name}
+                onChange={(e) => setNewCase(p => ({ ...p, employer_name: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Carrier Name</label>
+              <input type="text" value={newCase.carrier_name}
+                onChange={(e) => setNewCase(p => ({ ...p, carrier_name: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">WCB District</label>
+              <select value={newCase.district}
+                onChange={(e) => setNewCase(p => ({ ...p, district: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-accent-500 outline-none bg-white">
+                <option value="">Select district...</option>
+                <option value="Albany">Albany</option>
+                <option value="Binghamton">Binghamton</option>
+                <option value="Buffalo">Buffalo</option>
+                <option value="Hauppauge">Hauppauge</option>
+                <option value="NYC">New York City</option>
+                <option value="Peekskill">Peekskill</option>
+                <option value="Rochester">Rochester</option>
+                <option value="Syracuse">Syracuse</option>
+              </select>
+            </div>
+          </div>
+          <div className="mt-4">
+            <button
+              onClick={() => { setError(''); createMutation.mutate(newCase); }}
+              disabled={!newCase.wcb_case_number || !newCase.claimant_name || !newCase.date_of_injury || createMutation.isPending}
+              className="px-6 py-2.5 bg-accent-500 text-white text-sm font-medium rounded-lg hover:bg-accent-600 transition-colors disabled:opacity-50"
+            >
+              {createMutation.isPending ? 'Creating...' : 'Create Case & Start Filing'}
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Search */}
       <div className="mb-6">
@@ -79,10 +169,10 @@ export default function CaseList() {
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="font-medium text-gray-800">{wc.claimant_name}</div>
-                    <div className="text-xs text-gray-400">DOB: {format(new Date(wc.claimant_dob), 'MM/dd/yyyy')}</div>
+                    <div className="text-xs text-gray-400">{wc.district || ''}</div>
                   </td>
                   <td className="px-5 py-3.5 text-gray-600">
-                    {format(new Date(wc.date_of_injury), 'MM/dd/yyyy')}
+                    {wc.date_of_injury || '—'}
                   </td>
                   <td className="px-5 py-3.5 text-gray-600">{wc.employer_name}</td>
                   <td className="px-5 py-3.5">
@@ -91,7 +181,7 @@ export default function CaseList() {
                     </span>
                   </td>
                   <td className="px-5 py-3.5 text-gray-500 text-xs">
-                    {wc.last_filed ? format(new Date(wc.last_filed), 'MMM d, yyyy') : '--'}
+                    {wc.last_filed ? wc.last_filed?.slice(0,10) || '—' : '--'}
                   </td>
                   <td className="px-5 py-3.5">
                     <button
