@@ -587,4 +587,395 @@ const devSubmissions: Submission[] = [
   },
 ];
 
+// ---------- Provider Types ----------
+
+export interface AuthRequest {
+  id: string;
+  patient_name: string;
+  patient_dob: string;
+  patient_mrn: string;
+  diagnosis: string;
+  icd10_codes: string[];
+  procedure_name: string;
+  cpt_code: string;
+  payer: string;
+  insurance_type: string;
+  surgeon_name: string;
+  surgeon_npi: string;
+  clinical_urgency: 'routine' | 'urgent' | 'emergent';
+  wcb_case_number: string;
+  status: 'draft' | 'submitted' | 'in_review' | 'approved' | 'denied' | 'appealed';
+  narrative: string;
+  compliance_score: number | null;
+  missing_elements: string[];
+  documents: AuthDocument[];
+  submitted_at: string | null;
+  decision_date: string | null;
+  denial_reason: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface AuthDocument {
+  id: string;
+  filename: string;
+  doc_type: string;
+  uploaded_at: string;
+  size: number;
+}
+
+export interface ComplianceResult {
+  overall_score: number;
+  approval_probability: number;
+  checklist: ComplianceItem[];
+  missing_items: string[];
+  recommendations: string[];
+}
+
+export interface ComplianceItem {
+  label: string;
+  met: boolean;
+  details: string;
+  weight: number;
+}
+
+export interface ProviderDashboardData {
+  pending_auths: number;
+  awaiting_decision: number;
+  approved_this_month: number;
+  denied_this_month: number;
+  approval_rate: number;
+  compliance_score: number;
+  recent_auths: AuthRequest[];
+}
+
+// ---------- Provider API ----------
+
+const devAuthRequests: AuthRequest[] = [
+  {
+    id: 'auth-1',
+    patient_name: 'James P. Morrison',
+    patient_dob: '1965-03-14',
+    patient_mrn: 'MRN-10042',
+    diagnosis: 'Lumbar spinal stenosis with neurogenic claudication',
+    icd10_codes: ['M48.06', 'G95.29'],
+    procedure_name: 'Lumbar Laminectomy L4-L5',
+    cpt_code: '63047',
+    payer: 'UHC',
+    insurance_type: 'commercial',
+    surgeon_name: 'Dr. Dev Surgeon',
+    surgeon_npi: '1234567890',
+    clinical_urgency: 'routine',
+    wcb_case_number: '',
+    status: 'approved',
+    narrative: 'Patient presents with progressive lumbar spinal stenosis at L4-L5 with neurogenic claudication refractory to 12 weeks of conservative management including physical therapy, epidural steroid injections, and oral analgesics. MRI confirms severe central canal stenosis. Surgical decompression is medically necessary.',
+    compliance_score: 94,
+    missing_elements: [],
+    documents: [
+      { id: 'adoc-1', filename: 'MRI_Lumbar_Morrison.pdf', doc_type: 'Imaging', uploaded_at: '2026-03-01T09:00:00Z', size: 2400000 },
+      { id: 'adoc-2', filename: 'PT_Notes_Morrison.pdf', doc_type: 'Clinical Notes', uploaded_at: '2026-03-01T09:05:00Z', size: 156000 },
+    ],
+    submitted_at: '2026-03-05T10:00:00Z',
+    decision_date: '2026-03-12T14:00:00Z',
+    denial_reason: null,
+    created_at: '2026-03-01T08:00:00Z',
+    updated_at: '2026-03-12T14:00:00Z',
+  },
+  {
+    id: 'auth-2',
+    patient_name: 'Linda R. Vasquez',
+    patient_dob: '1972-08-22',
+    patient_mrn: 'MRN-10058',
+    diagnosis: 'Right rotator cuff tear, complete',
+    icd10_codes: ['M75.121'],
+    procedure_name: 'Arthroscopic Rotator Cuff Repair',
+    cpt_code: '29827',
+    payer: 'Aetna',
+    insurance_type: 'commercial',
+    surgeon_name: 'Dr. Dev Surgeon',
+    surgeon_npi: '1234567890',
+    clinical_urgency: 'urgent',
+    wcb_case_number: '',
+    status: 'submitted',
+    narrative: 'Patient sustained complete right rotator cuff tear confirmed by MRI. Conservative treatment including PT and corticosteroid injection failed to provide relief. Surgical repair is indicated to prevent further tendon retraction and muscle atrophy.',
+    compliance_score: 87,
+    missing_elements: ['Functional limitation documentation'],
+    documents: [
+      { id: 'adoc-3', filename: 'MRI_Shoulder_Vasquez.pdf', doc_type: 'Imaging', uploaded_at: '2026-03-20T11:00:00Z', size: 1800000 },
+    ],
+    submitted_at: '2026-03-22T09:00:00Z',
+    decision_date: null,
+    denial_reason: null,
+    created_at: '2026-03-20T10:00:00Z',
+    updated_at: '2026-03-22T09:00:00Z',
+  },
+  {
+    id: 'auth-3',
+    patient_name: 'Robert A. Kim',
+    patient_dob: '1980-12-05',
+    patient_mrn: 'MRN-10071',
+    diagnosis: 'Cervical disc herniation C5-C6 with radiculopathy',
+    icd10_codes: ['M50.122', 'M54.12'],
+    procedure_name: 'ACDF C5-C6',
+    cpt_code: '22551',
+    payer: 'BCBS',
+    insurance_type: 'commercial',
+    surgeon_name: 'Dr. Dev Surgeon',
+    surgeon_npi: '1234567890',
+    clinical_urgency: 'routine',
+    wcb_case_number: '',
+    status: 'denied',
+    narrative: 'Patient with cervical disc herniation at C5-C6 causing right upper extremity radiculopathy. EMG/NCS confirms C6 radiculopathy. Failed 8 weeks conservative care.',
+    compliance_score: 62,
+    missing_elements: ['Duration of conservative treatment inadequate per payer policy', 'Missing EMG/NCS report attachment', 'No functional outcome measures documented'],
+    documents: [],
+    submitted_at: '2026-02-28T14:00:00Z',
+    decision_date: '2026-03-10T16:00:00Z',
+    denial_reason: 'Insufficient documentation of conservative treatment failure. Payer requires minimum 12 weeks of documented conservative care.',
+    created_at: '2026-02-25T09:00:00Z',
+    updated_at: '2026-03-10T16:00:00Z',
+  },
+  {
+    id: 'auth-4',
+    patient_name: 'Patricia M. O\'Brien',
+    patient_dob: '1958-05-17',
+    patient_mrn: 'MRN-10089',
+    diagnosis: 'Degenerative spondylolisthesis L4-L5',
+    icd10_codes: ['M43.16', 'M47.816'],
+    procedure_name: 'Posterior Lumbar Interbody Fusion L4-L5',
+    cpt_code: '22630',
+    payer: 'Medicare',
+    insurance_type: 'medicare',
+    surgeon_name: 'Dr. Dev Surgeon',
+    surgeon_npi: '1234567890',
+    clinical_urgency: 'routine',
+    wcb_case_number: '',
+    status: 'in_review',
+    narrative: 'Patient presents with Grade II degenerative spondylolisthesis at L4-L5 with bilateral lower extremity symptoms and significant functional limitation. Failed 16 weeks of conservative treatment including physical therapy and epidural injections.',
+    compliance_score: 91,
+    missing_elements: ['Bone density scan recommended for fusion candidates over 65'],
+    documents: [
+      { id: 'adoc-4', filename: 'XR_Lumbar_OBrien.pdf', doc_type: 'Imaging', uploaded_at: '2026-04-01T08:00:00Z', size: 950000 },
+      { id: 'adoc-5', filename: 'PT_Summary_OBrien.pdf', doc_type: 'Clinical Notes', uploaded_at: '2026-04-01T08:10:00Z', size: 210000 },
+      { id: 'adoc-6', filename: 'ESI_Records_OBrien.pdf', doc_type: 'Procedure Report', uploaded_at: '2026-04-01T08:15:00Z', size: 340000 },
+    ],
+    submitted_at: '2026-04-02T10:00:00Z',
+    decision_date: null,
+    denial_reason: null,
+    created_at: '2026-04-01T07:00:00Z',
+    updated_at: '2026-04-02T10:00:00Z',
+  },
+  {
+    id: 'auth-5',
+    patient_name: 'David W. Thompson',
+    patient_dob: '1975-09-30',
+    patient_mrn: 'MRN-10095',
+    diagnosis: 'Left knee medial meniscus tear',
+    icd10_codes: ['M23.212'],
+    procedure_name: 'Arthroscopic Meniscectomy',
+    cpt_code: '29881',
+    payer: 'Cigna',
+    insurance_type: 'workers_comp',
+    surgeon_name: 'Dr. Dev Surgeon',
+    surgeon_npi: '1234567890',
+    clinical_urgency: 'urgent',
+    wcb_case_number: 'WCB-2026-003344',
+    status: 'draft',
+    narrative: '',
+    compliance_score: null,
+    missing_elements: [],
+    documents: [],
+    submitted_at: null,
+    decision_date: null,
+    denial_reason: null,
+    created_at: '2026-04-10T14:00:00Z',
+    updated_at: '2026-04-10T14:00:00Z',
+  },
+];
+
+export const providerApi = {
+  listAuthRequests: async (filters?: { status?: string; payer?: string; search?: string }) => {
+    let results = [...devAuthRequests];
+    if (filters?.status) results = results.filter((a) => a.status === filters.status);
+    if (filters?.payer) results = results.filter((a) => a.payer === filters.payer);
+    if (filters?.search) {
+      const q = filters.search.toLowerCase();
+      results = results.filter((a) => a.patient_name.toLowerCase().includes(q) || a.procedure_name.toLowerCase().includes(q) || a.cpt_code.includes(q));
+    }
+    return results;
+  },
+
+  getAuthRequest: async (id: string) => {
+    return devAuthRequests.find((a) => a.id === id) || devAuthRequests[0];
+  },
+
+  createAuthRequest: async (data: Partial<AuthRequest>) => {
+    const newAuth: AuthRequest = {
+      id: `auth-${Date.now()}`,
+      patient_name: data.patient_name || '',
+      patient_dob: data.patient_dob || '',
+      patient_mrn: data.patient_mrn || '',
+      diagnosis: data.diagnosis || '',
+      icd10_codes: data.icd10_codes || [],
+      procedure_name: data.procedure_name || '',
+      cpt_code: data.cpt_code || '',
+      payer: data.payer || '',
+      insurance_type: data.insurance_type || 'commercial',
+      surgeon_name: data.surgeon_name || 'Dr. Dev Surgeon',
+      surgeon_npi: data.surgeon_npi || '1234567890',
+      clinical_urgency: data.clinical_urgency || 'routine',
+      wcb_case_number: data.wcb_case_number || '',
+      status: 'draft',
+      narrative: data.narrative || '',
+      compliance_score: null,
+      missing_elements: [],
+      documents: [],
+      submitted_at: null,
+      decision_date: null,
+      denial_reason: null,
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    };
+    devAuthRequests.push(newAuth);
+    return newAuth;
+  },
+
+  uploadDocument: async (authId: string, file: File, docType: string) => {
+    const doc: AuthDocument = {
+      id: `adoc-${Date.now()}`,
+      filename: file.name,
+      doc_type: docType,
+      uploaded_at: new Date().toISOString(),
+      size: file.size,
+    };
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (auth) auth.documents.push(doc);
+    return doc;
+  },
+
+  generateNarrative: async (authId: string) => {
+    await new Promise((r) => setTimeout(r, 1500));
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (!auth) return { narrative: '' };
+    const narrative = `Patient ${auth.patient_name} (DOB: ${auth.patient_dob}) presents with ${auth.diagnosis}. Clinical evaluation and diagnostic imaging confirm the diagnosis (ICD-10: ${(auth.icd10_codes || []).join(', ')}). The patient has undergone a comprehensive course of conservative treatment including physical therapy, pharmacological management, and activity modification without adequate symptomatic relief.\n\nThe proposed procedure, ${auth.procedure_name} (CPT: ${auth.cpt_code}), is medically necessary based on the following clinical findings: persistent symptoms despite conservative measures, progressive functional decline, and objective imaging findings consistent with surgical pathology. The procedure meets established medical necessity criteria per ${auth.payer} guidelines.\n\nWithout surgical intervention, the patient faces continued functional impairment and risk of progressive neurological deterioration. The expected outcome of the proposed procedure includes pain reduction, functional restoration, and prevention of further deterioration.`;
+    auth.narrative = narrative;
+    return { narrative };
+  },
+
+  optimizeNarrative: async (authId: string) => {
+    await new Promise((r) => setTimeout(r, 1200));
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (!auth) return { narrative: '' };
+    const prefix = `[OPTIMIZED FOR ${auth.payer.toUpperCase()} GUIDELINES]\n\n`;
+    const optimized = prefix + auth.narrative + `\n\nThis request aligns with ${auth.payer} medical policy requirements including documented failure of conservative treatment, appropriate diagnostic confirmation, and clinical indication meeting LCD/NCD criteria.`;
+    auth.narrative = optimized;
+    return { narrative: optimized };
+  },
+
+  checkCompliance: async (_procedureKey: string, data: Partial<AuthRequest>) => {
+    await new Promise((r) => setTimeout(r, 1000));
+    const hasNarrative = !!(data.narrative && data.narrative.length > 50);
+    const hasDocs = (data.documents || []).length > 0;
+    const hasConservative = (data.narrative || '').toLowerCase().includes('conservative');
+    const hasImaging = (data.documents || []).some((d) => d.doc_type === 'Imaging') || (data.narrative || '').toLowerCase().includes('mri') || (data.narrative || '').toLowerCase().includes('imaging');
+    const hasDiagnosis = !!(data.diagnosis && data.icd10_codes && data.icd10_codes.length > 0);
+    const hasFunctional = (data.narrative || '').toLowerCase().includes('functional');
+
+    const checklist: ComplianceItem[] = [
+      { label: 'Clinical narrative provided', met: hasNarrative, details: hasNarrative ? 'Narrative meets minimum length requirement' : 'Narrative is missing or too short', weight: 20 },
+      { label: 'Supporting documentation attached', met: hasDocs, details: hasDocs ? `${(data.documents || []).length} document(s) attached` : 'No supporting documents uploaded', weight: 15 },
+      { label: 'Conservative treatment documented', met: hasConservative, details: hasConservative ? 'Conservative treatment failure documented' : 'No mention of conservative treatment in narrative', weight: 20 },
+      { label: 'Diagnostic imaging referenced', met: hasImaging, details: hasImaging ? 'Imaging studies referenced' : 'No imaging studies referenced or attached', weight: 15 },
+      { label: 'Diagnosis with ICD-10 codes', met: hasDiagnosis, details: hasDiagnosis ? `Diagnosis: ${data.diagnosis}` : 'Primary diagnosis or ICD-10 codes missing', weight: 15 },
+      { label: 'Functional limitation documented', met: hasFunctional, details: hasFunctional ? 'Functional impact described' : 'No functional limitation documentation found', weight: 15 },
+    ];
+
+    const totalWeight = checklist.reduce((s, c) => s + c.weight, 0);
+    const metWeight = checklist.filter((c) => c.met).reduce((s, c) => s + c.weight, 0);
+    const overallScore = Math.round((metWeight / totalWeight) * 100);
+    const approvalProb = Math.min(Math.round(overallScore * 1.05), 99);
+
+    const missingItems = checklist.filter((c) => !c.met).map((c) => c.label);
+    const recommendations = checklist.filter((c) => !c.met).map((c) => c.details);
+
+    const auth = devAuthRequests.find((a) => a.id === data.id);
+    if (auth) {
+      auth.compliance_score = overallScore;
+      auth.missing_elements = missingItems;
+    }
+
+    return {
+      overall_score: overallScore,
+      approval_probability: approvalProb,
+      checklist,
+      missing_items: missingItems,
+      recommendations,
+    } as ComplianceResult;
+  },
+
+  submitAuth: async (authId: string) => {
+    await new Promise((r) => setTimeout(r, 1000));
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (auth) {
+      auth.status = 'submitted';
+      auth.submitted_at = new Date().toISOString();
+      auth.updated_at = new Date().toISOString();
+    }
+    return auth;
+  },
+
+  recordDenial: async (authId: string, reason: string) => {
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (auth) {
+      auth.status = 'denied';
+      auth.denial_reason = reason;
+      auth.decision_date = new Date().toISOString();
+      auth.updated_at = new Date().toISOString();
+    }
+    return auth;
+  },
+
+  generateAppeal: async (authId: string) => {
+    await new Promise((r) => setTimeout(r, 1500));
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (!auth) return { appeal_narrative: '' };
+    const appeal = `APPEAL NARRATIVE - ${auth.patient_name}\n\nThis letter constitutes a formal appeal of the denial of prior authorization for ${auth.procedure_name} (CPT: ${auth.cpt_code}).\n\nDenial Reason: ${auth.denial_reason || 'Not specified'}\n\nRebuttal: The initial submission has been supplemented with additional clinical documentation demonstrating medical necessity. The patient continues to experience significant functional limitations despite the documented course of conservative treatment. Updated clinical findings and peer-reviewed literature support the medical necessity of the proposed procedure.\n\nWe respectfully request reconsideration of this determination based on the totality of clinical evidence presented.`;
+    auth.status = 'appealed';
+    auth.updated_at = new Date().toISOString();
+    return { appeal_narrative: appeal };
+  },
+
+  recordOutcome: async (authId: string, outcome: string, notes: string) => {
+    const auth = devAuthRequests.find((a) => a.id === authId);
+    if (auth) {
+      auth.status = outcome as AuthRequest['status'];
+      auth.decision_date = new Date().toISOString();
+      auth.updated_at = new Date().toISOString();
+      if (outcome === 'denied') auth.denial_reason = notes;
+    }
+    return auth;
+  },
+
+  dashboard: async () => {
+    const now = new Date();
+    const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+    const approvedThisMonth = devAuthRequests.filter((a) => a.status === 'approved' && a.decision_date && new Date(a.decision_date) >= monthStart).length;
+    const deniedThisMonth = devAuthRequests.filter((a) => a.status === 'denied' && a.decision_date && new Date(a.decision_date) >= monthStart).length;
+    const totalDecided = approvedThisMonth + deniedThisMonth;
+    const approvalRate = totalDecided > 0 ? Math.round((approvedThisMonth / totalDecided) * 100) : 0;
+
+    const avgScore = devAuthRequests.filter((a) => a.compliance_score !== null).reduce((sum, a) => sum + (a.compliance_score || 0), 0) / Math.max(devAuthRequests.filter((a) => a.compliance_score !== null).length, 1);
+
+    return {
+      pending_auths: devAuthRequests.filter((a) => a.status === 'draft').length,
+      awaiting_decision: devAuthRequests.filter((a) => a.status === 'submitted' || a.status === 'in_review').length,
+      approved_this_month: approvedThisMonth,
+      denied_this_month: deniedThisMonth,
+      approval_rate: approvalRate,
+      compliance_score: Math.round(avgScore),
+      recent_auths: devAuthRequests.slice(0, 10),
+    } as ProviderDashboardData;
+  },
+};
+
 export default api;

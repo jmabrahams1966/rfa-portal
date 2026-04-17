@@ -1,12 +1,91 @@
 import { Routes, Route, Navigate, useNavigate, useLocation, Link } from 'react-router-dom';
-import { useState, useEffect, type ReactNode } from 'react';
+import { useState, useEffect, createContext, useContext, type ReactNode } from 'react';
 import { authApi } from './services/api';
 import LoginPage from './components/auth/LoginPage';
+
+// Non-provider (payer/legal) components
 import Dashboard from './components/dashboard/Dashboard';
 import CaseList from './components/cases/CaseList';
 import CaseDetail from './components/cases/CaseDetail';
 import SubmissionWizard from './components/wizard/SubmissionWizard';
 import SubmissionDetail from './components/wizard/SubmissionDetail';
+
+// Provider components
+import ProviderDashboard from './components/provider/ProviderDashboard';
+import PriorAuthList from './components/provider/PriorAuthList';
+import PriorAuthForm from './components/provider/PriorAuthForm';
+import ComplianceChecker from './components/provider/ComplianceChecker';
+
+// ---------- RBAC Context ----------
+
+interface NavItem {
+  path: string;
+  label: string;
+  icon: string;
+}
+
+interface RBACContext {
+  user_id: string;
+  email: string;
+  full_name: string;
+  role: string;
+  org_type: 'provider' | 'non_provider';
+  is_provider: boolean;
+  is_non_provider: boolean;
+  is_super_admin: boolean;
+  navigation: NavItem[];
+  features: string[];
+}
+
+const PROVIDER_CONTEXT: RBACContext = {
+  user_id: 'dev-001',
+  email: 'dev@provider.com',
+  full_name: 'Dr. Dev Surgeon',
+  role: 'surgeon',
+  org_type: 'provider',
+  is_provider: true,
+  is_non_provider: false,
+  is_super_admin: false,
+  navigation: [
+    { path: '/', label: 'Dashboard', icon: '\uD83D\uDCCA' },
+    { path: '/prior-auth', label: 'Prior Authorizations', icon: '\uD83D\uDCCB' },
+    { path: '/compliance', label: 'Compliance Checker', icon: '\u2705' },
+    { path: '/cases', label: 'Cases', icon: '\uD83D\uDCC1' },
+    { path: '/guidelines', label: 'Payer Guidelines', icon: '\uD83D\uDCD6' },
+    { path: '/analytics', label: 'Analytics', icon: '\uD83D\uDCC8' },
+  ],
+  features: ['prior_auth.create', 'prior_auth.submit', 'prior_auth.view', 'compliance.check', 'narrative.generate', 'narrative.optimize'],
+};
+
+const NON_PROVIDER_CONTEXT: RBACContext = {
+  user_id: 'dev-002',
+  email: 'dev@carrier.com',
+  full_name: 'Dev Adjuster',
+  role: 'adjuster',
+  org_type: 'non_provider',
+  is_provider: false,
+  is_non_provider: true,
+  is_super_admin: false,
+  navigation: [
+    { path: '/', label: 'Dashboard', icon: '\uD83D\uDCCA' },
+    { path: '/cases', label: 'Cases', icon: '\uD83D\uDCC1' },
+    { path: '/submissions', label: 'RFA Filings', icon: '\uD83D\uDCC4' },
+    { path: '/deadlines', label: 'Deadlines', icon: '\u23F0' },
+    { path: '/analytics', label: 'Analytics', icon: '\uD83D\uDCC8' },
+  ],
+  features: ['cases.view', 'cases.create', 'submissions.view', 'submissions.create', 'deadlines.view'],
+};
+
+const RBACCtx = createContext<{ rbac: RBACContext; setOrgType: (t: 'provider' | 'non_provider') => void }>({
+  rbac: PROVIDER_CONTEXT,
+  setOrgType: () => {},
+});
+
+export function useRBAC() {
+  return useContext(RBACCtx);
+}
+
+// ---------- Auth guard ----------
 
 function RequireAuth({ children }: { children: ReactNode }) {
   if (!authApi.isAuthenticated()) {
@@ -15,59 +94,77 @@ function RequireAuth({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
+// ---------- Placeholder pages ----------
+
+function PlaceholderPage({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="p-6 lg:p-8 max-w-7xl mx-auto">
+      <h1 className="text-2xl font-bold text-navy-700 mb-2">{title}</h1>
+      <p className="text-sm text-gray-500 mb-8">{description}</p>
+      <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-12 text-center">
+        <div className="text-5xl mb-4 text-gray-300">&#128679;</div>
+        <p className="text-lg font-semibold text-gray-600">Coming Soon</p>
+        <p className="text-sm text-gray-400 mt-2">This feature is under development.</p>
+      </div>
+    </div>
+  );
+}
+
+// ---------- App Shell ----------
+
 function AppShell({ children }: { children: ReactNode }) {
   const navigate = useNavigate();
   const location = useLocation();
+  const { rbac, setOrgType } = useRBAC();
   const [sidebarOpen, setSidebarOpen] = useState(true);
-  const user = authApi.getUser();
 
   const handleLogout = () => {
     authApi.logout();
     navigate('/login');
   };
 
-  const navItems = [
-    { path: '/', label: 'Dashboard', icon: DashboardIcon },
-    { path: '/cases', label: 'Cases', icon: CasesIcon },
-  ];
-
   const isActive = (path: string) => {
     if (path === '/') return location.pathname === '/';
     return location.pathname.startsWith(path);
   };
 
+  const portalLabel = rbac.is_provider ? 'RFA Portal \u2014 Provider' : 'RFA Portal \u2014 Payer/Legal';
+  const portalSubLabel = rbac.is_provider ? 'Prior Authorization' : 'Workers\' Comp Filing';
+  const sidebarBg = rbac.is_provider ? 'bg-[#0F2044]' : 'bg-[#1a1a2e]';
+  const borderColor = rbac.is_provider ? 'border-[#1a3a6e]' : 'border-[#2d2d4a]';
+
   return (
     <div className="flex h-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
       <aside
-        className={`${sidebarOpen ? 'w-64' : 'w-20'} flex flex-col bg-navy-700 text-white transition-all duration-200 flex-shrink-0`}
+        className={`${sidebarOpen ? 'w-64' : 'w-20'} flex flex-col ${sidebarBg} text-white transition-all duration-200 flex-shrink-0`}
       >
         {/* Brand */}
-        <div className="flex items-center gap-3 px-5 py-5 border-b border-navy-500">
+        <div className={`flex items-center gap-3 px-5 py-5 border-b ${borderColor}`}>
           <div className="w-9 h-9 rounded-lg bg-accent-500 flex items-center justify-center font-bold text-sm flex-shrink-0">
             RFA
           </div>
           {sidebarOpen && (
             <div className="min-w-0">
-              <div className="font-semibold text-sm leading-tight truncate">RFA-2 Portal</div>
-              <div className="text-[11px] text-navy-200 leading-tight">Workers' Comp Filing</div>
+              <div className="font-semibold text-sm leading-tight truncate">{portalLabel}</div>
+              <div className="text-[11px] text-gray-400 leading-tight">{portalSubLabel}</div>
             </div>
           )}
         </div>
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">
-          {navItems.map((item) => (
+          {(rbac.navigation || []).map((item) => (
             <Link
               key={item.path}
               to={item.path}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
                 isActive(item.path)
                   ? 'bg-accent-500 text-white'
-                  : 'text-navy-200 hover:bg-navy-600 hover:text-white'
+                  : 'text-gray-300 hover:bg-white/10 hover:text-white'
               }`}
             >
-              <item.icon className="w-5 h-5 flex-shrink-0" />
+              <span className="text-base flex-shrink-0 w-5 text-center">{item.icon}</span>
               {sidebarOpen && <span>{item.label}</span>}
             </Link>
           ))}
@@ -76,7 +173,7 @@ function AppShell({ children }: { children: ReactNode }) {
         {/* Collapse toggle */}
         <button
           onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="px-3 py-2 text-navy-300 hover:text-white text-xs flex items-center gap-2 mx-3 mb-2 rounded hover:bg-navy-600 transition-colors"
+          className={`px-3 py-2 text-gray-400 hover:text-white text-xs flex items-center gap-2 mx-3 mb-2 rounded hover:bg-white/10 transition-colors`}
         >
           <svg className={`w-4 h-4 transition-transform ${sidebarOpen ? '' : 'rotate-180'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
@@ -84,22 +181,33 @@ function AppShell({ children }: { children: ReactNode }) {
           {sidebarOpen && <span>Collapse</span>}
         </button>
 
+        {/* Dev toggle */}
+        <div className={`border-t ${borderColor} px-4 py-2`}>
+          <button
+            onClick={() => setOrgType(rbac.is_provider ? 'non_provider' : 'provider')}
+            className="w-full text-left px-3 py-2 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+          >
+            {rbac.is_provider ? '-> Switch to Payer View' : '-> Switch to Provider View'}
+          </button>
+          <div className="text-[10px] text-gray-500 mt-1 px-3">Dev mode toggle</div>
+        </div>
+
         {/* User */}
-        <div className="border-t border-navy-500 px-4 py-3">
+        <div className={`border-t ${borderColor} px-4 py-3`}>
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-navy-500 flex items-center justify-center text-xs font-bold flex-shrink-0">
-              {user?.name?.charAt(0) || 'U'}
+            <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold flex-shrink-0">
+              {(rbac.full_name || 'U').charAt(0)}
             </div>
             {sidebarOpen && (
               <div className="min-w-0 flex-1">
-                <div className="text-sm font-medium truncate">{user?.name || 'User'}</div>
-                <div className="text-[11px] text-navy-300 truncate">{user?.organization || ''}</div>
+                <div className="text-sm font-medium truncate">{rbac.full_name || 'User'}</div>
+                <div className="text-[11px] text-gray-400 truncate capitalize">{rbac.role || ''}</div>
               </div>
             )}
           </div>
           <button
             onClick={handleLogout}
-            className={`mt-2 text-xs text-navy-300 hover:text-red-300 transition-colors ${sidebarOpen ? '' : 'text-center w-full'}`}
+            className={`mt-2 text-xs text-gray-400 hover:text-red-300 transition-colors ${sidebarOpen ? '' : 'text-center w-full'}`}
           >
             {sidebarOpen ? 'Sign Out' : 'Out'}
           </button>
@@ -114,24 +222,58 @@ function AppShell({ children }: { children: ReactNode }) {
   );
 }
 
-function DashboardIcon({ className }: { className?: string }) {
+// ---------- Provider Routes ----------
+
+function ProviderRoutes() {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
+    <Routes>
+      <Route path="/" element={<AppShell><ProviderDashboard /></AppShell>} />
+      <Route path="/prior-auth" element={<AppShell><PriorAuthList /></AppShell>} />
+      <Route path="/prior-auth/new" element={<AppShell><PriorAuthForm /></AppShell>} />
+      <Route path="/prior-auth/:id" element={<AppShell><PriorAuthForm /></AppShell>} />
+      <Route path="/compliance" element={<AppShell><ComplianceChecker /></AppShell>} />
+      <Route path="/cases" element={<AppShell><CaseList /></AppShell>} />
+      <Route path="/cases/:id" element={<AppShell><CaseDetail /></AppShell>} />
+      <Route path="/guidelines" element={<AppShell><PlaceholderPage title="Payer Guidelines" description="Reference payer-specific medical necessity criteria and documentation requirements" /></AppShell>} />
+      <Route path="/analytics" element={<AppShell><PlaceholderPage title="Analytics" description="Prior authorization approval rates, turnaround times, and compliance trends" /></AppShell>} />
+      <Route path="/settings" element={<AppShell><PlaceholderPage title="Settings" description="Account and organization settings" /></AppShell>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
 
-function CasesIcon({ className }: { className?: string }) {
+// ---------- Non-Provider Routes ----------
+
+function NonProviderRoutes() {
   return (
-    <svg className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-    </svg>
+    <Routes>
+      <Route path="/" element={<AppShell><Dashboard /></AppShell>} />
+      <Route path="/cases" element={<AppShell><CaseList /></AppShell>} />
+      <Route path="/cases/:id" element={<AppShell><CaseDetail /></AppShell>} />
+      <Route path="/submissions/new/:caseId" element={<AppShell><SubmissionWizard /></AppShell>} />
+      <Route path="/submissions/:id" element={<AppShell><SubmissionDetail /></AppShell>} />
+      <Route path="/submissions" element={<AppShell><PlaceholderPage title="RFA Filings" description="View and manage all RFA-2 filings and submissions" /></AppShell>} />
+      <Route path="/deadlines" element={<AppShell><PlaceholderPage title="Deadlines" description="Track upcoming filing deadlines and compliance windows" /></AppShell>} />
+      <Route path="/analytics" element={<AppShell><PlaceholderPage title="Analytics" description="Submission metrics, acceptance rates, and case trends" /></AppShell>} />
+      <Route path="/settings" element={<AppShell><PlaceholderPage title="Settings" description="Account and organization settings" /></AppShell>} />
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
   );
 }
+
+// ---------- App ----------
 
 export default function App() {
   const [_ready, setReady] = useState(false);
+  const [rbac, setRbac] = useState<RBACContext>(PROVIDER_CONTEXT);
+
+  const setOrgType = (orgType: 'provider' | 'non_provider') => {
+    if (orgType === 'provider') {
+      setRbac(PROVIDER_CONTEXT);
+    } else {
+      setRbac(NON_PROVIDER_CONTEXT);
+    }
+  };
 
   useEffect(() => {
     // Auto-login in dev mode
@@ -140,52 +282,47 @@ export default function App() {
     } else {
       setReady(true);
     }
+
+    // Try to fetch real RBAC context, fall back to mock
+    fetch('/api/rbac/context/')
+      .then((res) => {
+        if (!res.ok) throw new Error('RBAC endpoint not available');
+        return res.json();
+      })
+      .then((data) => {
+        if (data && data.org_type) {
+          setRbac({
+            user_id: data.user_id || 'dev-001',
+            email: data.email || '',
+            full_name: data.full_name || '',
+            role: data.role || '',
+            org_type: data.org_type,
+            is_provider: data.is_provider ?? data.org_type === 'provider',
+            is_non_provider: data.is_non_provider ?? data.org_type === 'non_provider',
+            is_super_admin: data.is_super_admin ?? false,
+            navigation: data.navigation || [],
+            features: data.features || [],
+          });
+        }
+      })
+      .catch(() => {
+        // Use mock context — already set as default
+      });
   }, []);
 
   return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route
-        path="/"
-        element={
-          <RequireAuth>
-            <AppShell><Dashboard /></AppShell>
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/cases"
-        element={
-          <RequireAuth>
-            <AppShell><CaseList /></AppShell>
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/cases/:id"
-        element={
-          <RequireAuth>
-            <AppShell><CaseDetail /></AppShell>
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/submissions/new/:caseId"
-        element={
-          <RequireAuth>
-            <AppShell><SubmissionWizard /></AppShell>
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/submissions/:id"
-        element={
-          <RequireAuth>
-            <AppShell><SubmissionDetail /></AppShell>
-          </RequireAuth>
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <RBACCtx.Provider value={{ rbac, setOrgType }}>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/*"
+          element={
+            <RequireAuth>
+              {rbac.is_provider ? <ProviderRoutes /> : <NonProviderRoutes />}
+            </RequireAuth>
+          }
+        />
+      </Routes>
+    </RBACCtx.Provider>
   );
 }
