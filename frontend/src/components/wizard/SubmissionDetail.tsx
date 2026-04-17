@@ -36,7 +36,7 @@ export default function SubmissionDetail() {
   if (!submission) return null;
 
   const status = statusConfig[submission.status] || statusConfig.draft;
-  const fd = submission.form_data as Record<string, string>;
+  const fd = (submission.form_data || {}) as Record<string, string>;
 
   return (
     <div className="p-6 lg:p-8 max-w-5xl mx-auto">
@@ -81,15 +81,15 @@ export default function SubmissionDetail() {
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-sm font-semibold text-navy-700 uppercase tracking-wide mb-3">Reason Codes</h2>
             <div className="flex gap-2 flex-wrap">
-              {submission.reason_codes.map((code, i) => (
+              {(submission.reason_codes || []).map((code, i) => (
                 <div key={code} className="px-3 py-1.5 bg-navy-50 rounded-lg">
                   <span className="font-mono text-sm font-bold text-navy-700">{code}</span>
-                  {submission.reason_code_labels[i] && (
-                    <span className="text-xs text-gray-500 ml-2">{submission.reason_code_labels[i]}</span>
+                  {(submission.reason_code_labels || [])[i] && (
+                    <span className="text-xs text-gray-500 ml-2">{(submission.reason_code_labels || [])[i]}</span>
                   )}
                 </div>
               ))}
-              {submission.reason_codes.length === 0 && (
+              {(submission.reason_codes || []).length === 0 && (
                 <span className="text-sm text-gray-400">No reason codes assigned</span>
               )}
             </div>
@@ -115,10 +115,10 @@ export default function SubmissionDetail() {
           </div>
 
           {/* Validation results */}
-          {(submission.validation_errors.length > 0 || submission.validation_warnings.length > 0) && (
+          {((submission.validation_errors || []).length > 0 || (submission.validation_warnings || []).length > 0) && (
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <h2 className="text-sm font-semibold text-navy-700 uppercase tracking-wide mb-3">Validation Results</h2>
-              {submission.validation_errors.map((err, i) => (
+              {(submission.validation_errors || []).map((err, i) => (
                 <div key={i} className="flex items-start gap-2 p-2 bg-red-50 rounded-lg mb-2">
                   <svg className="w-4 h-4 text-red-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -126,7 +126,7 @@ export default function SubmissionDetail() {
                   <span className="text-sm text-red-700">{err.message}</span>
                 </div>
               ))}
-              {submission.validation_warnings.map((warn, i) => (
+              {(submission.validation_warnings || []).map((warn, i) => (
                 <div key={i} className="flex items-start gap-2 p-2 bg-amber-50 rounded-lg mb-2">
                   <svg className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
@@ -185,11 +185,11 @@ export default function SubmissionDetail() {
           {/* Documents */}
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h2 className="text-sm font-semibold text-navy-700 uppercase tracking-wide mb-3">
-              Documents ({submission.documents.length})
+              Documents ({(submission.documents || []).length})
             </h2>
-            {submission.documents.length > 0 ? (
+            {(submission.documents || []).length > 0 ? (
               <div className="space-y-2">
-                {submission.documents.map((doc) => (
+                {(submission.documents || []).map((doc) => (
                   <div key={doc.id} className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
                     <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />

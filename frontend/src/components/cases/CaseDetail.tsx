@@ -125,12 +125,12 @@ export default function CaseDetail() {
                   </td>
                   <td className="px-5 py-3.5">
                     <div className="flex gap-1 flex-wrap">
-                      {sub.reason_codes.map((code) => (
+                      {(sub.reason_codes || []).map((code) => (
                         <span key={code} className="px-1.5 py-0.5 bg-navy-50 text-navy-600 rounded text-xs font-mono">
                           {code}
                         </span>
                       ))}
-                      {sub.reason_codes.length === 0 && <span className="text-gray-400 text-xs">--</span>}
+                      {(sub.reason_codes || []).length === 0 && <span className="text-gray-400 text-xs">--</span>}
                     </div>
                   </td>
                   <td className="px-5 py-3.5 font-mono text-xs text-gray-600">

@@ -116,7 +116,7 @@ export default function Dashboard() {
                     </td>
                     <td className="px-5 py-3">
                       <div className="flex gap-1 flex-wrap">
-                        {sub.reason_codes.map((code) => (
+                        {(sub.reason_codes || []).map((code) => (
                           <span key={code} className="px-1.5 py-0.5 bg-navy-50 text-navy-600 rounded text-xs font-mono">
                             {code}
                           </span>

@@ -175,7 +175,7 @@ export default function SubmissionWizard() {
     try {
       const result = await submissionsApi.extract(submissionId);
       setExtraction(result);
-      setSelectedCodes(result.reason_codes.map((r) => r.code));
+      setSelectedCodes((result.reason_codes || []).map((r) => r.code));
       // Pre-fill form from extraction
       const fields = result.extracted_fields;
       setFormData((prev) => ({
@@ -424,7 +424,7 @@ export default function SubmissionWizard() {
           <div className="bg-white rounded-xl border border-gray-200 p-6">
             <h3 className="text-sm font-semibold text-navy-700 uppercase tracking-wide mb-3">Detected Reason Codes</h3>
             <div className="space-y-2">
-              {extraction.reason_codes.map((rc) => (
+              {(extraction.reason_codes || []).map((rc) => (
                 <label key={rc.code} className="flex items-center gap-3 p-3 rounded-lg border border-gray-100 hover:bg-gray-50 cursor-pointer">
                   <input
                     type="checkbox"

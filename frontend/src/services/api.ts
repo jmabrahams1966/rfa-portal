@@ -217,7 +217,24 @@ export const submissionsApi = {
   get: async (id: string) => {
     if (isDevBypass) return devSubmissions.find((s) => s.id === id) || devSubmissions[0];
     const { data } = await api.get(`/submissions/${id}`);
-    return data as Submission;
+    // Normalize API response to match frontend Submission interface
+    return {
+      ...data,
+      wcb_case_number: data.wcb_case_number || '',
+      claimant_name: data.claimant_name || '',
+      reason_codes: data.reason_codes || [],
+      reason_code_labels: data.reason_code_labels || [],
+      form_data: data.form_data || {},
+      documents: (data.documents || []).map((d: any) => ({
+        id: d.id, filename: d.file_name || d.filename || '', doc_type: d.doc_type || '',
+        uploaded_at: d.created_at || '', size: d.size_bytes || 0,
+      })),
+      validation_errors: data.validation_errors || [],
+      validation_warnings: data.validation_warnings || [],
+      narrative: data.narrative || '',
+      attested: data.attestation_accepted || false,
+      attested_at: null,
+    } as Submission;
   },
 
   create: async (caseId: string) => {
