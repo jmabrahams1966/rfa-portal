@@ -15,6 +15,7 @@ import ProviderDashboard from './components/provider/ProviderDashboard';
 import PriorAuthList from './components/provider/PriorAuthList';
 import PriorAuthForm from './components/provider/PriorAuthForm';
 import ComplianceChecker from './components/provider/ComplianceChecker';
+import ProcedureLookup from './components/provider/ProcedureLookup';
 
 // ---------- RBAC Context ----------
 
@@ -256,7 +257,7 @@ function ProviderRoutes() {
       <Route path="/compliance" element={<AppShell><ComplianceChecker /></AppShell>} />
       <Route path="/cases" element={<AppShell><CaseList /></AppShell>} />
       <Route path="/cases/:id" element={<AppShell><CaseDetail /></AppShell>} />
-      <Route path="/guidelines" element={<AppShell><PlaceholderPage title="Payer Guidelines" description="Reference payer-specific medical necessity criteria and documentation requirements" /></AppShell>} />
+      <Route path="/guidelines" element={<AppShell><ProcedureLookup /></AppShell>} />
       <Route path="/analytics" element={<AppShell><PlaceholderPage title="Analytics" description="Prior authorization approval rates, turnaround times, and compliance trends" /></AppShell>} />
       <Route path="/settings" element={<AppShell><PlaceholderPage title="Settings" description="Account and organization settings" /></AppShell>} />
       <Route path="*" element={<Navigate to="/" replace />} />

@@ -1,7 +1,7 @@
 """
-Commercial & Government Payer Prior Authorization Guidelines — Knowledge Base.
+Commercial, Government & Auto Payer Prior Authorization Guidelines — Knowledge Base.
 
-Comprehensive prior authorization criteria for 8 major insurance payers, covering
+Comprehensive prior authorization criteria for 9 major insurance payers, covering
 14 orthopedic/neurosurgery/concussion procedures.  Each procedure-payer combination
 includes policy numbers, clinical criteria, required documentation, common denial
 reasons, approval tips, and performance metrics.
@@ -12,6 +12,7 @@ payer-specific standards.
 
 Payers:  UnitedHealthcare · Aetna · BCBS · Cigna · Humana · EmblemHealth
          Medicare (Novitas/NGS for NY) · Medicaid NY (eMedNY)
+         No-Fault / PIP (NY Auto Insurance)
 
 Procedures (14):
   Spine/Neurosurgery — lumbar_fusion, lumbar_decompression, cervical_fusion_acdf,
@@ -29,7 +30,7 @@ from difflib import SequenceMatcher
 from typing import Any
 
 # ---------------------------------------------------------------------------
-#  PAYER AUTH GUIDELINES  —  8 payers × 14 procedures = 112 combinations
+#  PAYER AUTH GUIDELINES  —  9 payers × 14 procedures = 126 combinations
 # ---------------------------------------------------------------------------
 
 PAYER_AUTH_GUIDELINES: dict[str, dict[str, Any]] = {
@@ -4101,6 +4102,657 @@ PAYER_AUTH_GUIDELINES: dict[str, dict[str, Any]] = {
             },
         },
     },
+
+    # ======================================================================
+    #  9. NO-FAULT (PIP / PERSONAL INJURY PROTECTION)
+    # ======================================================================
+    "no_fault": {
+        "name": "No-Fault (PIP / Personal Injury Protection)",
+        "type": "auto",
+        "source": "NY Insurance Law §5102, 11 NYCRR 65-1 through 65-4, No-Fault Fee Schedule",
+        "notes": (
+            "NY No-Fault covers medically necessary treatment arising from motor vehicle "
+            "accidents. Prior auth required for surgery and certain diagnostic tests. "
+            "Governed by Insurance Law Article 51 and Regulation 68. $50,000 basic PIP "
+            "limit (or higher with SUM/supplemental coverage). Bills must be submitted "
+            "within 45 days of treatment. Carrier has 30 days to pay or deny. Appeals go "
+            "to No-Fault arbitration (American Arbitration Association), not internal payer "
+            "appeal. IME (Independent Medical Examination) may be requested by carrier at "
+            "any time. NF-3 (Verification of Treatment) form required within 180 days of "
+            "service. NF-5 (Hospital Facility Form) required for surgical procedures."
+        ),
+        "pa_portal": "Carrier-specific — no unified portal; submit NF-3/NF-5 to assigned carrier",
+        "phone": "Carrier-specific — contact assigned No-Fault carrier claims department",
+        "avg_p2p_wait_days": 0,
+        "procedures": {
+
+            # ----------------------------------------------------------
+            # SPINE / NEUROSURGERY
+            # ----------------------------------------------------------
+
+            "lumbar_fusion": {
+                "policy_number": "NFPIP-SPINE-001",
+                "policy_name": "Lumbar Spinal Fusion — No-Fault PIP",
+                "criteria": [
+                    "Injury must be causally related to the motor vehicle accident with documented mechanism of injury",
+                    "Treatment must be within statutory time limits — initial treatment within 30 days of MVA; surgical within reasonable timeframe",
+                    "Failed minimum 8-12 weeks of conservative treatment (PT, medications, injections) unless acute instability",
+                    "MRI or CT demonstrating structural pathology at proposed surgical level(s) — distinguish acute traumatic findings from pre-existing degenerative changes",
+                    "Documented instability on flexion-extension radiographs (>4 mm translation or >10° angular motion)",
+                    "Must comply with No-Fault Fee Schedule for all billing",
+                    "NF-3 (Verification of Treatment) form must be submitted within 180 days of service",
+                    "NF-5 (Hospital Facility Form) required for the surgical procedure",
+                    "IME (Independent Medical Examination) may be requested by carrier — carrier's consulting physician peer review may be required",
+                    "Medical necessity must be documented per Regulation 68 (11 NYCRR 65-1.1)",
+                    "ODI score ≥30 or equivalent validated functional impairment measure",
+                    "Physical therapy minimum 8 sessions with documented outcomes",
+                    "At least 1 epidural steroid injection with documented response",
+                    "Causal relationship between MVA and current pathology must be explicitly stated in operative note and clinical narrative",
+                ],
+                "required_documentation": [
+                    "MRI or CT within 6 months clearly identifying acute vs. degenerative findings",
+                    "Police report or accident report documenting MVA",
+                    "Initial ER or urgent care visit records from date of accident",
+                    "Physical therapy records with session dates, interventions, and outcomes",
+                    "Medication history with drug names, dosages, duration, and clinical response",
+                    "Injection records with dates, agents, fluoroscopic guidance, and relief duration",
+                    "Functional outcome scores (ODI and VAS)",
+                    "Operative plan with CPT codes and planned levels",
+                    "NF-3 Verification of Treatment form",
+                    "NF-5 Hospital Facility Form",
+                    "H&P within 30 days of submission documenting causal relationship to MVA",
+                    "Flexion-extension radiographs if instability is the indication",
+                ],
+                "common_denial_reasons": [
+                    "IME found claimant at MMI (Maximum Medical Improvement) — no further treatment needed",
+                    "Treatment not causally related to MVA — carrier attributes findings to pre-existing degenerative changes",
+                    "Pre-existing condition (degenerative disc disease, spondylosis) not distinguished from acute traumatic injury on imaging",
+                    "Excessive treatment duration beyond what carrier deems reasonable for MVA injury",
+                    "Fee schedule violation — billed amount exceeds No-Fault Fee Schedule",
+                    "NF-3 not submitted within 180 days of service",
+                    "Bills not submitted within 45 days of treatment date",
+                    "Insufficient conservative care duration (carrier expects 8-12 weeks minimum for fusion)",
+                ],
+                "approval_tips": [
+                    "Document causal relationship to MVA in EVERY clinical note — date of accident, mechanism of injury, onset of symptoms",
+                    "Reference date of accident consistently throughout all documentation",
+                    "Distinguish acute traumatic findings from pre-existing degenerative changes on MRI — have radiologist comment specifically",
+                    "If IME is scheduled, prepare detailed rebuttal documentation with treating physician's counterarguments",
+                    "Submit NF-3 within 180 days of service — set calendar reminders",
+                    "No-Fault is generally more permissive than commercial for initial treatment, but carriers aggressively IME and deny after initial period",
+                    "If denied after IME, file for No-Fault arbitration through AAA — do NOT use internal appeal process",
+                    "Keep detailed timeline of all treatment from date of MVA forward",
+                    "Consider $50,000 basic PIP limit — ensure SUM coverage is confirmed before proceeding with surgery",
+                ],
+                "avg_decision_days": 30,
+                "appeal_success_rate": 50,
+            },
+
+            "lumbar_decompression": {
+                "policy_number": "NFPIP-SPINE-002",
+                "policy_name": "Lumbar Decompression (Laminectomy/Discectomy) — No-Fault PIP",
+                "criteria": [
+                    "Injury must be causally related to the motor vehicle accident",
+                    "Treatment must be within statutory time limits — initial treatment within 30 days of MVA",
+                    "Failed minimum 6 weeks of conservative treatment unless progressive neurological deficit or cauda equina syndrome",
+                    "MRI demonstrating disc herniation or stenosis with neural compression — must distinguish acute traumatic from degenerative pathology",
+                    "Neurological examination documenting radiculopathy with dermatomal correlation",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may be requested by carrier's consulting physician",
+                    "Medical necessity documented per Regulation 68",
+                    "EMG/NCS if radiculopathy is clinically equivocal",
+                ],
+                "required_documentation": [
+                    "MRI within 6 months distinguishing acute vs. degenerative findings",
+                    "Police report or accident report",
+                    "Initial ER/urgent care records from MVA date",
+                    "Physical therapy records (minimum 6 sessions)",
+                    "Neurological examination with sensory, motor, and reflex findings",
+                    "Medication trial records",
+                    "EMG/NCS if radiculopathy uncertain",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan with levels and CPT codes",
+                ],
+                "common_denial_reasons": [
+                    "IME found claimant at MMI — no further treatment needed",
+                    "Disc herniation attributed to pre-existing degenerative changes, not MVA",
+                    "Insufficient conservative treatment without documented progressive deficit",
+                    "Imaging findings do not correlate with clinical presentation",
+                    "NF-3 not timely submitted",
+                ],
+                "approval_tips": [
+                    "If disc herniation is acute (MRI shows bright signal, no desiccation), highlight this — it supports MVA causation",
+                    "For cauda equina or progressive motor deficit, document urgency to bypass conservative care requirement",
+                    "Clearly map dermatomal pattern to imaging findings and to MVA mechanism of injury",
+                    "Include VAS leg score separately from VAS back score",
+                    "File NF-3 promptly — do not wait until 180-day deadline",
+                ],
+                "avg_decision_days": 20,
+                "appeal_success_rate": 55,
+            },
+
+            "cervical_fusion_acdf": {
+                "policy_number": "NFPIP-SPINE-003",
+                "policy_name": "ACDF (Anterior Cervical Discectomy & Fusion) — No-Fault PIP",
+                "criteria": [
+                    "Injury must be causally related to MVA — cervical spine injuries are common in rear-end collisions",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 6-8 weeks of conservative treatment (PT, cervical traction, medications) unless myelopathy present",
+                    "MRI demonstrating cervical disc herniation or spondylotic stenosis with cord or root compression — acute vs. degenerative must be addressed",
+                    "Radiculopathy or myelopathy with clinical correlation to imaging",
+                    "NDI score ≥25 or equivalent functional impairment",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME by carrier's consulting physician may be required",
+                    "Maximum 3 levels — additional levels require detailed justification",
+                ],
+                "required_documentation": [
+                    "MRI cervical spine within 6 months with radiologist commentary on acute vs. degenerative findings",
+                    "Police report or accident report documenting MVA and mechanism (rear-end, side impact, etc.)",
+                    "Initial ER records showing cervical spine complaints from MVA date",
+                    "NDI score",
+                    "Neurological examination with upper and lower extremity findings",
+                    "Physical therapy records",
+                    "Medication history",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan specifying levels and approach",
+                ],
+                "common_denial_reasons": [
+                    "IME determined cervical pathology is degenerative and not related to MVA",
+                    "Pre-existing cervical spondylosis on imaging not distinguished from acute injury",
+                    "NDI or functional score not included",
+                    "Conservative care not adequately documented for 6-8 weeks",
+                    "Delay between MVA and onset of cervical symptoms raises causation question",
+                ],
+                "approval_tips": [
+                    "Cervical injuries from MVA are very common — document mechanism (whiplash, rear-end impact) explicitly",
+                    "If pre-existing spondylosis exists, argue aggravation/exacerbation doctrine — MVA worsened pre-existing condition",
+                    "For myelopathy, document Hoffmann sign, Babinski, clonus, and gait disturbance",
+                    "Include pre-MVA medical records showing NO prior cervical complaints if available — this strengthens causation",
+                    "No-Fault carriers frequently IME for ACDF — prepare comprehensive rebuttal package",
+                ],
+                "avg_decision_days": 30,
+                "appeal_success_rate": 48,
+            },
+
+            "cervical_decompression": {
+                "policy_number": "NFPIP-SPINE-004",
+                "policy_name": "Cervical Decompression (Laminectomy/Foraminotomy) — No-Fault PIP",
+                "criteria": [
+                    "Injury causally related to MVA",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 6 weeks of conservative care unless myelopathy present",
+                    "MRI or CT demonstrating cervical stenosis or foraminal narrowing with neural compression",
+                    "Clinical symptoms correlating with imaging (radiculopathy or myelopathy)",
+                    "Neurological examination documenting upper extremity findings",
+                    "NDI score ≥25 or equivalent",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may be requested by carrier",
+                ],
+                "required_documentation": [
+                    "MRI cervical spine within 6 months",
+                    "Police/accident report",
+                    "Initial ER records",
+                    "Detailed neurological examination",
+                    "NDI score",
+                    "Conservative treatment records (PT and medications)",
+                    "CT if bony pathology is primary indication",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan with levels and approach",
+                ],
+                "common_denial_reasons": [
+                    "IME found claimant at MMI",
+                    "Cervical stenosis attributed to pre-existing degenerative condition",
+                    "Imaging does not demonstrate significant neural compression",
+                    "Insufficient conservative treatment without myelopathy",
+                ],
+                "approval_tips": [
+                    "If myelopathy present, clearly document it bypasses conservative care requirements",
+                    "Document hand clumsiness, gait instability, and fine motor deficits",
+                    "CT scan supplements MRI for bony pathology (OPLL, facet hypertrophy)",
+                    "Argue aggravation doctrine if pre-existing stenosis was asymptomatic before MVA",
+                ],
+                "avg_decision_days": 25,
+                "appeal_success_rate": 50,
+            },
+
+            "spinal_cord_stimulator": {
+                "policy_number": "NFPIP-SPINE-005",
+                "policy_name": "Spinal Cord Stimulator — No-Fault PIP",
+                "criteria": [
+                    "Chronic pain must be causally related to MVA injury",
+                    "Treatment within statutory timeframe — SCS typically requested months to years post-MVA",
+                    "Failed minimum 6 months of conservative treatment including PT, medications, injections, and prior surgical interventions",
+                    "Diagnosis of failed back surgery syndrome (post-MVA surgery), CRPS from MVA injury, or chronic intractable neuropathic pain from MVA",
+                    "Successful SCS trial of ≥5 days with ≥50% pain relief documented on VAS",
+                    "Psychological evaluation clearing patient for implant",
+                    "No active substance abuse — negative urine drug screen within 30 days",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME by carrier's consulting physician almost certain for SCS requests",
+                    "Medical necessity documented per Regulation 68",
+                    "Causal chain from MVA to current pain condition must be clearly documented",
+                ],
+                "required_documentation": [
+                    "SCS trial report with daily VAS scores and percentage relief",
+                    "Psychological evaluation report",
+                    "Urine drug screen results within 30 days",
+                    "Complete pain management history from MVA date forward",
+                    "MRI demonstrating post-surgical changes or underlying MVA-related pathology",
+                    "Physical therapy records (6+ months)",
+                    "Medication management records including opioid history",
+                    "Functional outcome measures (ODI, VAS, PCS)",
+                    "Police/accident report",
+                    "All prior surgical records related to MVA injury",
+                    "NF-3 and NF-5 forms",
+                ],
+                "common_denial_reasons": [
+                    "IME determined pain is not causally related to MVA or claimant is at MMI",
+                    "SCS trial did not demonstrate ≥50% pain reduction",
+                    "Missing or incomplete psychological evaluation",
+                    "PIP benefits exhausted ($50,000 limit) — SCS cost may exceed remaining coverage",
+                    "Carrier argues pre-existing chronic pain condition",
+                    "Insufficient documentation of causal chain from MVA to current pain",
+                ],
+                "approval_tips": [
+                    "SCS requests under No-Fault almost always trigger IME — prepare comprehensive rebuttal package in advance",
+                    "Document the complete causal chain: MVA → initial injury → treatments → failed outcomes → SCS candidacy",
+                    "Confirm PIP benefits have not been exhausted — SCS implant + trial can exceed $50,000",
+                    "If SUM coverage exists, confirm with carrier before proceeding",
+                    "Include detailed trial data — daily VAS, activity logs, patient satisfaction ratings",
+                    "Psychological evaluation must explicitly recommend implant and relate condition to MVA",
+                ],
+                "avg_decision_days": 30,
+                "appeal_success_rate": 30,
+            },
+
+            "epidural_steroid_injection": {
+                "policy_number": "NFPIP-SPINE-006",
+                "policy_name": "Epidural Steroid Injection — No-Fault PIP",
+                "criteria": [
+                    "Radicular pain causally related to MVA with imaging correlation",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 2 weeks of conservative treatment (oral medications and/or PT)",
+                    "Maximum 3 injections per spinal region per 12-month period",
+                    "Minimum 2-week interval between injections",
+                    "Fluoroscopic or CT guidance required",
+                    "Must document response to prior injection before authorizing subsequent injection",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 form required for each injection",
+                    "IME may be requested after initial series of injections",
+                ],
+                "required_documentation": [
+                    "MRI or CT demonstrating pathology at target level — acute vs. degenerative findings noted",
+                    "Police/accident report",
+                    "Pain diagram or description of radicular distribution",
+                    "Trial of oral medications (NSAIDs, neuropathic agents)",
+                    "Prior injection response records if requesting 2nd or 3rd injection",
+                    "VAS score before and after each prior injection",
+                    "Planned approach (interlaminar vs. transforaminal) and level",
+                    "NF-3 form",
+                ],
+                "common_denial_reasons": [
+                    "IME determined claimant at MMI after initial injection series",
+                    "Exceeded 3 injections per region per 12 months",
+                    "No documented response to prior injection",
+                    "Radicular pain attributed to pre-existing degenerative pathology, not MVA",
+                    "Non-fluoroscopic (blind) technique proposed",
+                ],
+                "approval_tips": [
+                    "ESIs are generally well-covered under No-Fault for acute MVA injuries — first series rarely denied",
+                    "Document VAS change and duration of relief after each injection",
+                    "If requesting beyond initial 3, provide strong functional improvement data",
+                    "Specify transforaminal vs. interlaminar approach with rationale",
+                    "Submit NF-3 promptly for each injection",
+                ],
+                "avg_decision_days": 10,
+                "appeal_success_rate": 65,
+            },
+
+            # ----------------------------------------------------------
+            # ORTHOPEDIC
+            # ----------------------------------------------------------
+
+            "total_knee_replacement": {
+                "policy_number": "NFPIP-ORTHO-001",
+                "policy_name": "Total Knee Arthroplasty (TKA) — No-Fault PIP",
+                "criteria": [
+                    "Knee injury must be causally related to MVA — e.g., dashboard knee, direct impact",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 3 months of conservative treatment (PT, medications, injections) for post-traumatic arthritis",
+                    "Radiographic evidence of post-traumatic arthritis (joint space narrowing, osteophytes) related to MVA injury",
+                    "Weight-bearing radiographs required",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME by carrier's consulting physician likely for TKA",
+                    "BMI <40 or documented justification",
+                    "HbA1c <8.0 for diabetic patients",
+                    "Functional impairment documented with KOOS or WOMAC scores",
+                    "Causal relationship between MVA knee injury and current need for TKA must be documented",
+                ],
+                "required_documentation": [
+                    "Weight-bearing AP, lateral, and sunrise knee radiographs within 6 months",
+                    "Police/accident report documenting mechanism of knee injury",
+                    "Initial ER records showing knee injury from MVA",
+                    "KOOS or WOMAC functional outcome scores",
+                    "Physical therapy records (minimum 6 sessions)",
+                    "Medication and injection history with response",
+                    "BMI and tobacco status",
+                    "HbA1c if diabetic",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan",
+                ],
+                "common_denial_reasons": [
+                    "IME determined knee arthritis is pre-existing degenerative OA, not post-traumatic from MVA",
+                    "No documentation of acute knee injury at time of MVA",
+                    "PIP benefits insufficient for TKA cost",
+                    "BMI ≥40 without justification",
+                    "No functional outcome scores documented",
+                ],
+                "approval_tips": [
+                    "Document the specific mechanism of knee injury in MVA (dashboard impact, twisting, direct blow)",
+                    "Include initial ER records showing acute knee injury — this is critical for causation",
+                    "If post-traumatic arthritis developed over time, document the progression from acute injury to arthritis",
+                    "Confirm PIP benefits are sufficient to cover TKA — may need SUM coverage",
+                    "Weight-bearing radiographs are non-negotiable",
+                ],
+                "avg_decision_days": 30,
+                "appeal_success_rate": 45,
+            },
+
+            "total_hip_replacement": {
+                "policy_number": "NFPIP-ORTHO-002",
+                "policy_name": "Total Hip Arthroplasty (THA) — No-Fault PIP",
+                "criteria": [
+                    "Hip injury must be causally related to MVA — e.g., acetabular fracture, hip dislocation, AVN post-fracture",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 3 months of conservative treatment for post-traumatic arthritis",
+                    "Radiographic evidence of post-traumatic arthritis or AVN related to MVA",
+                    "AP pelvis and lateral hip radiographs required",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME likely for THA",
+                    "BMI <40 or documented justification",
+                    "Functional impairment documented with HOOS or Harris Hip Score",
+                ],
+                "required_documentation": [
+                    "AP pelvis and frog-leg lateral hip radiographs within 6 months",
+                    "Police/accident report documenting mechanism of hip injury",
+                    "Initial ER records showing hip injury from MVA (fracture, dislocation)",
+                    "HOOS or Harris Hip Score",
+                    "Physical therapy records",
+                    "Medication and injection history",
+                    "BMI and tobacco status",
+                    "HbA1c if diabetic",
+                    "NF-3 and NF-5 forms",
+                    "Prior surgical records if post-traumatic (e.g., ORIF of acetabulum)",
+                ],
+                "common_denial_reasons": [
+                    "IME determined hip arthritis is primary OA, not post-traumatic from MVA",
+                    "No initial hip injury documented at time of MVA",
+                    "PIP benefits exhausted",
+                    "Insufficient conservative treatment",
+                ],
+                "approval_tips": [
+                    "Document the specific mechanism of hip injury (pedestrian struck, direct lateral impact, dashboard)",
+                    "If post-traumatic AVN, include MRI showing staging and progression from original fracture",
+                    "Include prior surgical records (ORIF) that show the progression to arthritis",
+                    "Harris Hip Score <60 strengthens the case",
+                    "Confirm PIP coverage is sufficient before proceeding",
+                ],
+                "avg_decision_days": 30,
+                "appeal_success_rate": 45,
+            },
+
+            "acl_reconstruction": {
+                "policy_number": "NFPIP-ORTHO-003",
+                "policy_name": "ACL Reconstruction — No-Fault PIP",
+                "criteria": [
+                    "ACL tear must be causally related to MVA — documented mechanism of knee injury",
+                    "Treatment within statutory time limits",
+                    "MRI-confirmed complete ACL tear",
+                    "Clinical examination demonstrating Grade III laxity (Lachman, anterior drawer, pivot shift)",
+                    "Functional instability with giving way episodes documented",
+                    "Pre-rehabilitation PT completed (minimum 4 sessions) to restore ROM",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may be requested — less common for acute ACL tears from MVA",
+                ],
+                "required_documentation": [
+                    "MRI confirming ACL tear within 6 months",
+                    "Police/accident report with mechanism of knee injury",
+                    "Initial ER records documenting acute knee injury, hemarthrosis, instability",
+                    "Physical examination with Lachman, anterior drawer, pivot shift results",
+                    "Pre-habilitation PT records",
+                    "Documentation of instability episodes",
+                    "NF-3 and NF-5 forms",
+                    "Graft choice rationale",
+                ],
+                "common_denial_reasons": [
+                    "No documentation of acute knee injury at time of MVA",
+                    "MRI shows partial tear without documented instability",
+                    "Delay between MVA and surgery raises causation question",
+                    "Pre-existing ACL insufficiency alleged by IME physician",
+                ],
+                "approval_tips": [
+                    "ACL tears from MVA are well-established — document dashboard mechanism or direct impact",
+                    "Include ER hemarthrosis documentation — this strongly supports acute ACL tear",
+                    "If MRI was delayed, explain clinical reason (initial swelling, bracing trial)",
+                    "No-Fault generally approves acute ACL reconstruction from MVA without significant resistance",
+                    "Document specific giving way episodes with dates and circumstances",
+                ],
+                "avg_decision_days": 20,
+                "appeal_success_rate": 60,
+            },
+
+            "rotator_cuff_repair": {
+                "policy_number": "NFPIP-ORTHO-004",
+                "policy_name": "Rotator Cuff Repair — No-Fault PIP",
+                "criteria": [
+                    "Rotator cuff tear must be causally related to MVA — e.g., direct shoulder impact, seatbelt injury, bracing against steering wheel",
+                    "Treatment within statutory time limits",
+                    "MRI demonstrating full-thickness or high-grade partial rotator cuff tear",
+                    "Failed minimum 6 weeks of conservative treatment (PT, NSAIDs, subacromial injection) unless acute full-thickness tear",
+                    "Physical examination demonstrating weakness in rotator cuff testing (supraspinatus, infraspinatus, subscapularis)",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may be requested — carriers often argue degenerative tear in patients >50",
+                ],
+                "required_documentation": [
+                    "MRI shoulder within 6 months showing rotator cuff tear — radiologist should comment on acuity",
+                    "Police/accident report with mechanism of shoulder injury",
+                    "Initial ER/urgent care records showing shoulder complaints from MVA",
+                    "Physical examination with rotator cuff specific testing",
+                    "Physical therapy records (minimum 6 sessions) unless acute full-thickness tear",
+                    "Injection records if subacromial injection performed",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan",
+                ],
+                "common_denial_reasons": [
+                    "IME determined rotator cuff tear is degenerative (chronic tendinopathy) and not acute from MVA",
+                    "No shoulder complaints documented at initial ER visit after MVA",
+                    "Patient age >50 — carrier argues degenerative etiology",
+                    "MRI shows chronic changes (atrophy, fatty infiltration) suggesting pre-existing tear",
+                ],
+                "approval_tips": [
+                    "If MRI shows no fatty infiltration or muscle atrophy, highlight this — it supports acute tear",
+                    "Document mechanism of shoulder injury specifically (steering wheel grip, seatbelt impact, lateral collision)",
+                    "If shoulder pain was not chief complaint at ER but was mentioned, ensure ER records document it",
+                    "For patients >50, acknowledge age-related changes but argue acute-on-chronic aggravation",
+                    "No-Fault carriers frequently contest rotator cuff causation — prepare strong mechanism documentation",
+                ],
+                "avg_decision_days": 25,
+                "appeal_success_rate": 48,
+            },
+
+            "carpal_tunnel_release": {
+                "policy_number": "NFPIP-ORTHO-005",
+                "policy_name": "Carpal Tunnel Release — No-Fault PIP",
+                "criteria": [
+                    "Carpal tunnel syndrome must be causally related to MVA — e.g., wrist fracture, direct wrist impact, prolonged casting",
+                    "Treatment within statutory time limits",
+                    "Failed minimum 6 weeks of conservative treatment (splinting, NSAIDs, corticosteroid injection)",
+                    "EMG/NCS confirming median neuropathy at the wrist (moderate or severe)",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may challenge MVA causation for CTS",
+                ],
+                "required_documentation": [
+                    "EMG/NCS within 6 months confirming CTS",
+                    "Police/accident report with mechanism of wrist injury",
+                    "Initial ER records documenting wrist injury from MVA",
+                    "Conservative treatment records (splinting, injection, medication)",
+                    "Physical examination with Phalen, Tinel, and thenar atrophy assessment",
+                    "NF-3 and NF-5 forms",
+                ],
+                "common_denial_reasons": [
+                    "IME determined CTS is idiopathic/occupational and not related to MVA",
+                    "No acute wrist injury documented at time of MVA",
+                    "Bilateral CTS suggests systemic etiology, not traumatic",
+                    "Insufficient conservative treatment",
+                ],
+                "approval_tips": [
+                    "Document the specific mechanism of wrist injury (impact on dashboard, hyperextension, fracture)",
+                    "If CTS developed after wrist fracture from MVA, the causal chain is strong",
+                    "Unilateral CTS in the injured hand supports MVA causation over bilateral idiopathic CTS",
+                    "EMG/NCS is essential — No-Fault carriers require objective nerve conduction data",
+                    "Include pre-MVA medical records showing no prior CTS complaints if available",
+                ],
+                "avg_decision_days": 15,
+                "appeal_success_rate": 52,
+            },
+
+            "shoulder_arthroscopy": {
+                "policy_number": "NFPIP-ORTHO-006",
+                "policy_name": "Shoulder Arthroscopy — No-Fault PIP",
+                "criteria": [
+                    "Shoulder pathology must be causally related to MVA",
+                    "Treatment within statutory time limits",
+                    "MRI demonstrating labral tear, loose body, or other arthroscopic pathology related to MVA",
+                    "Failed minimum 6 weeks of conservative treatment (PT, NSAIDs, injection)",
+                    "Physical examination with positive provocative tests (O'Brien, Speed, apprehension)",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 and NF-5 forms required",
+                    "IME may challenge causation for labral pathology",
+                ],
+                "required_documentation": [
+                    "MRI shoulder with arthrogram if labral tear suspected",
+                    "Police/accident report",
+                    "Initial ER records with shoulder complaints",
+                    "Physical examination with provocative test results",
+                    "Physical therapy records (minimum 6 sessions)",
+                    "Injection records if applicable",
+                    "NF-3 and NF-5 forms",
+                    "Operative plan with expected arthroscopic procedures",
+                ],
+                "common_denial_reasons": [
+                    "IME determined shoulder pathology is degenerative and not related to MVA",
+                    "No shoulder complaints at initial ER visit",
+                    "Labral tear attributed to pre-existing condition",
+                    "Insufficient conservative treatment",
+                ],
+                "approval_tips": [
+                    "Document mechanism of shoulder injury from MVA specifically",
+                    "If labral tear, include MR arthrogram — higher sensitivity than standard MRI",
+                    "Document functional limitations specific to MVA onset",
+                    "Shoulder complaints should appear in initial ER records — if delayed, explain clinical reasoning",
+                ],
+                "avg_decision_days": 20,
+                "appeal_success_rate": 50,
+            },
+
+            # ----------------------------------------------------------
+            # CONCUSSION / TBI
+            # ----------------------------------------------------------
+
+            "neuropsychological_testing": {
+                "policy_number": "NFPIP-NEURO-001",
+                "policy_name": "Neuropsychological Testing — No-Fault PIP",
+                "criteria": [
+                    "Traumatic brain injury or concussion must be causally related to MVA",
+                    "Treatment within statutory time limits — neuropsych testing often months post-MVA",
+                    "Documented cognitive, behavioral, or emotional changes following MVA",
+                    "Referral from treating physician (neurologist, physiatrist, or neurosurgeon)",
+                    "Testing performed by licensed neuropsychologist",
+                    "Must comply with No-Fault Fee Schedule — check hourly rate limits",
+                    "NF-3 form required",
+                    "IME may be requested to evaluate TBI diagnosis",
+                    "Maximum testing duration must be clinically justified (typically 6-8 hours)",
+                ],
+                "required_documentation": [
+                    "Police/accident report documenting head impact or loss of consciousness",
+                    "Initial ER records documenting TBI/concussion diagnosis (GCS, CT head, LOC)",
+                    "Referring physician's clinical note documenting cognitive complaints",
+                    "Pre-test clinical interview documenting functional deficits since MVA",
+                    "NF-3 form",
+                    "Planned test battery with clinical justification",
+                ],
+                "common_denial_reasons": [
+                    "IME determined cognitive complaints are not related to MVA (psychological, malingering)",
+                    "No documented loss of consciousness or head impact in accident report",
+                    "Testing requested >2 years post-MVA without justification for delayed evaluation",
+                    "Fee schedule violation — testing hours or rate exceed No-Fault limits",
+                    "Pre-existing cognitive or psychiatric condition not adequately addressed",
+                ],
+                "approval_tips": [
+                    "Document LOC, post-traumatic amnesia, or GCS <15 at ER to establish TBI from MVA",
+                    "If no LOC, document mechanism of head impact (airbag deployment, head striking window/steering wheel)",
+                    "Include initial CT or MRI brain findings — even normal CT supports mild TBI diagnosis",
+                    "No-Fault generally covers neuropsych testing for documented MVA-related TBI",
+                    "Keep testing to clinically justified duration — excessive hours trigger review",
+                    "Include symptom validity measures in the test battery to preempt malingering allegations",
+                ],
+                "avg_decision_days": 15,
+                "appeal_success_rate": 55,
+            },
+
+            "cognitive_rehabilitation": {
+                "policy_number": "NFPIP-NEURO-002",
+                "policy_name": "Cognitive Rehabilitation Therapy — No-Fault PIP",
+                "criteria": [
+                    "TBI or concussion must be causally related to MVA",
+                    "Treatment within statutory time limits",
+                    "Documented cognitive deficits on neuropsychological testing or standardized screening",
+                    "Referral from treating physician (neurologist, physiatrist, or neurosurgeon)",
+                    "Treatment provided by licensed speech-language pathologist, occupational therapist, or neuropsychologist",
+                    "Must comply with No-Fault Fee Schedule",
+                    "NF-3 form required for each session block",
+                    "IME may be requested to assess ongoing need for cognitive rehabilitation",
+                    "Treatment plan with measurable goals and expected duration",
+                    "Re-evaluation every 10-12 sessions to document progress",
+                ],
+                "required_documentation": [
+                    "Neuropsychological testing results documenting baseline deficits",
+                    "Police/accident report",
+                    "Initial ER records with TBI/concussion documentation",
+                    "Treating physician referral note",
+                    "Treatment plan with measurable cognitive goals",
+                    "Session notes documenting progress toward goals",
+                    "NF-3 form",
+                    "Re-evaluation results at 10-12 session intervals",
+                ],
+                "common_denial_reasons": [
+                    "IME found claimant at MMI for cognitive deficits — no further therapy needed",
+                    "No objective neuropsychological testing documenting cognitive deficits",
+                    "Excessive treatment duration without documented progress",
+                    "Cognitive complaints attributed to psychological condition (depression, anxiety), not TBI",
+                    "Pre-existing cognitive or learning disability not adequately distinguished from MVA-related deficits",
+                ],
+                "approval_tips": [
+                    "Include baseline neuropsychological testing results showing specific cognitive deficits",
+                    "Set SMART goals tied to functional outcomes (return to work, ADLs, driving)",
+                    "Document progress with repeat standardized measures every 10-12 sessions",
+                    "No-Fault generally covers initial course of cognitive rehab for documented MVA-related TBI",
+                    "If carrier requests IME for cognitive rehab, ensure treating neuropsychologist provides detailed progress report",
+                    "Distinguish MVA-related cognitive deficits from pre-existing or comorbid conditions explicitly",
+                ],
+                "avg_decision_days": 15,
+                "appeal_success_rate": 48,
+            },
+        },
+    },
 }
 
 
@@ -4146,6 +4798,14 @@ _PAYER_ALIASES: dict[str, list[str]] = {
         "nys medicaid", "new york medicaid", "fidelis", "healthfirst",
         "metroplus", "amerigroup", "wellcare ny", "molina ny",
         "affinity health plan", "fidelis care",
+    ],
+    "no_fault": [
+        "no fault", "no-fault", "nf", "pip", "personal injury",
+        "personal injury protection", "auto insurance", "auto no fault",
+        "geico", "state farm", "allstate", "progressive",
+        "liberty mutual auto", "nationwide auto", "usaa auto",
+        "no fault pip", "nf pip", "motor vehicle accident",
+        "mva insurance", "pip coverage", "basic pip",
     ],
 }
 
