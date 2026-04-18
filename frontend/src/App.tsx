@@ -7,6 +7,8 @@ import CaseList from './components/cases/CaseList';
 import CaseDetail from './components/cases/CaseDetail';
 import SubmissionWizard from './components/wizard/SubmissionWizard';
 import SubmissionDetail from './components/wizard/SubmissionDetail';
+import Deadlines from './components/deadlines/Deadlines';
+import RFAAnalytics from './components/analytics/RFAAnalytics';
 
 // ---------- Auth guard ----------
 
@@ -146,8 +148,8 @@ export default function App() {
       <Route path="/cases/:id" element={<RequireAuth><AppShell><CaseDetail /></AppShell></RequireAuth>} />
       <Route path="/submissions/new/:caseId" element={<RequireAuth><AppShell><SubmissionWizard /></AppShell></RequireAuth>} />
       <Route path="/submissions/:id" element={<RequireAuth><AppShell><SubmissionDetail /></AppShell></RequireAuth>} />
-      <Route path="/deadlines" element={<RequireAuth><AppShell><PlaceholderPage title="Deadlines" description="Track filing deadlines and compliance windows" /></AppShell></RequireAuth>} />
-      <Route path="/analytics" element={<RequireAuth><AppShell><PlaceholderPage title="Analytics" description="Submission metrics, acceptance rates, and trends" /></AppShell></RequireAuth>} />
+      <Route path="/deadlines" element={<RequireAuth><AppShell><Deadlines /></AppShell></RequireAuth>} />
+      <Route path="/analytics" element={<RequireAuth><AppShell><RFAAnalytics /></AppShell></RequireAuth>} />
       <Route path="/settings" element={<RequireAuth><AppShell><PlaceholderPage title="Settings" description="Organization and account settings" /></AppShell></RequireAuth>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
