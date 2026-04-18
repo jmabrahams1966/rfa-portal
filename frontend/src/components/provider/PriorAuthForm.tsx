@@ -2,10 +2,22 @@ import { useState, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { providerApi, type AuthRequest, type ComplianceResult, type AuthDocument } from '../../services/api';
 
-const payers = ['UHC', 'Aetna', 'BCBS', 'Cigna', 'Humana', 'EmblemHealth', 'Medicare', 'Medicaid'];
+const payers = [
+  { name: 'Workers\' Compensation (WC)', key: 'workers_comp', category: 'WC / No-Fault' },
+  { name: 'No-Fault (PIP / Auto)', key: 'no_fault', category: 'WC / No-Fault' },
+  { name: 'UnitedHealthcare', key: 'uhc', category: 'Commercial' },
+  { name: 'Aetna', key: 'aetna', category: 'Commercial' },
+  { name: 'Blue Cross Blue Shield', key: 'bcbs', category: 'Commercial' },
+  { name: 'Cigna', key: 'cigna', category: 'Commercial' },
+  { name: 'Humana', key: 'humana', category: 'Commercial' },
+  { name: 'EmblemHealth', key: 'emblem_health', category: 'Commercial' },
+  { name: 'Medicare', key: 'medicare', category: 'Government' },
+  { name: 'Medicaid (NY)', key: 'medicaid_ny', category: 'Government' },
+];
 const insuranceTypes = [
-  { value: 'commercial', label: 'Commercial' },
-  { value: 'workers_comp', label: 'Workers\' Comp' },
+  { value: 'workers_comp', label: 'Workers\' Compensation' },
+  { value: 'no_fault', label: 'No-Fault (PIP / Auto)' },
+  { value: 'commercial', label: 'Commercial Insurance' },
   { value: 'medicare', label: 'Medicare' },
   { value: 'medicaid', label: 'Medicaid' },
 ];
@@ -352,10 +364,22 @@ export default function PriorAuthForm() {
                 onChange={(e) => updateField('payer', e.target.value)}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500 bg-white"
               >
-                <option value="">Select Payer</option>
-                {payers.map((p) => (
-                  <option key={p} value={p}>{p}</option>
-                ))}
+                <option value="">Select Payer / Insurance Type</option>
+                <optgroup label="Workers' Comp / No-Fault">
+                  {payers.filter(p => p.category === 'WC / No-Fault').map((p) => (
+                    <option key={p.key} value={p.key}>{p.name}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Commercial Insurance">
+                  {payers.filter(p => p.category === 'Commercial').map((p) => (
+                    <option key={p.key} value={p.key}>{p.name}</option>
+                  ))}
+                </optgroup>
+                <optgroup label="Government">
+                  {payers.filter(p => p.category === 'Government').map((p) => (
+                    <option key={p.key} value={p.key}>{p.name}</option>
+                  ))}
+                </optgroup>
               </select>
             </div>
             <div>
@@ -384,17 +408,63 @@ export default function PriorAuthForm() {
             </div>
           </div>
 
-          {/* Workers comp case number */}
+          {/* Workers Comp fields */}
           {form.insurance_type === 'workers_comp' && (
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1">WCB Case Number</label>
-              <input
-                type="text"
-                value={form.wcb_case_number}
-                onChange={(e) => updateField('wcb_case_number', e.target.value)}
-                placeholder="WCB-2026-XXXXXX"
-                className="w-full md:w-1/3 px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500"
-              />
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">WCB Case Number *</label>
+                <input type="text" value={form.wcb_case_number}
+                  onChange={(e) => updateField('wcb_case_number', e.target.value)}
+                  placeholder="G-1234567"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Injury *</label>
+                <input type="date" value={form.date_of_injury || ''}
+                  onChange={(e) => updateField('date_of_injury', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500" />
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-xs text-amber-700">Workers' Comp submissions are checked against NYS WCB Medical Treatment Guidelines (MTG). The compliance checker will verify your submission meets all MTG requirements.</p>
+              </div>
+            </div>
+          )}
+
+          {/* No-Fault fields */}
+          {form.insurance_type === 'no_fault' && (
+            <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Claim Number *</label>
+                <input type="text" value={form.wcb_case_number}
+                  onChange={(e) => updateField('wcb_case_number', e.target.value)}
+                  placeholder="NF-XXXX-XXXXX"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Date of Accident *</label>
+                <input type="date" value={form.date_of_injury || ''}
+                  onChange={(e) => updateField('date_of_injury', e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Auto Insurance Carrier</label>
+                <input type="text" value={form.payer || ''}
+                  onChange={(e) => updateField('payer', e.target.value)}
+                  placeholder="e.g., GEICO, State Farm, Allstate"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-accent-500" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">IME Scheduled?</label>
+                <select className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-accent-500">
+                  <option value="">Select</option>
+                  <option value="no">No</option>
+                  <option value="scheduled">Yes — Scheduled</option>
+                  <option value="completed">Yes — Completed</option>
+                </select>
+              </div>
+              <div className="md:col-span-2">
+                <p className="text-xs text-blue-700">No-Fault (PIP) submissions follow NY Insurance Law §5102. The compliance checker will verify medical necessity documentation and treatment timeline requirements.</p>
+              </div>
             </div>
           )}
         </div>

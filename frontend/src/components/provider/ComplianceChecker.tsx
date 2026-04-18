@@ -19,7 +19,18 @@ const procedureLibrary = [
   { name: 'Epidural Steroid Injection (Cervical)', cpt: '62321', category: 'Pain' },
 ];
 
-const payers = ['UHC', 'Aetna', 'BCBS', 'Cigna', 'Humana', 'EmblemHealth', 'Medicare', 'Medicaid'];
+const payers = [
+  { name: 'Workers\' Compensation (WC)', key: 'workers_comp', category: 'Government' },
+  { name: 'No-Fault (PIP)', key: 'no_fault', category: 'Auto' },
+  { name: 'UnitedHealthcare', key: 'uhc', category: 'Commercial' },
+  { name: 'Aetna', key: 'aetna', category: 'Commercial' },
+  { name: 'Blue Cross Blue Shield', key: 'bcbs', category: 'Commercial' },
+  { name: 'Cigna', key: 'cigna', category: 'Commercial' },
+  { name: 'Humana', key: 'humana', category: 'Commercial' },
+  { name: 'EmblemHealth', key: 'emblem_health', category: 'Commercial' },
+  { name: 'Medicare', key: 'medicare', category: 'Government' },
+  { name: 'Medicaid', key: 'medicaid_ny', category: 'Government' },
+];
 
 export default function ComplianceChecker() {
   const [selectedProcedure, setSelectedProcedure] = useState('');
@@ -168,8 +179,17 @@ export default function ComplianceChecker() {
                   onChange={(e) => setPayer(e.target.value)}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-accent-500"
                 >
-                  <option value="">Select Payer</option>
-                  {payers.map((p) => <option key={p} value={p}>{p}</option>)}
+                  <option value="">Select Payer / Insurance Type</option>
+                  <optgroup label="Workers' Comp / No-Fault">
+                    {payers.filter(p => p.category === 'Government' || p.category === 'Auto').map((p) => (
+                      <option key={p.key} value={p.key}>{p.name}</option>
+                    ))}
+                  </optgroup>
+                  <optgroup label="Commercial Insurance">
+                    {payers.filter(p => p.category === 'Commercial').map((p) => (
+                      <option key={p.key} value={p.key}>{p.name}</option>
+                    ))}
+                  </optgroup>
                 </select>
               </div>
               <div>
