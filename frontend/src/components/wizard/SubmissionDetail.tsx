@@ -5,11 +5,13 @@ import { format } from 'date-fns';
 
 const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
   draft: { bg: 'bg-gray-100', text: 'text-gray-700', label: 'Draft' },
+  validated: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Validated' },
   validating: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Validating' },
   ready: { bg: 'bg-blue-100', text: 'text-blue-800', label: 'Ready' },
   submitted: { bg: 'bg-indigo-100', text: 'text-indigo-800', label: 'Submitted' },
   accepted: { bg: 'bg-green-100', text: 'text-green-800', label: 'Accepted' },
   rejected: { bg: 'bg-red-100', text: 'text-red-800', label: 'Rejected' },
+  voided: { bg: 'bg-red-50', text: 'text-red-400', label: 'Voided — Entered in Error' },
 };
 
 export default function SubmissionDetail() {
@@ -204,6 +206,69 @@ export default function SubmissionDetail() {
             ) : (
               <p className="text-sm text-gray-400">No documents attached</p>
             )}
+          </div>
+
+          {/* Change Status */}
+          <div className="bg-white rounded-xl border border-gray-200 p-6">
+            <h2 className="text-sm font-semibold text-navy-700 uppercase tracking-wide mb-3">Change Status</h2>
+            <div className="space-y-2">
+              {submission.status === 'draft' && (
+                <>
+                  <button
+                    onClick={async () => { await submissionsApi.updateStatus(submission.id, 'validated'); window.location.reload(); }}
+                    className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors text-sm"
+                  >
+                    Mark as Validated
+                  </button>
+                  <button
+                    onClick={async () => { await submissionsApi.updateStatus(submission.id, 'submitted'); window.location.reload(); }}
+                    className="w-full px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white font-medium rounded-lg transition-colors text-sm"
+                  >
+                    Mark as Submitted
+                  </button>
+                </>
+              )}
+              {submission.status === 'validated' && (
+                <button
+                  onClick={async () => { await submissionsApi.updateStatus(submission.id, 'submitted'); window.location.reload(); }}
+                  className="w-full px-4 py-2 bg-accent-500 hover:bg-accent-600 text-white font-medium rounded-lg transition-colors text-sm"
+                >
+                  Mark as Submitted
+                </button>
+              )}
+              {submission.status === 'submitted' && (
+                <>
+                  <button
+                    onClick={async () => { await submissionsApi.updateStatus(submission.id, 'accepted'); window.location.reload(); }}
+                    className="w-full px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors text-sm"
+                  >
+                    Mark as Accepted
+                  </button>
+                  <button
+                    onClick={async () => { await submissionsApi.updateStatus(submission.id, 'rejected'); window.location.reload(); }}
+                    className="w-full px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors text-sm"
+                  >
+                    Mark as Rejected
+                  </button>
+                </>
+              )}
+              {submission.status !== 'voided' && (
+                <button
+                  onClick={async () => {
+                    if (confirm('Are you sure you want to void this submission? This cannot be undone.')) {
+                      await submissionsApi.updateStatus(submission.id, 'voided');
+                      window.location.reload();
+                    }
+                  }}
+                  className="w-full px-4 py-2 border border-red-300 text-red-600 hover:bg-red-50 font-medium rounded-lg transition-colors text-sm"
+                >
+                  Void / Entered in Error
+                </button>
+              )}
+              {submission.status === 'voided' && (
+                <div className="text-center py-2 text-sm text-red-500 font-medium">This submission has been voided</div>
+              )}
+            </div>
           </div>
 
           {/* Actions */}

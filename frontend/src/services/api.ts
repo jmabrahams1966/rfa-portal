@@ -395,6 +395,16 @@ export const submissionsApi = {
     return data as Submission;
   },
 
+  updateStatus: async (id: string, status: string) => {
+    if (isDevBypass) {
+      const sub = devSubmissions.find(s => s.id === id);
+      if (sub) sub.status = status as any;
+      return { success: true, status };
+    }
+    const { data } = await api.put(`/submissions/${id}/`, { status });
+    return data;
+  },
+
   downloadPdf: async (id: string) => {
     if (isDevBypass) {
       alert('PDF download is not available in dev mode.');
