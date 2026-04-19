@@ -1,7 +1,7 @@
 """
-Outcome Analytics & Win Rate Service for RFA-2 Portal.
+Outcome Analytics & Win Rate Service for AIRA.
 
-Provides comprehensive analytics on RFA-2 submission outcomes including
+Provides comprehensive analytics on AIRA submission outcomes including
 acceptance rates by district, judge, attorney, adjuster, and reason code.
 """
 

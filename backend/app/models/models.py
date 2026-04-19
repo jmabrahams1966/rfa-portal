@@ -1,4 +1,4 @@
-"""RFA-2 Portal — SQLAlchemy async models for Workers' Compensation RFA submissions."""
+"""AIRA — SQLAlchemy async models for Workers' Compensation RFA submissions."""
 import uuid
 from datetime import datetime, date
 from sqlalchemy import (

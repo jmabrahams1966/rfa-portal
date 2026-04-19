@@ -1,4 +1,4 @@
-"""RFA-2 Portal — Payer/Legal API routers."""
+"""AIRA — Payer/Legal API routers."""
 from .auth import router as auth_router
 from .cases import router as cases_router
 from .submissions import router as submissions_router

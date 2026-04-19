@@ -1,5 +1,5 @@
 """
-WCB XML Generation Service for RFA-2 Workers' Compensation Portal.
+WCB XML Generation Service for AIRA Workers' Compensation Portal.
 
 Generates XML matching the WCB eFormsRfa2 schema and validates
 submissions against WCB business rules.
@@ -165,7 +165,7 @@ def _add_text(parent: ET.Element, tag: str, text: str) -> ET.Element:
 
 def validate_submission(data: dict) -> list[dict]:
     """
-    Validate an RFA-2 submission against WCB business rules.
+    Validate an AIRA submission against WCB business rules.
 
     Args:
         data: The same submission_data dict used by build_rfa2_xml.
@@ -231,7 +231,7 @@ def validate_submission(data: dict) -> list[dict]:
             findings.append({
                 "rule": "INVALID_REASON_CODE",
                 "severity": "error",
-                "message": f"Reason code '{code}' is not a valid RFA-2 reason code.",
+                "message": f"Reason code '{code}' is not a valid AIRA reason code.",
             })
 
     # ----- Rule: Required documents per reason code -----

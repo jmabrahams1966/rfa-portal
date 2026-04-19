@@ -1,4 +1,4 @@
-"""Deadline Engine Service for RFA-2 Portal.
+"""Deadline Engine Service for AIRA.
 
 Calculates filing deadlines based on NY WCB rules, monitors approaching/overdue
 deadlines, and generates alert records.
@@ -31,8 +31,8 @@ logger = logging.getLogger(__name__)
 DEADLINE_RULES: list[dict[str, Any]] = [
     {
         "id": "rfa2_after_ime",
-        "name": "RFA-2 After IME Examination",
-        "description": "Carrier/employer must file RFA-2 within 30 days of the IME examination date.",
+        "name": "AIRA After IME Examination",
+        "description": "Carrier/employer must file AIRA within 30 days of the IME examination date.",
         "trigger_event": "ime_examination",
         "days": 30,
         "deadline_type": "rfa2_filing",
@@ -41,8 +41,8 @@ DEADLINE_RULES: list[dict[str, Any]] = [
     },
     {
         "id": "rfa2_after_board_decision",
-        "name": "RFA-2 After Board Decision",
-        "description": "Must file RFA-2 within 30 days of a Board panel decision or administrative decision.",
+        "name": "AIRA After Board Decision",
+        "description": "Must file AIRA within 30 days of a Board panel decision or administrative decision.",
         "trigger_event": "board_decision",
         "days": 30,
         "deadline_type": "rfa2_filing",
@@ -52,7 +52,7 @@ DEADLINE_RULES: list[dict[str, Any]] = [
     {
         "id": "rfa2_treatment_denial",
         "name": "Medical Treatment Dispute Filing",
-        "description": "RFA-2 must be filed within 30 days of the denial of medical treatment request.",
+        "description": "AIRA must be filed within 30 days of the denial of medical treatment request.",
         "trigger_event": "treatment_denial",
         "days": 30,
         "deadline_type": "rfa2_filing",
@@ -62,7 +62,7 @@ DEADLINE_RULES: list[dict[str, Any]] = [
     {
         "id": "section_300_23b_suspension",
         "name": "Section 300.23(b) Payment Suspension",
-        "description": "Carrier must file RFA-2 before suspending indemnity payments. RFA-2 is a prerequisite for Section 300.23(b) suspension.",
+        "description": "Carrier must file AIRA before suspending indemnity payments. AIRA is a prerequisite for Section 300.23(b) suspension.",
         "trigger_event": "payment_suspension_intended",
         "days": 0,
         "deadline_type": "rfa2_prerequisite",

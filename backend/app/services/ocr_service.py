@@ -1,5 +1,5 @@
 """
-Document OCR Service for RFA-2 Portal.
+Document OCR Service for AIRA.
 
 Provides intelligent text extraction using native PDF parsing or AWS Textract,
 document classification via Claude AI, and structured data extraction from
@@ -436,7 +436,7 @@ async def highlight_key_findings(text: str, reason_codes: list[str]) -> list:
 
     system_prompt = (
         "You are a Workers' Compensation document analyst. "
-        "Identify text passages that are relevant to the given RFA-2 reason codes. "
+        "Identify text passages that are relevant to the given AIRA reason codes. "
         "Return exact quotes from the document that support or relate to each reason code. "
         "Respond ONLY with valid JSON."
     )

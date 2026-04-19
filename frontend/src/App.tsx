@@ -67,8 +67,8 @@ function AppShell({ children }: { children: ReactNode }) {
           </div>
           {sidebarOpen && (
             <div className="min-w-0">
-              <div className="font-semibold text-sm leading-tight truncate">RFA Portal</div>
-              <div className="text-[11px] text-gray-400 leading-tight">Workers' Comp Filing</div>
+              <div className="font-semibold text-sm leading-tight truncate">AIRA</div>
+              <div className="text-[11px] text-gray-400 leading-tight">Intelligent Resolution</div>
             </div>
           )}
         </div>

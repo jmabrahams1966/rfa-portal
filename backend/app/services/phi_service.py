@@ -1,5 +1,5 @@
 """
-PHI De-identification Service for RFA-2 Workers' Compensation Portal.
+PHI De-identification Service for AIRA Workers' Compensation Portal.
 
 Strips Protected Health Information from document text BEFORE it reaches Claude AI.
 Preserves WC-relevant identifiers (case numbers, injury dates, diagnoses, etc.).

@@ -39,7 +39,7 @@ export default function LoginPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-accent-500 shadow-lg shadow-accent-500/30 mb-4">
             <span className="text-white font-bold text-xl">RFA</span>
           </div>
-          <h1 className="text-3xl font-bold text-white">RFA-2 Portal</h1>
+          <h1 className="text-3xl font-bold text-white">AIRA</h1>
           <p className="text-navy-200 mt-2 text-sm">Workers' Compensation Filing System</p>
         </div>
 

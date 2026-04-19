@@ -486,7 +486,7 @@ export default function SubmissionWizard() {
 
   const renderFormCompletion = () => (
     <div>
-      <h2 className="text-lg font-semibold text-navy-700 mb-4">Complete RFA-2 Form</h2>
+      <h2 className="text-lg font-semibold text-navy-700 mb-4">Complete AIRA Form</h2>
 
       <div className="bg-white rounded-xl border border-gray-200 p-6 space-y-6">
         {/* Selected reason codes */}
@@ -837,7 +837,7 @@ export default function SubmissionWizard() {
             <div>
               <p className="text-sm font-medium text-gray-800">Attestation</p>
               <p className="text-xs text-gray-500 mt-1">
-                I hereby attest that the information provided in this RFA-2 submission is true, accurate, and complete to the best of my knowledge.
+                I hereby attest that the information provided in this AIRA submission is true, accurate, and complete to the best of my knowledge.
                 I understand that filing a false or fraudulent claim is a violation of the Workers' Compensation Law and may subject me to civil
                 and criminal penalties. I authorize the release of medical information contained herein to the Workers' Compensation Board.
               </p>
@@ -910,7 +910,7 @@ export default function SubmissionWizard() {
           </svg>
         </div>
         <h2 className="text-xl font-bold text-navy-700 mb-2">Submission Successful</h2>
-        <p className="text-gray-600 mb-6">Your RFA-2 has been submitted to the Workers' Compensation Board.</p>
+        <p className="text-gray-600 mb-6">Your AIRA has been submitted to the Workers' Compensation Board.</p>
 
         <div className="bg-gray-50 rounded-lg p-4 mb-6">
           <div className="text-xs text-gray-500 uppercase tracking-wide mb-1">WCB Submission ID</div>

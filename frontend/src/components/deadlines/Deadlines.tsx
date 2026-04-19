@@ -23,8 +23,8 @@ interface DeadlineResponse {
 // ---------- Constants ----------
 
 const DEADLINE_LABELS: Record<string, string> = {
-  rfa_after_ime: 'RFA-2 After IME (30 days)',
-  rfa_after_decision: 'RFA-2 After Board Decision (30 days)',
+  rfa_after_ime: 'AIRA After IME (30 days)',
+  rfa_after_decision: 'AIRA After Board Decision (30 days)',
   treatment_denial: 'Treatment Denial Response (30 days)',
   section_300_prerequisite: 'Section 300.23(b) Prerequisite',
   ime_scheduling: 'IME Scheduling (60 days)',

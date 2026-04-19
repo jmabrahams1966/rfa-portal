@@ -1,4 +1,4 @@
-"""Dashboard router — aggregate statistics for the RFA-2 portal."""
+"""Dashboard router — aggregate statistics for the AIRA portal."""
 import uuid
 from datetime import datetime, timezone, timedelta
 from fastapi import APIRouter, Depends

@@ -1,4 +1,4 @@
-"""Submissions router — full RFA-2 submission lifecycle.
+"""Submissions router — full AIRA submission lifecycle.
 
 Endpoints:
   POST   /submissions                      — create draft
@@ -521,7 +521,7 @@ async def download_pdf(
     case = case_result.scalar_one_or_none()
 
     lines = [
-        "RFA-2 Submission — Party Service Copy",
+        "AIRA Submission — Party Service Copy",
         "=" * 50,
         f"Submission ID: {submission.id}",
         f"WCB Submission ID: {submission.wcb_submission_id or 'N/A'}",

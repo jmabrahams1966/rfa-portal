@@ -1,5 +1,5 @@
 """
-Claimant Attorney Intelligence Service for RFA-2 Portal.
+Claimant Attorney Intelligence Service for AIRA.
 
 Builds attorney profiles from filing history, ranks attorneys by difficulty,
 generates AI-powered counter-arguments, and predicts attorney responses.
@@ -358,7 +358,7 @@ async def generate_counter_arguments(
         ]
 
     system_prompt = (
-        "You are a Workers' Compensation defense strategist for NYS WCB RFA-2 filings. "
+        "You are a Workers' Compensation defense strategist for NYS WCB AIRA filings. "
         "Generate preemptive counter-arguments to anticipated attorney objections. "
         "Reference relevant NYS Workers' Compensation Law sections where applicable. "
         "Respond ONLY with valid JSON."

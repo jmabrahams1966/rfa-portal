@@ -1,5 +1,5 @@
 """
-Two-Way WCB Integration Service for RFA-2 Portal.
+Two-Way WCB Integration Service for AIRA.
 
 Provides functions for pulling data back from the WCB eCase system:
 hearing schedules, board decisions, payment orders, and full case lifecycle.
@@ -146,7 +146,7 @@ def _mock_ecase_status(case_number: str) -> dict:
         "claimant_attorney": "Smith & Associates, P.C.",
         "next_hearing_date": (today + timedelta(days=14)).isoformat(),
         "last_activity": (today - timedelta(days=2)).isoformat(),
-        "last_activity_description": "Carrier filed RFA-2 — Request for Further Action",
+        "last_activity_description": "Carrier filed AIRA — Request for Further Action",
         "open_issues": [
             "Degree of disability",
             "Medical treatment authorization",
@@ -430,7 +430,7 @@ async def get_case_lifecycle(case_id: str, db: AsyncSession) -> dict:
         timeline.append({
             "event_type": "submission",
             "date": (sub.submitted_at or sub.created_at).isoformat(),
-            "title": f"RFA-2 Submission — {sub.status.title()}",
+            "title": f"AIRA Submission — {sub.status.title()}",
             "description": sub.narrative[:200] if sub.narrative else "No narrative provided.",
             "details": {
                 "submission_id": str(sub.id),

@@ -1,7 +1,7 @@
 """
-Claude AI Extraction Service for RFA-2 Workers' Compensation Portal.
+Claude AI Extraction Service for AIRA Workers' Compensation Portal.
 
-Uses AWS Bedrock Claude to extract structured RFA-2 form fields from
+Uses AWS Bedrock Claude to extract structured AIRA form fields from
 de-identified Workers' Compensation documents.
 """
 
@@ -17,7 +17,7 @@ from app.config import get_settings
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-# Full RFA-2 Reason Codes reference (all 20 WCB reason codes)
+# Full AIRA Reason Codes reference (all 20 WCB reason codes)
 # ---------------------------------------------------------------------------
 
 REASON_CODES: dict[str, dict[str, Any]] = {
@@ -64,12 +64,12 @@ def _get_bedrock_client():
     return boto3.client("bedrock-runtime", **kwargs)
 
 
-_SYSTEM_PROMPT = """You are a Workers' Compensation document analyst for New York State RFA-2 filings.
+_SYSTEM_PROMPT = """You are a Workers' Compensation document analyst for New York State AIRA filings.
 
 You are analyzing a DE-IDENTIFIED document — patient names have been replaced with [REDACTED-NAME].
 Do NOT attempt to reconstruct redacted information.
 
-Your task is to extract structured data needed for an RFA-2 (Request for Further Action) submission
+Your task is to extract structured data needed for an AIRA (Request for Further Action) submission
 to the NYS Workers' Compensation Board.
 
 REASON CODES (select all that apply):
@@ -109,7 +109,7 @@ For MCI cases, extract:
 RESPOND ONLY WITH VALID JSON — no markdown fences, no commentary.
 """
 
-_USER_PROMPT_TEMPLATE = """Analyze this {doc_type} document and extract RFA-2 filing fields.
+_USER_PROMPT_TEMPLATE = """Analyze this {doc_type} document and extract AIRA filing fields.
 
 DOCUMENT TEXT:
 ---
@@ -138,7 +138,7 @@ Return a JSON object with these exact keys:
   "mmi_date": "MM/DD/YYYY or null",
   "disability_classification": "schedule_loss|non_schedule|permanent_total|permanent_partial|temporary_total|temporary_partial|null",
   "degree_of_disability": "percentage or weeks or null",
-  "recommended_narrative": "Concise narrative for RFA-2 submission (max 500 chars)",
+  "recommended_narrative": "Concise narrative for AIRA submission (max 500 chars)",
   "confidence": "HIGH|MEDIUM|LOW",
   "confidence_notes": "Explanation of confidence level",
   "missing_documents": ["list of document types still needed for complete filing"]
@@ -148,7 +148,7 @@ Return a JSON object with these exact keys:
 
 async def extract_rfa2_fields(clean_text: str, doc_type: str) -> dict:
     """
-    Extract RFA-2 form fields from de-identified document text using Claude via Bedrock.
+    Extract AIRA form fields from de-identified document text using Claude via Bedrock.
 
     Args:
         clean_text: PHI-scrubbed document text.

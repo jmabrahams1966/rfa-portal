@@ -1,4 +1,4 @@
-"""Case Folder Integration Service for RFA-2 Portal.
+"""Case Folder Integration Service for AIRA.
 
 Handles SFTP drops, CMS integrations (Guidewire, Duck Creek, Origami Risk),
 and outbound webhooks for status change notifications.

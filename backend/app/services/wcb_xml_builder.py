@@ -52,7 +52,7 @@ REASON_CATEGORIES = {
     "CNW": "C",  # Compensation - not working / not receiving payments
     "CAW": "C",  # Compensation - AWW adjustments
     "CVW": "C",  # Compensation - volunteer workers
-    # Compensation (C) — RFA-2
+    # Compensation (C) — AIRA
     "CPD": "C",  # Compensation - permanent disability
     "CPR": "C",  # Compensation - prior findings
     "CPI": "C",  # Compensation - penalty/interest

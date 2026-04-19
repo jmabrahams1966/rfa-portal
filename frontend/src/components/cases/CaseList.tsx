@@ -38,7 +38,7 @@ export default function CaseList() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div>
           <h1 className="text-2xl font-bold text-navy-700">Cases</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage workers' compensation cases and file RFA-2 submissions</p>
+          <p className="text-sm text-gray-500 mt-1">Manage workers' compensation cases and file AIRA submissions</p>
         </div>
         <button
           onClick={() => setShowNewCase(!showNewCase)}

@@ -1,4 +1,4 @@
-"""RFA-2 Portal — Workers' Compensation RFA Submission Platform — FastAPI entry point."""
+"""AIRA — Workers' Compensation RFA Submission Platform — FastAPI entry point."""
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -10,7 +10,7 @@ settings = get_settings()
 
 app = FastAPI(
     title=settings.app_name,
-    description="Workers' Compensation RFA-2 Submission Portal",
+    description="Artificially Intelligent Resolution Application",
     version="0.1.0",
 )
 
@@ -52,7 +52,7 @@ for router in all_routers:
 async def root():
     return {
         "name": settings.app_name,
-        "description": "Workers' Compensation RFA-2 Submission Portal",
+        "description": "Artificially Intelligent Resolution Application",
         "status": "running",
         "environment": settings.environment,
     }

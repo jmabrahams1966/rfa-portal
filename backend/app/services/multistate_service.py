@@ -21,7 +21,7 @@ STATE_CONFIGS: dict[str, dict[str, Any]] = {
     "NY": {
         "name": "New York",
         "board": "NYS Workers' Compensation Board",
-        "form_name": "RFA-2",
+        "form_name": "AIRA",
         "form_description": "Request for Further Action",
         "api_endpoint": "https://onboard.wcb.ny.gov/api/submit",
         "reason_codes": [

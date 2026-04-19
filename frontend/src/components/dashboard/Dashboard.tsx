@@ -44,7 +44,7 @@ export default function Dashboard() {
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold text-navy-700">Dashboard</h1>
-          <p className="text-sm text-gray-500 mt-1">Overview of your RFA-2 submissions and case activity</p>
+          <p className="text-sm text-gray-500 mt-1">Overview of your AIRA submissions and case activity</p>
         </div>
         <div className="flex gap-3">
           <button

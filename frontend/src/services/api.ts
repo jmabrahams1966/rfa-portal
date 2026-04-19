@@ -6,7 +6,7 @@ const isDevBypass = false; // Set to true for mock data, false to use real backe
 const api = axios.create({ baseURL });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('rfa_token');
+  const token = localStorage.getItem('aira_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -125,34 +125,34 @@ export const authApi = {
         organization: 'RFA Dev Org',
         role: 'admin',
       };
-      localStorage.setItem('rfa_token', 'dev-token');
-      localStorage.setItem('rfa_user', JSON.stringify(devUser));
+      localStorage.setItem('aira_token', 'dev-token');
+      localStorage.setItem('aira_user', JSON.stringify(devUser));
       return devUser;
     }
     const { data } = await api.post('/auth/login/', { email, password });
-    localStorage.setItem('rfa_token', data.token);
-    localStorage.setItem('rfa_user', JSON.stringify(data.user));
+    localStorage.setItem('aira_token', data.token);
+    localStorage.setItem('aira_user', JSON.stringify(data.user));
     return data.user as User;
   },
 
   logout: () => {
-    localStorage.removeItem('rfa_token');
-    localStorage.removeItem('rfa_user');
+    localStorage.removeItem('aira_token');
+    localStorage.removeItem('aira_user');
   },
 
   getUser: (): User | null => {
-    const raw = localStorage.getItem('rfa_user');
+    const raw = localStorage.getItem('aira_user');
     return raw ? JSON.parse(raw) : null;
   },
 
   isAuthenticated: (): boolean => {
     // Auto-set dev token if not present
-    if (!localStorage.getItem('rfa_token')) {
-      localStorage.setItem('rfa_token', 'dev-bypass');
-      localStorage.setItem('rfa_user', JSON.stringify({id:'dev-001',email:'dev@rfa-portal.com',full_name:'Dev Admin',role:'admin'}));
+    if (!localStorage.getItem('aira_token')) {
+      localStorage.setItem('aira_token', 'dev-bypass');
+      localStorage.setItem('aira_user', JSON.stringify({id:'dev-001',email:'dev@rfa-portal.com',full_name:'Dev Admin',role:'admin'}));
     }
     return true; // Always authenticated in dev
-    return !!localStorage.getItem('rfa_token');
+    return !!localStorage.getItem('aira_token');
   },
 };
 

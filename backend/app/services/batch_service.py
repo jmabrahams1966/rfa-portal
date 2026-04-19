@@ -1,4 +1,4 @@
-"""Bulk Import & Batch Filing Service for RFA-2 Portal.
+"""Bulk Import & Batch Filing Service for AIRA.
 
 Handles CSV/Excel case imports, batch validation, XML generation,
 and batch submission to WCB.
@@ -424,7 +424,7 @@ async def batch_build_xml(
 
 
 def _build_rfa2_xml(case: RFACase, submission: RFASubmission) -> str:
-    """Build RFA-2 XML payload for a single submission."""
+    """Build AIRA XML payload for a single submission."""
     reason_codes = submission.reason_codes or []
     reason_xml = "\n".join(f"        <ReasonCode>{code}</ReasonCode>" for code in reason_codes)
 

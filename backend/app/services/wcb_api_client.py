@@ -1,4 +1,4 @@
-"""WCB OnBoard API Client — OAuth2 + REST + SignalR for RFA-1LC/RFA-2 submission.
+"""WCB OnBoard API Client — OAuth2 + REST + SignalR for RFA-1LC/AIRA submission.
 
 Authentication flow:
 1. POST to Token URL with Client ID + Client Secret (OAuth2 Client Credentials)

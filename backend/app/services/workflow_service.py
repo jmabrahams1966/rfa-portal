@@ -1,4 +1,4 @@
-"""Team Workflow & Assignment Service for RFA-2 Portal.
+"""Team Workflow & Assignment Service for AIRA.
 
 Handles case assignment to adjusters, review/approval workflows,
 workload dashboards, and activity logging.

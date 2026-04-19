@@ -4,7 +4,7 @@ from functools import lru_cache
 
 class Settings(BaseSettings):
     # App
-    app_name: str = "RFA-2 Portal"
+    app_name: str = "AIRA"
     environment: str = "development"
     debug: bool = False
 
@@ -34,8 +34,8 @@ class Settings(BaseSettings):
         "http://localhost:3001",
         "http://localhost:3006",
         "http://localhost:5173",
-        "https://rfa-portal.vercel.app",
-        "https://rfa-portal-*.vercel.app",
+        "https://aira.vercel.app",
+        "https://aira-*.vercel.app",
     ]
 
     class Config:

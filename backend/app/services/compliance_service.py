@@ -35,7 +35,7 @@ async def get_compliance_dashboard(org_id, db: AsyncSession, period="month") -> 
 
 async def generate_compliance_report(org_id, db: AsyncSession, period_start: date, period_end: date) -> str:
     data = await get_compliance_dashboard(org_id, db, "year")
-    return f"<h1>RFA-2 Compliance Report</h1><p>Period: {period_start} to {period_end}</p><p>Total: {data['total_filings']}, Accepted: {data['accepted']}, Rejected: {data['rejected']}</p>"
+    return f"<h1>AIRA Compliance Report</h1><p>Period: {period_start} to {period_end}</p><p>Total: {data['total_filings']}, Accepted: {data['accepted']}, Rejected: {data['rejected']}</p>"
 
 
 async def get_audit_trail(org_id, db: AsyncSession, filters: dict) -> dict:

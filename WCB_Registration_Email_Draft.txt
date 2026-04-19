@@ -1,7 +1,7 @@
 TO: WCBTechnicalSupport@wcb.ny.gov
 CC: eForms@wcb.ny.gov, OnBoard@wcb.ny.gov
 FROM: jma@nybrainspine.com
-SUBJECT: eForms API Registration Request — RFA-Portal (MSP)
+SUBJECT: eForms API Registration Request — AIRA (MSP)
 
 Dear WCB Technical Support Team,
 
@@ -13,12 +13,12 @@ ORGANIZATION INFORMATION:
 
 Organization Type: Managed Service Provider (MSP)
 Organization Name: NYBASS Healthcare Technology
-Doing Business As: RFA-Portal
+Doing Business As: AIRA
 FEIN: [YOUR FEIN HERE]
 
 Submission Method: REST API
 
-System Name: RFA-Portal
+System Name: AIRA
 
 CONTACT INFORMATION:
 
@@ -42,7 +42,7 @@ Executive Officer (authorized to execute contracts):
 
 DESCRIPTION OF SERVICE:
 
-RFA-Portal is an AI-powered electronic filing platform that assists
+AIRA is an AI-powered electronic filing platform that assists
 insurance carriers, TPAs, self-insured employers, and defense law
 firms in preparing and submitting RFA-1LC and RFA-2 forms to the
 NYS Workers' Compensation Board via the OnBoard API.

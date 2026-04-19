@@ -1,5 +1,5 @@
 """
-Carrier Billing Module for RFA-2 Portal.
+Carrier Billing Module for AIRA.
 
 For TPAs and defense law firms that bill their clients per filing.
 Tracks billable time, generates invoices, and provides billing dashboards.
@@ -94,7 +94,7 @@ class RFABillingRate(Base):
 DEFAULT_RATE_CARD: dict[str, dict[str, Any]] = {
     "per_filing": {
         "amount_cents": 1250,  # $12.50
-        "description": "Per RFA-2 filing submission fee",
+        "description": "Per AIRA filing submission fee",
     },
     "attorney_hourly": {
         "amount_cents": 25000,  # $250.00
@@ -746,7 +746,7 @@ def _generate_invoice_html(
 <body>
     <div class="header">
         <div>
-            <h1>RFA-2 Portal</h1>
+            <h1>AIRA</h1>
             <p>Workers' Compensation Filing Services</p>
         </div>
         <div style="text-align:right;">

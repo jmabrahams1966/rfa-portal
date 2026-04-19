@@ -1,4 +1,4 @@
-"""JWT authentication middleware for RFA Portal (Payer/Legal)."""
+"""JWT authentication middleware for AIRA (Payer/Legal)."""
 import uuid
 import jwt
 from fastapi import Depends, HTTPException, status

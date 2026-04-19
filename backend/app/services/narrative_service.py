@@ -1,7 +1,7 @@
 """
-Narrative AI Optimization Service for RFA-2 Portal.
+Narrative AI Optimization Service for AIRA.
 
-Uses historical accepted filing data and Claude AI to optimize RFA-2
+Uses historical accepted filing data and Claude AI to optimize AIRA
 narratives for higher acceptance rates at the WCB.
 """
 
@@ -109,7 +109,7 @@ async def optimize_narrative(
     db: AsyncSession,
 ) -> dict:
     """
-    Optimize a draft RFA-2 narrative based on historically accepted filings.
+    Optimize a draft AIRA narrative based on historically accepted filings.
 
     Queries past accepted filings with the same reason code and district,
     then uses Claude to suggest improvements matching winning patterns.
@@ -176,7 +176,7 @@ async def optimize_narrative(
 
     # Build Claude prompt
     system_prompt = (
-        "You are a Workers' Compensation narrative optimization expert for NYS WCB RFA-2 filings. "
+        "You are a Workers' Compensation narrative optimization expert for NYS WCB AIRA filings. "
         "Your goal is to rewrite the draft narrative to maximize the likelihood of acceptance by the WCB. "
         "The narrative must be factual, professional, and MUST NOT exceed 500 characters. "
         "Respond ONLY with valid JSON."
@@ -312,7 +312,7 @@ async def get_winning_patterns(
 
     # Use Claude to analyze patterns
     system_prompt = (
-        "You are an analyst examining accepted WCB RFA-2 narratives. "
+        "You are an analyst examining accepted WCB AIRA narratives. "
         "Identify common patterns that lead to acceptance. "
         "Respond ONLY with valid JSON."
     )
@@ -320,7 +320,7 @@ async def get_winning_patterns(
     narratives_text = "\n".join(f"{i+1}. {n}" for i, n in enumerate(narratives[:20]))
     avg_len = sum(len(n) for n in narratives) // len(narratives)
 
-    user_message = f"""Analyze these {len(narratives)} accepted RFA-2 narratives for reason code {reason_code} in {district} district:
+    user_message = f"""Analyze these {len(narratives)} accepted AIRA narratives for reason code {reason_code} in {district} district:
 
 {narratives_text}
 

@@ -1,4 +1,4 @@
-"""WCB Status Tracking Service for RFA-2 Portal.
+"""WCB Status Tracking Service for AIRA.
 
 Polls WCB API for status updates (mocked), parses responses,
 manages hearing schedules, and creates follow-up tasks.
@@ -88,7 +88,7 @@ def _generate_mock_wcb_response(submission: RFASubmission) -> dict[str, Any]:
                 "location": random.choice(_MOCK_LOCATIONS),
                 "judge": random.choice(_MOCK_JUDGES),
             },
-            "notes": "RFA-2 accepted. Hearing scheduled. Parties will be notified.",
+            "notes": "AIRA accepted. Hearing scheduled. Parties will be notified.",
         }
     elif roll < 0.70:
         # Rejected
@@ -97,7 +97,7 @@ def _generate_mock_wcb_response(submission: RFASubmission) -> dict[str, Any]:
             "status": "rejected",
             "rejected_at": datetime.utcnow().isoformat(),
             "errors": [error],
-            "notes": f"RFA-2 rejected: {error['message']}. You may correct and resubmit.",
+            "notes": f"AIRA rejected: {error['message']}. You may correct and resubmit.",
             "resubmit_allowed": True,
             "resubmit_deadline": (datetime.utcnow() + timedelta(days=15)).isoformat(),
         }
@@ -244,7 +244,7 @@ async def parse_wcb_response(
             case_id=submission.case_id,
             task_type="respond_objection",
             due_date=due,
-            description=f"RFA-2 rejected: {errors_summary}. Correct and resubmit before {due.strftime('%m/%d/%Y')}.",
+            description=f"AIRA rejected: {errors_summary}. Correct and resubmit before {due.strftime('%m/%d/%Y')}.",
             org_id=submission.org_id,
             db=db,
         )
@@ -354,7 +354,7 @@ async def create_follow_up_task(
     # Generate title based on task type
     title_map = {
         "prepare_hearing": "Prepare for WCB Hearing",
-        "respond_objection": "Respond to WCB Rejection / Correct RFA-2",
+        "respond_objection": "Respond to WCB Rejection / Correct AIRA",
         "file_followup": "Follow Up on Pending WCB Submission",
         "deadline_approaching": "Filing Deadline Approaching",
     }
