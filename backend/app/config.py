@@ -28,6 +28,14 @@ class Settings(BaseSettings):
     bedrock_model_id: str = "us.anthropic.claude-sonnet-4-20250514-v1:0"
     bedrock_region: str = "us-east-1"
 
+    # Waystar EDI integration (270/271 eligibility, 837 claims, 835 ERA)
+    waystar_base_url: str = ""
+    waystar_client_id: str = ""
+    waystar_client_secret: str = ""
+    waystar_api_key: str = ""
+    waystar_submitter_id: str = "RFAPORTAL"
+    waystar_is_sandbox: bool = True
+
     # CORS
     allowed_origins: list[str] = [
         "http://localhost:3000",

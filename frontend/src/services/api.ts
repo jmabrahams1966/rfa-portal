@@ -988,4 +988,184 @@ export const providerApi = {
   },
 };
 
+// ---------- Waystar EDI API (270/271 eligibility, 837 claims, 835 ERA) ----------
+
+export interface WaystarEligibilityRequest {
+  payer_name: string;
+  payer_id: string;
+  provider_name: string;
+  provider_npi: string;
+  subscriber_first: string;
+  subscriber_last: string;
+  subscriber_member_id: string;
+  subscriber_dob: string;
+  service_date?: string;
+  service_type_codes?: string[];
+}
+
+export interface WaystarBenefit {
+  code: string;
+  code_label: string;
+  coverage_level: string;
+  service_type_codes: string[];
+  insurance_type: string;
+  plan_description: string;
+  monetary_amount: string;
+  percentage: string;
+  messages: string[];
+  dates: { qualifier: string; format: string; date: string }[];
+}
+
+export interface WaystarEligibilityResponse {
+  success: boolean;
+  status_code: number;
+  request_x12: string;
+  response_x12: string;
+  parsed: {
+    interchange: { sender_id: string; receiver_id: string; control_number: string };
+    transactions: Array<{
+      transaction_id: string;
+      trace: string;
+      payer: Record<string, string>;
+      provider: Record<string, string>;
+      subscriber: Record<string, string>;
+      benefits: WaystarBenefit[];
+      errors: Array<{ valid_request: string; reject_reason_code: string; follow_up_action_code: string }>;
+    }>;
+  };
+}
+
+export interface WaystarServiceLine {
+  procedure_code: string;
+  charge: number;
+  units?: number;
+  modifiers?: string[];
+  diagnosis_pointers?: number[];
+  service_date?: string;
+  place_of_service?: string;
+}
+
+export interface WaystarClaimRequest {
+  submitter_name: string;
+  submitter_id: string;
+  submitter_contact_name: string;
+  submitter_phone: string;
+  receiver_name?: string;
+  receiver_id?: string;
+  billing_provider_name: string;
+  billing_provider_npi: string;
+  billing_provider_tax_id: string;
+  billing_address_line: string;
+  billing_city: string;
+  billing_state: string;
+  billing_zip: string;
+  subscriber_first: string;
+  subscriber_last: string;
+  subscriber_member_id: string;
+  subscriber_dob: string;
+  subscriber_gender: string;
+  payer_name: string;
+  payer_id: string;
+  claim_id: string;
+  total_charge: number;
+  diagnosis_codes: string[];
+  service_lines: WaystarServiceLine[];
+  place_of_service?: string;
+}
+
+export interface WaystarClaimAck {
+  success: boolean;
+  status_code: number;
+  request_x12: string;
+  ack: {
+    claim_id: string;
+    status: 'accepted' | 'rejected' | string;
+    received_at: string;
+    trace_id: string;
+    errors?: Array<{ code: string; message: string }>;
+  };
+}
+
+export interface WaystarERAItem {
+  era_id: string;
+  payer_name: string;
+  payment_amount: number;
+  effective_date: string;
+  claim_count: number;
+}
+
+export interface WaystarParsed835Claim {
+  patient_control_number: string;
+  status_code: string;
+  status: string;
+  total_charge: number;
+  total_paid: number;
+  patient_responsibility: number;
+  payer_claim_control_number: string;
+  patient: Record<string, string>;
+  service_lines: Array<{
+    procedure_code: string;
+    modifiers: string[];
+    charge: number;
+    paid: number;
+    units: number;
+    adjustments: Array<{ group_code: string; group_label: string; reason_code: string; amount: number; quantity: number }>;
+    remarks: Array<{ code_list: string; code: string }>;
+    dates: Array<{ qualifier: string; date: string }>;
+  }>;
+  adjustments: Array<{ group_code: string; group_label: string; reason_code: string; amount: number; quantity: number }>;
+}
+
+export interface WaystarERADetail {
+  era_id: string;
+  raw_x12: string;
+  parsed: {
+    transactions: Array<{
+      transaction_id: '835';
+      payment: { amount: number; method: string; effective_date: string };
+      trace: { reference_id: string; originator_id: string };
+      payer: Record<string, string>;
+      payee: Record<string, string>;
+      claims: WaystarParsed835Claim[];
+    }>;
+  };
+}
+
+export const waystarApi = {
+  checkEligibility: async (req: WaystarEligibilityRequest) => {
+    const { data } = await api.post('/waystar/eligibility', req);
+    return data as WaystarEligibilityResponse;
+  },
+
+  submitClaim: async (claim: WaystarClaimRequest) => {
+    const { data } = await api.post('/waystar/claims', claim);
+    return data as WaystarClaimAck;
+  },
+
+  getClaimStatus: async (claimId: string) => {
+    const { data } = await api.get(`/waystar/claims/${encodeURIComponent(claimId)}`);
+    return data as { claim_id: string; status: string; as_of: string };
+  },
+
+  listERA: async (params: { since?: string; until?: string; limit?: number } = {}) => {
+    const { data } = await api.get('/waystar/era', { params });
+    return data as { items: WaystarERAItem[]; limit: number };
+  },
+
+  getERA: async (eraId: string) => {
+    const { data } = await api.get(`/waystar/era/${encodeURIComponent(eraId)}`);
+    return data as WaystarERADetail;
+  },
+
+  parseRawX12: async (raw: string) => {
+    const { data } = await api.post('/waystar/x12/parse', { raw });
+    return data as WaystarEligibilityResponse['parsed'];
+  },
+
+  build270: async (req: WaystarEligibilityRequest) => {
+    const { data } = await api.post('/waystar/x12/build/270', req);
+    return data as { x12: string };
+  },
+};
+
 export default api;
